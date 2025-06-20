@@ -1,5 +1,6 @@
 // Input component - styled form input with comprehensive accessibility
 // Demonstrates forwardRef for form libraries and responsive design patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 import * as React from "react"
 

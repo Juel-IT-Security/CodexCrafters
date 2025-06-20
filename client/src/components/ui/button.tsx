@@ -1,5 +1,6 @@
 // Button component - flexible, accessible button with multiple variants and sizes
 // Demonstrates class-variance-authority for type-safe styling variants and Radix Slot pattern
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"

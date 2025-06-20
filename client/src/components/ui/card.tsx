@@ -1,5 +1,6 @@
 // Card component system - modular card layout with semantic sections
 // Demonstrates React.forwardRef pattern for ref forwarding and component composition
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 

@@ -1,5 +1,13 @@
+/* 
+Global CSS Styles for the AGENTS.md Educational Platform
+This file defines the design system, custom properties, and Tailwind CSS integration
+📖 Learn more: /docs/tutorials/frontend/understanding-css-design-system.md
+*/
+
+/* Import fonts: Inter for UI text, JetBrains Mono for code */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* Tailwind CSS layers - base styles, component classes, utility classes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

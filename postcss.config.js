@@ -1,5 +1,6 @@
 // PostCSS configuration - CSS processing pipeline
 // Demonstrates CSS build tooling and vendor prefix automation
+// 📖 Learn more: /docs/tutorials/configuration/understanding-postcss-config.md
 
 export default {
   plugins: {

@@ -1,6 +1,7 @@
 {
   // TypeScript configuration for full-stack development
   // Demonstrates monorepo TypeScript setup with path mapping and modern ESM
+  // 📖 Learn more: /docs/tutorials/configuration/understanding-typescript-config.md
 
   // Include all TypeScript files from client, shared, and server directories
   "include": ["client/src/**/*", "shared/**/*", "server/**/*"],

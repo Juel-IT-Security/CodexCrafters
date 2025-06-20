@@ -1,5 +1,6 @@
 // Tailwind CSS configuration - design system and theming setup
 // Demonstrates CSS variable integration, dark mode, and design token patterns
+// 📖 Learn more: /docs/tutorials/configuration/understanding-tailwind-config.md
 
 import type { Config } from "tailwindcss";
 

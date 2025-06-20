@@ -1,5 +1,6 @@
 // Form component system - integrates shadcn/ui with react-hook-form
 // Demonstrates complex form patterns, context usage, and type-safe form handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 "use client"
 
