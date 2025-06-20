@@ -1,15 +1,25 @@
+// Tailwind CSS configuration - design system and theming setup
+// Demonstrates CSS variable integration, dark mode, and design token patterns
+
 import type { Config } from "tailwindcss";
 
 export default {
+  // Enable class-based dark mode toggling
   darkMode: ["class"],
+  
+  // Define content sources for CSS purging - only includes client-side files
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  
   theme: {
     extend: {
+      // Dynamic border radius using CSS variables for consistent design
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      
+      // Comprehensive color system using CSS variables for theming
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

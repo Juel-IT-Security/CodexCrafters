@@ -1,3 +1,6 @@
+// Switch component - toggle switch for boolean settings
+// Demonstrates animated state transitions and accessible form controls
+
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 

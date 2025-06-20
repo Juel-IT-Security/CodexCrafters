@@ -1,3 +1,6 @@
+// Progress component - visual progress indicator with smooth animations
+// Demonstrates transform-based animations and value-based styling
+
 "use client"
 
 import * as React from "react"
@@ -12,11 +15,13 @@ const Progress = React.forwardRef<
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
+      // Progress bar container with rounded design
       "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
       className
     )}
     {...props}
   >
+    {/* Animated indicator that fills based on progress value */}
     <ProgressPrimitive.Indicator
       className="h-full w-full flex-1 bg-primary transition-all"
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}

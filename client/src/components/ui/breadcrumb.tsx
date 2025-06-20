@@ -1,9 +1,13 @@
+// Breadcrumb component system - navigation hierarchy indicators
+// Demonstrates semantic navigation and accessibility patterns
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+// Main breadcrumb navigation container with proper ARIA labeling
 const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<"nav"> & {
