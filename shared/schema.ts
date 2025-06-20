@@ -9,7 +9,7 @@ export const examples = pgTable("examples", {
   projectType: text("project_type").notNull(),
   repositoryStructure: text("repository_structure").notNull(),
   generatedAgentsMd: text("generated_agents_md").notNull(),
-  tags: json("tags").$type<string[]>(),
+  tags: json("tags").$type<string[]>().default([]),
 });
 
 export const guides = pgTable("guides", {
