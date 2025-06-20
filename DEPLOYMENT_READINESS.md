@@ -34,6 +34,8 @@
 - Brand logo returns to home page
 - Code examples display with aligned line numbers
 - Mobile menu functionality works properly
+- Mutation disabling middleware blocks POST/PUT/DELETE operations
+- GET requests continue working normally in read-only mode
 
 ### Documentation Completeness ✅
 - All changes documented in CHANGELOG.md
