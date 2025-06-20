@@ -1,0 +1,93 @@
+# AGENTS.md
+
+> Conventions for using multi‑agent prompts with OpenAI Codex
+> \*\*Repo → \*\*
+
+---
+
+## 1. Agent Roster & Scope
+
+| ID | Owns / Touches | Typical Outputs |
+| -- | -------------- | --------------- |
+|    |                |                 |
+
+|   |
+| - |
+
+|   |
+| - |
+
+|   |
+| - |
+
+|   |
+| - |
+
+| **ARCHITECT** | ADRs, high‑level design docs, ticket decomposition, backlog grooming            | `ADR-00X.md`, diagrams, backlog epics                |
+| ------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| **BACKEND**   | `/server/**`, Express/Vite SSR, DB schema & migrations, external integrations   | TypeScript diffs, migrations, unit/integration tests |
+| **FRONTEND**  | `/client/**`, React/Vite UI, Tailwind, accessibility, i18n                      | TSX/HTML/CSS, Cypress tests, Storybook stories       |
+| **SHARED**    | `/shared/**` cross‑cutting utils, Zod validators, tRPC routers, universal types | Shared TS libs, schema tests                         |
+| **INFRA**     | Docker, GitHub Actions, Helm/K8s, Terraform, scaffolding                        | `Dockerfile`, `.yml`, `*.tf`                         |
+| **DEVOPS**    | Monitoring, alerts, dashboards, rollback/playbooks                              | Prometheus rules, Grafana JSON, runbooks             |
+| **DOCS**      | `/docs/**`, README, API reference, changelogs                                   | Markdown docs, SVG diagrams, release notes           |
+| **QA**        | Playwright/Cypress E2E flows, load/perf scripts                                 | Test specs, Gatling configs, test plans              |
+
+### Ownership Heuristics
+
+* Files under `/client/**` default to **FRONTEND**.
+* Files under `/server/**` default to **BACKEND**.
+* Files under `/shared/**` default to **SHARED**.
+* Codex must ask for clarification if a file path does not clearly map.
+
+---
+
+## 2. Prompt Pattern for Codex
+
+When opening a PR or committing via Codex, prepend messages with the responsible **\[AGENT]** tag:
+
+```text
+[BACKEND] feat(api): add health‑check route
+```
+
+Codex then returns either:
+
+1. a single unified diff, or
+2. multiple ` ```diff ` blocks
+
+followed by a conventional commit footer.
+
+### Commit message guidelines
+
+* ≤ 72‑char subject line; wrap body at 100 chars
+* Reference issue IDs or ADRs (`Refs #42`, `ADR‑007`)
+
+---
+
+## 3. Task‑List Convention
+
+When planning, Codex must output a markdown task list grouped by agent:
+
+```markdown
+### BACKEND
+- [ ] …
+
+### SHARED
+- [ ] …
+
+### FRONTEND
+- [ ] …
+```
+
+---
+
+## 4. Fallback Behavior
+
+If the **\[AGENT]** tag is missing, Codex **must infer** from file path but SHOULD prompt:
+
+> “No agent ID detected – defaulting to BACKEND.
+> Add `[AGENT]` if another scope is intended.”
+
+---
+
+Keep this doc updated whenever you add a new agent role or revise conventions.
