@@ -1,3 +1,7 @@
+// Alert Dialog component system - critical confirmation dialogs with accessibility
+// Demonstrates modal patterns for destructive actions and user confirmations
+// 📖 Learn more: /docs/tutorials/frontend/understanding-modals.md
+
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 

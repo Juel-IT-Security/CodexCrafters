@@ -1,5 +1,6 @@
 // Checkbox component - accessible form checkbox with visual indicator
 // Demonstrates compound components, state-based styling, and accessibility patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"

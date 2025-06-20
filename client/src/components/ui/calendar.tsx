@@ -1,5 +1,6 @@
 // Calendar component - date picker with month navigation
 // Demonstrates third-party library integration and extensive styling customization
+// 📖 Learn more: /docs/tutorials/frontend/understanding-date-components.md
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"

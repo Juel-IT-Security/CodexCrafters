@@ -1,5 +1,6 @@
 // Avatar component system - user profile images with fallback handling
 // Demonstrates graceful image loading and fallback patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 "use client"
 

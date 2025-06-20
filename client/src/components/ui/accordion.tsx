@@ -1,5 +1,6 @@
 // Accordion component system - collapsible content sections with animations
 // Demonstrates progressive disclosure patterns and accessible expand/collapse functionality
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"

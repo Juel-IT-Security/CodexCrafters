@@ -1,5 +1,6 @@
 // Alert component - prominent messages with semantic variants
 // Demonstrates accessible notifications and icon positioning patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-notifications.md
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"

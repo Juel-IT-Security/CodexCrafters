@@ -1,5 +1,6 @@
 // Breadcrumb component system - navigation hierarchy indicators
 // Demonstrates semantic navigation and accessibility patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-navigation-patterns.md
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
