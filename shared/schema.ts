@@ -9,7 +9,7 @@ export const examples = pgTable("examples", {
   projectType: text("project_type").notNull(),
   repositoryStructure: text("repository_structure").notNull(),
   generatedAgentsMd: text("generated_agents_md").notNull(),
-  tags: json("tags").$type<string[]>().default([]),
+  tags: json("tags").$type<string[]>(),
 });
 
 export const guides = pgTable("guides", {
@@ -23,6 +23,8 @@ export const guides = pgTable("guides", {
 
 export const insertExampleSchema = createInsertSchema(examples).omit({
   id: true,
+}).extend({
+  tags: z.array(z.string()).optional(),
 });
 
 export const insertGuideSchema = createInsertSchema(guides).omit({

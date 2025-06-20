@@ -30,7 +30,7 @@ export class DatabaseStorage implements IStorage {
       .insert(examples)
       .values({
         ...insertExample,
-        tags: insertExample.tags || []
+        tags: insertExample.tags
       })
       .returning();
     return example;

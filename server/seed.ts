@@ -119,7 +119,7 @@ When planning, Codex must output a markdown task list grouped by agent:
 * Files under \`/client/**\` default to **FRONTEND**.
 * Files under \`/shared/**\` default to **SHARED**.
 * Database migrations require **BACKEND** + **INFRA** collaboration.`,
-      tags: ["Node.js", "Express", "PostgreSQL", "Full Stack", "API"]
+      tags: ["Node.js", "Express", "PostgreSQL", "Full Stack", "API"] as string[]
     }
   ];
 
