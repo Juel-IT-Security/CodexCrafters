@@ -433,12 +433,41 @@ export default function DocsPage() {
                                 <CopyButton code={code} />
                               </div>
                               {/* Code content with IDE styling */}
-                              <div className="bg-gray-900 rounded-b-lg overflow-x-auto border border-gray-700 border-t-0">
-                                <div className="p-0">
-                                  {/* Pass the pre-rendered children to maintain syntax highlighting */}
-                                  <div className="hljs" style={{ background: 'transparent' }}>
+                              <div className="bg-gray-900 rounded-b-lg overflow-x-auto border border-gray-700 border-t-0 relative">
+                                {/* Line numbers overlay */}
+                                <div className="absolute left-0 top-0 bottom-0 bg-gray-800 border-r border-gray-700 z-10">
+                                  {String(code || '').split('\n').map((_, index) => (
+                                    <div key={index} className="text-gray-500 text-xs font-mono px-3 py-1 text-right w-12 leading-relaxed">
+                                      {index + 1}
+                                    </div>
+                                  ))}
+                                </div>
+                                {/* Syntax highlighted code with hover copy */}
+                                <div className="relative">
+                                  <pre 
+                                    className="m-0 p-4 pl-16 overflow-x-auto group" 
+                                    style={{ background: 'transparent' }}
+                                    {...props}
+                                    onMouseMove={(e) => {
+                                      // Add copy buttons on hover for each line
+                                      const lines = e.currentTarget.querySelectorAll('code > *');
+                                      lines.forEach((line, index) => {
+                                        if (!line.querySelector('.line-copy-btn')) {
+                                          const copyBtn = document.createElement('button');
+                                          copyBtn.className = 'line-copy-btn absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-700 hover:bg-gray-600 text-white p-1 rounded text-xs';
+                                          copyBtn.innerHTML = '📋';
+                                          copyBtn.style.top = `${(index * 1.5)}rem`;
+                                          copyBtn.onclick = async () => {
+                                            const lineText = line.textContent || '';
+                                            await navigator.clipboard.writeText(lineText);
+                                          };
+                                          e.currentTarget.appendChild(copyBtn);
+                                        }
+                                      });
+                                    }}
+                                  >
                                     {children}
-                                  </div>
+                                  </pre>
                                 </div>
                               </div>
                             </div>
@@ -451,51 +480,14 @@ export default function DocsPage() {
                             return <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props}>{children}</code>;
                           }
                           
-                          // For code blocks, add line numbers and copy functionality
-                          const codeText = String(children || '');
-                          const lines = codeText.split('\n');
-                          const language = className?.replace('language-', '') || 'text';
-                          const isTextBlock = language === 'text';
-                          
+                          // For code blocks within pre tags, just render normally with syntax highlighting
                           return (
-                            <div className="relative">
-                              {lines.map((line, index) => (
-                                <div key={index} className="group flex items-start hover:bg-gray-700/20 transition-colors">
-                                  {/* Line number */}
-                                  <div className="select-none text-gray-500 text-xs font-mono w-10 text-right pr-3 py-1 shrink-0 border-r border-gray-700">
-                                    {index + 1}
-                                  </div>
-                                  {/* Code content with syntax highlighting */}
-                                  <div className="flex-1 min-w-0 pl-3">
-                                    <code 
-                                      className={`block font-mono text-sm leading-relaxed py-1 ${className || ''}`}
-                                      style={isTextBlock ? { color: '#f9fafb' } : {}}
-                                      {...props}
-                                    >
-                                      {line || ' '}
-                                    </code>
-                                  </div>
-                                  {/* Copy line button */}
-                                  {line.trim() && (
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-6 w-6 p-0 text-gray-400 hover:text-white shrink-0 mr-2"
-                                      onClick={async () => {
-                                        try {
-                                          await navigator.clipboard.writeText(line);
-                                        } catch (err) {
-                                          console.error('Failed to copy text: ', err);
-                                        }
-                                      }}
-                                      aria-label="Copy line to clipboard"
-                                    >
-                                      <Copy className="h-3 w-3" />
-                                    </Button>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
+                            <code 
+                              className={`${className || ''} font-mono text-sm leading-relaxed`}
+                              {...props}
+                            >
+                              {children}
+                            </code>
                           );
                         },
                         // Ensure proper heading hierarchy
