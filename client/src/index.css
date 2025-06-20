@@ -119,6 +119,37 @@ html {
   @apply text-green-400;
 }
 
+/* Override syntax highlighting for ASCII diagrams and text blocks */
+.hljs.language-text,
+.hljs.language-text *,
+pre code.language-text,
+pre code.language-text * {
+  color: #e5e7eb !important;
+  background: transparent !important;
+}
+
+/* Ensure ASCII diagrams maintain proper formatting and visibility */
+pre code[class*="language-text"] {
+  color: #e5e7eb !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  white-space: pre !important;
+  line-height: 1.2 !important;
+}
+
+/* Disable all syntax highlighting styles for text blocks */
+.hljs.language-text .hljs-keyword,
+.hljs.language-text .hljs-string,
+.hljs.language-text .hljs-number,
+.hljs.language-text .hljs-comment,
+.hljs.language-text .hljs-function,
+.hljs.language-text .hljs-title,
+.hljs.language-text .hljs-variable,
+.hljs.language-text .hljs-built_in {
+  color: #e5e7eb !important;
+  background: transparent !important;
+  font-weight: normal !important;
+}
+
 .code-highlight .comment {
   @apply text-gray-500;
 }

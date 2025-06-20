@@ -46,6 +46,51 @@ function CopyButton({ code }: { code: string }) {
   );
 }
 
+// Enhanced code block with per-line copy functionality
+function CodeBlockWithLineCopy({ children, language }: { children: any; language: string }) {
+  const codeText = typeof children === 'string' ? children : String(children || '');
+  const lines = codeText.split('\n');
+  const isTextBlock = language === 'text' || !language;
+
+  return (
+    <div className="space-y-0">
+      {lines.map((line, index) => (
+        <div key={index} className="group relative flex items-start hover:bg-gray-700/30 transition-colors px-2 py-1">
+          <div className="flex-1 min-w-0">
+            <code 
+              className={`block whitespace-pre font-mono text-sm leading-tight ${
+                isTextBlock 
+                  ? 'text-gray-100' 
+                  : ''
+              }`}
+              style={isTextBlock ? { color: '#e5e7eb !important' } : {}}
+            >
+              {line || ' '}
+            </code>
+          </div>
+          {line.trim() && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-5 w-5 p-0 text-gray-400 hover:text-white shrink-0"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(line);
+                } catch (err) {
+                  console.error('Failed to copy text: ', err);
+                }
+              }}
+              aria-label="Copy line to clipboard"
+            >
+              <Copy className="h-3 w-3" />
+            </Button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Interface for documentation structure from API
 interface DocsStructure {
   sections: Array<{
@@ -375,9 +420,11 @@ export default function DocsPage() {
                                 <span className="text-sm text-gray-400 font-mono">{language}</span>
                                 <CopyButton code={code} />
                               </div>
-                              <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm leading-tight whitespace-pre" {...props}>
-                                {children}
-                              </pre>
+                              <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                                <CodeBlockWithLineCopy language={language}>
+                                  {code}
+                                </CodeBlockWithLineCopy>
+                              </div>
                             </div>
                           );
                         },
@@ -388,7 +435,23 @@ export default function DocsPage() {
                             return <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props}>{children}</code>;
                           }
                           
-                          // For code blocks, preserve formatting for ASCII diagrams
+                          // For code blocks, check if it's a text block (likely ASCII diagram)
+                          const isTextBlock = className?.includes('language-text') || !className;
+                          
+                          if (isTextBlock) {
+                            // Disable syntax highlighting for ASCII diagrams and preserve exact formatting
+                            return (
+                              <code 
+                                className="whitespace-pre font-mono text-sm leading-tight text-gray-100" 
+                                style={{ color: '#e5e7eb !important' }}
+                                {...props}
+                              >
+                                {children}
+                              </code>
+                            );
+                          }
+                          
+                          // For other languages, apply syntax highlighting
                           return <code className={`${className} whitespace-pre font-mono text-sm leading-tight`} {...props}>{children}</code>;
                         },
                         // Ensure proper heading hierarchy
