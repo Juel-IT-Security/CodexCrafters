@@ -1,7 +1,11 @@
+// Card component system - modular card layout with semantic sections
+// Demonstrates React.forwardRef pattern for ref forwarding and component composition
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+// Main Card container - provides the basic card styling and structure
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -9,21 +13,23 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
+      // Base card styles: rounded corners, border, background, text color, subtle shadow
       "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
+      className // Allow custom styles to be merged
     )}
-    {...props}
+    {...props} // Spread all other HTML div props
   />
 ))
-Card.displayName = "Card"
+Card.displayName = "Card" // For better debugging in React DevTools
 
+// Card Header - typically contains title and description
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    className={cn("flex flex-col space-y-1.5 p-6", className)} // Vertical layout with spacing and padding
     {...props}
   />
 ))

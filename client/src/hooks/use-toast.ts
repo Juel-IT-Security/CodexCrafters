@@ -1,3 +1,6 @@
+// Toast notification system - provides user feedback and alerts
+// Demonstrates advanced React patterns: reducers, custom hooks, global state management
+
 import * as React from "react"
 
 import type {
@@ -5,25 +8,30 @@ import type {
   ToastProps,
 } from "@/components/ui/toast"
 
-const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+// Configuration constants for toast behavior
+const TOAST_LIMIT = 1 // Maximum number of toasts shown at once
+const TOAST_REMOVE_DELAY = 1000000 // How long toasts stay visible (in milliseconds)
 
+// Extended toast type that includes additional properties for state management
 type ToasterToast = ToastProps & {
-  id: string
-  title?: React.ReactNode
-  description?: React.ReactNode
-  action?: ToastActionElement
+  id: string // Unique identifier for each toast
+  title?: React.ReactNode // Optional toast title
+  description?: React.ReactNode // Optional detailed message
+  action?: ToastActionElement // Optional action button
 }
 
+// Action types for the toast reducer - defines all possible state changes
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
-  UPDATE_TOAST: "UPDATE_TOAST",
+  UPDATE_TOAST: "UPDATE_TOAST", 
   DISMISS_TOAST: "DISMISS_TOAST",
   REMOVE_TOAST: "REMOVE_TOAST",
 } as const
 
+// Simple counter for generating unique toast IDs
 let count = 0
 
+// Generate unique IDs for toasts to prevent conflicts
 function genId() {
   count = (count + 1) % Number.MAX_SAFE_INTEGER
   return count.toString()
