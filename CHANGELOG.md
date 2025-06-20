@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interactive code blocks with line-by-line copy functionality
 - Real-time documentation statistics and organized navigation
 - API endpoints for serving documentation structure and content
+- Production safety middleware to disable write operations until admin portal is ready
 
 ### Changed
 - Removed fake statistics from CTA section for authenticity

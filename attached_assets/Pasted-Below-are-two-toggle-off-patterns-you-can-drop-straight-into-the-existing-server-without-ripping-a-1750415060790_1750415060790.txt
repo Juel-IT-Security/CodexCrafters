@@ -1,0 +1,76 @@
+Below are two “toggle-off” patterns you can drop straight into the existing server without ripping anything out. Both leave your GET endpoints untouched while making every create / update / delete call return 403 Forbidden (or 503 Service Unavailable, if you prefer) until you flip a single environment variable.
+
+1. Global “mutations disabled” middleware (quick and explicit)
+ts
+Copy
+Edit
+// server/middleware/disableMutations.ts
+import { Request, Response, NextFunction } from 'express';
+
+/**
+ * Blocks any non-GET/HEAD/OPTIONS request when MUTATIONS_ENABLED !== 'true'.
+ * Keeps the code in place so it’s easy to re-enable once the admin UI ships.
+ */
+export function disableMutations(req: Request, res: Response, next: NextFunction) {
+  const readMethods = ['GET', 'HEAD', 'OPTIONS'];
+  const live = process.env.MUTATIONS_ENABLED === 'true';
+
+  if (!live && !readMethods.includes(req.method)) {
+    return res.status(403).json({
+      error: 'Write operations are disabled until the admin portal is live.',
+    });
+  }
+
+  next();
+}
+Add it as the very first custom middleware in your server bootstrap (right after helmet and cors):
+
+ts
+Copy
+Edit
+import { disableMutations } from './middleware/disableMutations';
+
+app.use(disableMutations);
+How it works
+Scenario	MUTATIONS_ENABLED	Result
+Local dev (no env var set)	undefined	All verbs allowed – you can keep testing normally.
+Production (env var unset)	undefined	POST/PUT/PATCH/DELETE return 403 immediately.
+After admin portal ships	true	Mutations flow through to the real handlers.
+
+Deploy → done. One liner in Replit’s secrets or your CI to flip it later.
+
+2. Route-level guard (if you only want to freeze specific routers)
+If you prefer to keep the middleware footprint minimal, wrap just the mutable routes:
+
+ts
+Copy
+Edit
+const MUTATIONS_ON = process.env.MUTATIONS_ENABLED === 'true';
+
+if (MUTATIONS_ON) {
+  router.post('/', createExample);   // existing handler
+  router.delete('/:id', deleteExample);
+} else {
+  router.all(['/', '/:id'], (_, res) =>
+    res.status(403).json({ error: 'Mutations disabled until admin portal is live.' })
+  );
+}
+Do the same in routes/guides.ts. The effect is identical—only those two resources are frozen.
+
+Why not just comment the code?
+You’d lose compile-time type checking (routes disappear, tests may break).
+
+When the admin UI is ready you’d need to manually uncomment in multiple files.
+
+A boolean flag keeps the code path exercised locally, catches regressions early, and is a 5-second deploy change.
+
+Deployment steps
+Add the middleware (or guarded routes) and commit.
+
+Ensure MUTATIONS_ENABLED is unset (or set to anything other than 'true') in your production environment.
+
+Redeploy the Replit container / trigger CI – POST & DELETE calls start returning 403.
+
+When the admin portal is finished, set MUTATIONS_ENABLED=true in Replit → redeploy → routes come back to life.
+
+That’s it—no DB migrations, no schema changes, and you can still test full CRUD locally.

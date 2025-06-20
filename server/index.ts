@@ -8,6 +8,7 @@ import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed";
+import { disableMutations } from "./middleware/disableMutations";
 
 // Create Express application instance
 const app = express();
@@ -38,6 +39,10 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 app.use('/api/', limiter);
+
+// Production safety: disable write operations until admin portal is ready
+// Set MUTATIONS_ENABLED=true in environment to re-enable POST/PUT/DELETE endpoints
+app.use(disableMutations);
 
 // Middleware to parse JSON request bodies (for API requests from frontend)
 app.use(express.json({ limit: '10mb' }));
