@@ -795,84 +795,292 @@ export function ProfilePage() {
 
 ---
 
-## Tutorial 4: Database Relationships
+## Tutorial 4: Building an Admin Dashboard
 
 ### Goal
-Create a relationship between users and their projects with proper foreign keys.
+Create an admin dashboard that allows managing examples and guides, demonstrating full CRUD operations and data tables.
+
+### What We'll Build
+A comprehensive dashboard that includes:
+- Data tables for examples and guides
+- Add/Edit forms with validation
+- Delete functionality with confirmation
+- Statistics overview
+- Search and filtering capabilities
 
 ### Steps
 
-**1. Design Related Schemas**
+**1. Create the Dashboard Layout**
 
 ```typescript
-// shared/schema.ts
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  name: text("name").notNull(),
-});
+// client/src/components/admin-dashboard.tsx
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, Edit, Trash2, Search, BarChart3 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import type { Example, Guide } from "@shared/schema";
 
-export const userProjects = pgTable("user_projects", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id).notNull(),
-  title: text("title").notNull(),
-  description: text("description"),
-  status: text("status", { enum: ["draft", "active", "completed"] }).default("draft"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export function AdminDashboard() {
+  // State for search functionality
+  const [searchQuery, setSearchQuery] = useState("");
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-// Define relationships
-export const usersRelations = relations(users, ({ many }) => ({
-  projects: many(userProjects),
-}));
+  // Fetch all examples and guides
+  const { data: examples = [], isLoading: examplesLoading } = useQuery({
+    queryKey: ['/api/examples'],
+    queryFn: () => apiRequest<Example[]>('/examples'),
+  });
 
-export const userProjectsRelations = relations(userProjects, ({ one }) => ({
-  user: one(users, {
-    fields: [userProjects.userId],
-    references: [users.id],
-  }),
-}));
+  const { data: guides = [], isLoading: guidesLoading } = useQuery({
+    queryKey: ['/api/guides'],
+    queryFn: () => apiRequest<Guide[]>('/guides'),
+  });
+
+  // Filter examples based on search query
+  const filteredExamples = examples.filter(example =>
+    example.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    example.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    example.projectType.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filter guides based on search query
+  const filteredGuides = guides.filter(guide =>
+    guide.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    guide.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    guide.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Calculate statistics
+  const stats = {
+    totalExamples: examples.length,
+    totalGuides: guides.length,
+    projectTypes: [...new Set(examples.map(ex => ex.projectType))].length,
+    categories: [...new Set(guides.map(guide => guide.category))].length,
+  };
+
+  return (
+    <div className="container mx-auto p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <p className="text-muted-foreground">
+            Manage examples and guides for the AGENTS.md platform
+          </p>
+        </div>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Examples</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalExamples}</div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Guides</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalGuides}</div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Project Types</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.projectTypes}</div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Guide Categories</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.categories}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex items-center space-x-2">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search examples and guides..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-8"
+          />
+        </div>
+      </div>
+
+      {/* Tabs for Examples and Guides */}
+      <Tabs defaultValue="examples" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="examples">
+            Examples ({filteredExamples.length})
+          </TabsTrigger>
+          <TabsTrigger value="guides">
+            Guides ({filteredGuides.length})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="examples">
+          <ExamplesTable examples={filteredExamples} isLoading={examplesLoading} />
+        </TabsContent>
+
+        <TabsContent value="guides">
+          <GuidesTable guides={filteredGuides} isLoading={guidesLoading} />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+// Examples table component
+function ExamplesTable({ examples, isLoading }: { examples: Example[]; isLoading: boolean }) {
+  if (isLoading) {
+    return <div className="text-center py-8">Loading examples...</div>;
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Project Examples</CardTitle>
+        <CardDescription>
+          Manage project examples with generated AGENTS.md files
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {examples.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No examples found
+            </div>
+          ) : (
+            examples.map((example) => (
+              <div key={example.id} className="border rounded-lg p-4">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-2 flex-1">
+                    <h3 className="font-semibold">{example.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {example.description}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{example.projectType}</Badge>
+                      {example.tags?.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-2 ml-4">
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-red-600">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Guides table component
+function GuidesTable({ guides, isLoading }: { guides: Guide[]; isLoading: boolean }) {
+  if (isLoading) {
+    return <div className="text-center py-8">Loading guides...</div>;
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Tutorial Guides</CardTitle>
+        <CardDescription>
+          Manage tutorial guides and learning content
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {guides.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No guides found
+            </div>
+          ) : (
+            guides.map((guide) => (
+              <div key={guide.id} className="border rounded-lg p-4">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-2 flex-1">
+                    <h3 className="font-semibold">{guide.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {guide.description}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{guide.category}</Badge>
+                      {guide.videoUrl && (
+                        <Badge variant="secondary">Has Video</Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2 ml-4">
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-red-600">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 ```
 
-**2. Query with Relationships**
+**2. Add the Dashboard Route**
 
 ```typescript
-// server/storage.ts
-async getUserWithProjects(userId: number) {
-  const userWithProjects = await db.query.users.findFirst({
-    where: eq(users.id, userId),
-    with: {
-      projects: {
-        orderBy: desc(userProjects.createdAt),
-      },
-    },
-  });
-  return userWithProjects;
-}
-
-async getProjectsForUser(userId: number) {
-  const projects = await db
-    .select({
-      id: userProjects.id,
-      title: userProjects.title,
-      description: userProjects.description,
-      status: userProjects.status,
-      createdAt: userProjects.createdAt,
-      userName: users.name,
-    })
-    .from(userProjects)
-    .innerJoin(users, eq(userProjects.userId, users.id))
-    .where(eq(userProjects.userId, userId));
-  
-  return projects;
-}
+// Add to client/src/App.tsx in the Router component
+<Route path="/admin" component={() => <AdminDashboard />} />
 ```
 
 **Key Learning Points:**
-- Foreign key relationships
-- Drizzle relations syntax
-- Querying with joins
-- Data modeling best practices
+- Complex state management with multiple data sources
+- Data table implementation with search and filtering
+- Statistics calculation from arrays
+- Conditional rendering based on data state
+- Component composition and separation of concerns
+- Real-world admin interface patterns
 
 ---
 
