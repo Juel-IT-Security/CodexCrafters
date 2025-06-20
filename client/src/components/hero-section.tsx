@@ -1,3 +1,6 @@
+// Hero Section component - the main landing area that introduces the platform
+// Demonstrates design patterns for compelling landing pages and call-to-action sections
+
 import { Bot, Github, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

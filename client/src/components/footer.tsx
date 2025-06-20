@@ -1,3 +1,6 @@
+// Footer component - provides site navigation links and project information
+// Demonstrates consistent navigation patterns and external link handling
+
 import { Bot, Github, Twitter, Linkedin } from "lucide-react";
 
 export default function Footer() {

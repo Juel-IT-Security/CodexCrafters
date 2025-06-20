@@ -1,10 +1,16 @@
+// Navigation component - provides main site navigation and mobile menu
+// Demonstrates responsive design patterns and smooth scrolling
+
 import { useState } from "react";
 import { Menu, X, Github, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Navigation() {
+  // State to control mobile menu visibility
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Array of navigation links with section IDs and display labels
+  // This makes it easy to add or remove navigation items
   const navLinks = [
     { href: "#how-it-works", label: "How It Works" },
     { href: "#examples", label: "Examples" },
@@ -12,11 +18,16 @@ export default function Navigation() {
     { href: "#best-practices", label: "Best Practices" },
   ];
 
+  // Function to smoothly scroll to a section when navigation link is clicked
+  // Also closes mobile menu after navigation
   const scrollToSection = (href: string) => {
+    // Find the target element using the href as a CSS selector
     const element = document.querySelector(href);
     if (element) {
+      // Smooth scroll to the element
       element.scrollIntoView({ behavior: "smooth" });
     }
+    // Close mobile menu after navigation
     setIsMobileMenuOpen(false);
   };
 

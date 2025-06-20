@@ -1,3 +1,6 @@
+// Video Guides component - displays tutorial guides with video content
+// Demonstrates data fetching patterns and loading states for educational content
+
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
