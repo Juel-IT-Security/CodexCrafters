@@ -19,8 +19,8 @@ export default function Footer() {
       external: true 
     },
     { 
-      href: "https://github.com/Juel-IT-Security/CodexCrafters", 
-      label: "GitHub Repository",
+      href: "https://juelfoundationofselflearning.org/", 
+      label: "Non-Profit Organization",
       external: true 
     },
     { 
@@ -58,11 +58,11 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="https://github.com/Juel-IT-Security/CodexCrafters" 
+                href="https://juelfoundationofselflearning.org/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
-                aria-label="Visit our GitHub repository (opens in new tab)"
+                aria-label="Visit Juel Foundation of Self Learning (opens in new tab)"
               >
                 <Github className="w-5 h-5" />
               </a>
@@ -127,7 +127,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-200 text-sm">
-            © 2024 AGENTS.md Generator. Built with ❤️ on Replit. Open source and free to use.
+            © 2024 Juel Foundation of Self Learning, Inc. Built with ❤️ for educational purposes. Open source and free to use.
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-200 hover:text-white text-sm transition-colors">

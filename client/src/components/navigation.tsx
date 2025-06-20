@@ -77,11 +77,11 @@ export default function Navigation() {
                 )
               ))}
               <a
-                href="https://github.com/Juel-IT-Security/CodexCrafters"
+                href="https://juelfoundationofselflearning.org/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-gray-600 hover:text-gray-900 transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded px-2 py-1"
-                aria-label="View project on GitHub (opens in new tab)"
+                aria-label="Visit Juel Foundation of Self Learning (opens in new tab)"
               >
                 <Github className="w-4 h-4 mr-1" />
                 GitHub
@@ -128,11 +128,11 @@ export default function Navigation() {
                   )
                 ))}
                 <a
-                  href="https://github.com/Juel-IT-Security/CodexCrafters"
+                  href="https://juelfoundationofselflearning.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-600 hover:text-gray-900 transition-colors px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
-                  aria-label="View project on GitHub (opens in new tab)"
+                  aria-label="Visit Juel Foundation of Self Learning (opens in new tab)"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <Github className="w-4 h-4 mr-1" />

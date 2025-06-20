@@ -6,11 +6,12 @@ Demonstrates comprehensive project documentation patterns and onboarding flows
 
 # AGENTS.md Educational Platform
 
-An educational open-source web application that showcases a custom GPT bot for generating AGENTS.md files used in multi-agent development workflows. The GPT can either scan public repositories with deep research or accept zip file uploads. This platform serves as a living example project to help people learn development and AI tool integration.
+An educational open-source web application developed by the **Juel Foundation of Self Learning, Inc.** that showcases a custom GPT bot for generating AGENTS.md files used in multi-agent development workflows. The GPT can either scan public repositories with deep research or accept zip file uploads. This platform serves as a living example project to help people learn development and AI tool integration.
 
 ## 🚀 Live Demo
 
-- **Platform**: [CodexCrafters on Replit](https://replit.com/@your-username/CodexCrafters)
+- **Platform**: [CodexCrafters](https://codexcrafters.juelfoundationofselflearning.org/)
+- **Non-Profit**: [Juel Foundation of Self Learning](https://juelfoundationofselflearning.org/)
 - **Custom GPT**: [AGENTS.md Generator](https://chatgpt.com/g/g-6854af9ed1fc81918a30a9bf2e866602-agents-md)
 
 ## 📖 What is AGENTS.md?
@@ -332,8 +333,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/Juel-IT-Security/CodexCrafters/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Juel-IT-Security/CodexCrafters/discussions)
-- **Email**: support@juel-it-security.com
+- **Email**: support@juelfoundationofselflearning.org
+
+## 🌟 About the Juel Foundation of Self Learning
+
+The **Juel Foundation of Self Learning, Inc.** is a non-profit organization dedicated to advancing education through innovative technology and open-source learning platforms. Our mission is to make high-quality programming education accessible to everyone through hands-on, practical learning experiences.
+
+- **Website**: [juelfoundationofselflearning.org](https://juelfoundationofselflearning.org/)
+- **Project Platform**: [codexcrafters.juelfoundationofselflearning.org](https://codexcrafters.juelfoundationofselflearning.org/)
 
 ---
 
-**Built with ❤️ by [Juel IT Security](https://github.com/Juel-IT-Security)**
+**Built with ❤️ by the [Juel Foundation of Self Learning, Inc.](https://juelfoundationofselflearning.org/)**
