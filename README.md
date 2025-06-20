@@ -24,21 +24,47 @@ AGENTS.md is a specification file that defines roles, responsibilities, and work
 
 ## 📚 Comprehensive Learning Resources
 
-Our `/docs` directory provides a complete learning experience for modern web development:
+Our `/docs` directory provides a complete learning experience for modern web development with professional-grade code quality:
 
-### For Beginners
+### Code Quality & Best Practices
+- **[Code Quality Standards](docs/guides/code-quality-standards.md)** - Comprehensive implementation guide covering type safety, validation, and maintainability
+- **[Security Implementation](docs/tutorials/backend/implementing-security-best-practices.md)** - HTTP headers, rate limiting, input validation, and production security
+- **[Accessibility Guide](docs/tutorials/frontend/accessibility-implementation-guide.md)** - WCAG 2.1 AA compliance with practical implementation examples
+- **[API Design Patterns](docs/tutorials/backend/api-design-and-validation.md)** - Type-safe APIs with Zod validation and error handling
+
+### Learning Paths
+- **[Complete Documentation Hub](docs/README.md)** - Architecture overview, development guidelines, and deployment strategies
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** - Setup, project structure, and first steps
 - **[Step-by-Step Tutorials](docs/TUTORIALS.md)** - Build components, APIs, and full features
 - **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Solutions to common development issues
 
-### For Intermediate Developers
-- **[Architecture Guide](docs/ARCHITECTURE.md)** - Full-stack application design patterns
-- **[Best Practices](docs/BEST_PRACTICES.md)** - Industry-standard coding conventions
-- **[API Documentation](docs/API.md)** - Complete endpoint reference with examples
+## ⚡ Code Quality Standards
 
-### For Advanced Developers
-- **[Contributing Guidelines](docs/CONTRIBUTING.md)** - Open source contribution workflow
-- **[Documentation Hub](docs/README.md)** - Complete learning path recommendations
+This platform demonstrates professional-grade development practices:
+
+### Type Safety & Validation
+- **Zero `any` types** - All data structures use explicit TypeScript interfaces
+- **Runtime validation** - Zod schemas for API boundaries and user inputs
+- **Type-safe database** - Drizzle ORM with complete type inference
+- **Error boundaries** - Comprehensive error handling with proper types
+
+### Security Implementation
+- **HTTP security headers** - Helmet middleware with CSP, HSTS, and XSS protection
+- **Rate limiting** - Configurable API protection against abuse
+- **Input sanitization** - Request size limits and path validation
+- **Environment-aware** - Different security configs for development/production
+
+### Accessibility Compliance
+- **WCAG 2.1 AA standard** - Complete accessibility implementation
+- **Keyboard navigation** - Full app usable without mouse
+- **Screen reader support** - ARIA labels and semantic HTML throughout
+- **Focus management** - Visible focus indicators and logical tab order
+
+### API Design
+- **Complete CRUD operations** - Consistent endpoints with proper HTTP methods
+- **Standardized errors** - Uniform error responses with validation details
+- **Parameter validation** - All route parameters properly validated
+- **Documentation** - Comprehensive API reference with examples
 
 ## 🎯 Features
 

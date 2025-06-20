@@ -11,6 +11,42 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, BookOpen, FileText, Layers, Database, GraduationCap, Zap, Copy, Check } from "lucide-react";
 import { CodeBlock, CodeLine } from "@/components/ui/code-block";
 import Navigation from "@/components/navigation";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+
+// Copy button component for code blocks
+function CopyButton({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+      onClick={handleCopy}
+      aria-label="Copy code to clipboard"
+    >
+      {copied ? (
+        <Check className="h-3 w-3" />
+      ) : (
+        <Copy className="h-3 w-3" />
+      )}
+    </Button>
+  );
+}
+
+
 
 // Interface for documentation structure from API
 interface DocsStructure {
@@ -49,6 +85,7 @@ export default function DocsPage() {
   // Fetch documentation structure from API
   const { data: docsStructure, isLoading: structureLoading } = useQuery<DocsStructure>({
     queryKey: ['/api/docs'],
+    queryFn: () => fetch('/api/docs').then(res => res.json()),
     staleTime: 300000, // Cache for 5 minutes
   });
 
@@ -77,6 +114,11 @@ export default function DocsPage() {
   const handleFileChange = (filePath: string) => {
     setSelectedFile(filePath);
     navigate(`/docs?file=${filePath}`);
+    // Reset scroll position to very top of page when switching documents
+    setTimeout(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
   };
 
   const getCurrentFile = () => {
@@ -112,8 +154,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navigation />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-8">
         {/* Header with improved organization */}
         <div className="mb-8">
           <div className="text-center mb-8">
@@ -174,10 +215,10 @@ export default function DocsPage() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-4 gap-8 mb-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+            <div className="sticky top-20 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
               {/* Quick Start Overview */}
               <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700">
                 <CardHeader className="pb-3">
@@ -298,14 +339,105 @@ export default function DocsPage() {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <Card className="min-h-[600px]">
-              <CardContent className="p-8">
+              <CardContent className="p-8 pb-8">
                 {contentLoading ? (
                   <div className="flex items-center justify-center h-64">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                   </div>
                 ) : docContent?.content ? (
                   <div className="prose prose-lg max-w-none dark:prose-invert">
-                    <TutorialRenderer content={docContent.content} />
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight]}
+                      components={{
+                        // Ensure proper semantic HTML for lists
+                        ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
+                        ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
+                        li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                        // Custom IDE-style code block with syntax highlighting
+                        pre: ({ node, children, ...props }) => {
+                          // Extract code content and language from children
+                          const extractCodeInfo = (children: any) => {
+                            let code = '';
+                            let language = 'text';
+                            
+                            const firstChild = Array.isArray(children) ? children[0] : children;
+                            if (firstChild && typeof firstChild === 'object' && firstChild.props) {
+                              code = firstChild.props.children || '';
+                              const className = firstChild.props.className || '';
+                              language = className.replace('language-', '') || 'text';
+                            } else if (typeof firstChild === 'string') {
+                              code = firstChild;
+                            }
+                            
+                            return { code, language };
+                          };
+                          
+                          const { code, language } = extractCodeInfo(children);
+                          
+                          return (
+                            <div className="relative group mb-6">
+                              {/* Header with language and copy button */}
+                              <div className="flex items-center justify-between bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-700">
+                                <div className="flex items-center gap-2">
+                                  <div className="flex gap-1">
+                                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                  </div>
+                                  <span className="text-sm text-gray-400 font-mono ml-2">{language}</span>
+                                </div>
+                                <CopyButton code={code} />
+                              </div>
+                              {/* Code content with IDE styling */}
+                              <div className="bg-gray-900 rounded-b-lg border border-gray-700 border-t-0 relative">
+                                {/* Line numbers overlay */}
+                                <div className="absolute left-0 top-0 bottom-0 bg-gray-800 border-r border-gray-700 z-10">
+                                  {String(code || '').split('\n').map((_, index) => (
+                                    <div key={index} className="text-gray-500 text-xs font-mono px-3 py-1 text-right w-12 leading-relaxed">
+                                      {index + 1}
+                                    </div>
+                                  ))}
+                                </div>
+                                {/* Syntax highlighted code */}
+                                <pre 
+                                  className="m-0 p-4 pl-16" 
+                                  style={{ background: 'transparent' }}
+                                  {...props}
+                                >
+                                  {children}
+                                </pre>
+                              </div>
+                            </div>
+                          );
+                        },
+                        code: ({ node, className, children, ...props }) => {
+                          const isInline = !className?.includes('language-');
+                          
+                          if (isInline) {
+                            return <code className="dark:bg-gray-800 px-1 py-0.5 rounded text-sm bg-[#101827] text-[#ffffff]" {...props}>{children}</code>;
+                          }
+                          
+                          // For code blocks within pre tags, just render normally with syntax highlighting
+                          return (
+                            <code 
+                              className={`${className || ''} font-mono text-sm leading-relaxed`}
+                              {...props}
+                            >
+                              {children}
+                            </code>
+                          );
+                        },
+                        // Ensure proper heading hierarchy
+                        h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100" {...props} />,
+                        h2: ({ node, ...props }) => <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8" {...props} />,
+                        h3: ({ node, ...props }) => <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-6" {...props} />,
+                        // Style paragraphs
+                        p: ({ node, ...props }) => <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed" {...props} />,
+                      }}
+                    >
+                      {docContent.content}
+                    </ReactMarkdown>
                   </div>
                 ) : (
                   <div className="text-center py-16">
@@ -327,52 +459,3 @@ export default function DocsPage() {
   );
 }
 
-// Component to render tutorial content with code blocks
-function TutorialRenderer({ content }: { content: string }) {
-  // Parse markdown content and render with code blocks
-  const sections = content.split('```');
-  
-  return (
-    <div className="space-y-6">
-      {sections.map((section, index) => {
-        if (index % 2 === 0) {
-          // Regular markdown content - render basic markdown
-          return (
-            <div key={index} className="prose-content">
-              {section.split('\n').map((line, lineIndex) => {
-                if (line.startsWith('# ')) {
-                  return <h1 key={lineIndex} className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{line.substring(2)}</h1>;
-                } else if (line.startsWith('## ')) {
-                  return <h2 key={lineIndex} className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8">{line.substring(3)}</h2>;
-                } else if (line.startsWith('### ')) {
-                  return <h3 key={lineIndex} className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-6">{line.substring(4)}</h3>;
-                } else if (line.trim() === '') {
-                  return <br key={lineIndex} />;
-                } else if (line.startsWith('- ')) {
-                  return <li key={lineIndex} className="ml-4 text-gray-700 dark:text-gray-300">{line.substring(2)}</li>;
-                } else {
-                  return <p key={lineIndex} className="text-gray-700 dark:text-gray-300 mb-4">{line}</p>;
-                }
-              })}
-            </div>
-          );
-        } else {
-          // Code block
-          const lines = section.split('\n');
-          const language = lines[0] || 'javascript';
-          const code = lines.slice(1).join('\n');
-          
-          return (
-            <CodeBlock key={index} title={`${language} example`}>
-              {code.split('\n').map((line, lineIndex) => (
-                <CodeLine key={lineIndex} code={line}>
-                  <span className="text-gray-100">{line}</span>
-                </CodeLine>
-              ))}
-            </CodeBlock>
-          );
-        }
-      })}
-    </div>
-  );
-}

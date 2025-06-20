@@ -119,6 +119,97 @@ html {
   @apply text-green-400;
 }
 
+/* IDE-style syntax highlighting */
+.hljs {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+
+/* Keywords (if, const, function, etc.) */
+.hljs-keyword,
+.hljs-built_in,
+.hljs-type {
+  color: #c792ea !important;
+}
+
+/* Strings */
+.hljs-string,
+.hljs-attr {
+  color: #a5e844 !important;
+}
+
+/* Numbers */
+.hljs-number,
+.hljs-literal {
+  color: #ffcb6b !important;
+}
+
+/* Comments */
+.hljs-comment {
+  color: #676e95 !important;
+  font-style: italic;
+}
+
+/* Functions and method names */
+.hljs-function .hljs-title,
+.hljs-title.function_,
+.hljs-method {
+  color: #82aaff !important;
+}
+
+/* Variables and properties */
+.hljs-variable,
+.hljs-property,
+.hljs-attr {
+  color: #ff5370 !important;
+}
+
+/* Classes and types */
+.hljs-title.class_,
+.hljs-class .hljs-title {
+  color: #ffcb6b !important;
+}
+
+/* Operators */
+.hljs-operator,
+.hljs-punctuation {
+  color: #89ddff !important;
+}
+
+/* Tags (for HTML/JSX) */
+.hljs-tag .hljs-name {
+  color: #f07178 !important;
+}
+
+/* Attributes */
+.hljs-tag .hljs-attr {
+  color: #c792ea !important;
+}
+
+/* Override for text blocks (ASCII diagrams) */
+.hljs.language-text,
+.hljs.language-text *,
+pre code.language-text,
+pre code.language-text * {
+  color: #f9fafb !important;
+  background: transparent !important;
+}
+
+/* Ensure text blocks don't get syntax highlighting */
+code.language-text .hljs-keyword,
+code.language-text .hljs-string,
+code.language-text .hljs-number,
+code.language-text .hljs-comment,
+code.language-text .hljs-function,
+code.language-text .hljs-title,
+code.language-text .hljs-variable,
+code.language-text .hljs-built_in {
+  color: #f9fafb !important;
+  background: transparent !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+
 .code-highlight .comment {
   @apply text-gray-500;
 }

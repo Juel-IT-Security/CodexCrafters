@@ -5,6 +5,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { insertExampleSchema, insertGuideSchema } from "../shared/schema";
+import { ZodError } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -34,6 +36,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Extract the ID from the URL and convert it from string to number
       const id = parseInt(req.params.id);
       
+      // Validate the ID parameter - same validation as guides endpoint
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid ID" });
+      }
+      
       // Look up the example in our database using the ID
       const example = await storage.getExample(id);
       
@@ -46,7 +53,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(example);
     } catch (error) {
       // Handle any unexpected errors
+      console.error("Error fetching example:", error);
       res.status(500).json({ message: "Failed to fetch example" });
+    }
+  });
+
+  // POST /api/examples - Create a new example
+  // This endpoint allows users to submit new project examples
+  app.post("/api/examples", async (req, res) => {
+    try {
+      // Validate the request body using Zod schema
+      const validatedData = insertExampleSchema.parse(req.body);
+      
+      // Create the example in the database
+      const newExample = await storage.createExample(validatedData);
+      
+      // Return the created example with 201 (Created) status
+      res.status(201).json(newExample);
+    } catch (error: unknown) {
+      console.error("Error creating example:", error);
+      
+      // If validation fails, return 400 (Bad Request)
+      if (error instanceof ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid example data", 
+          errors: error.errors 
+        });
+      }
+      
+      // For other errors, return 500 (Internal Server Error)
+      res.status(500).json({ message: "Failed to create example" });
     }
   });
 
@@ -86,6 +122,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching guide:", error);
       res.status(500).json({ message: "Failed to fetch guide" });
+    }
+  });
+
+  // POST /api/guides - Create a new guide
+  // This endpoint allows users to submit new tutorial guides
+  app.post("/api/guides", async (req, res) => {
+    try {
+      // Validate the request body using Zod schema
+      const validatedData = insertGuideSchema.parse(req.body);
+      
+      // Create the guide in the database
+      const newGuide = await storage.createGuide(validatedData);
+      
+      // Return the created guide with 201 (Created) status
+      res.status(201).json(newGuide);
+    } catch (error: unknown) {
+      console.error("Error creating guide:", error);
+      
+      // If validation fails, return 400 (Bad Request)
+      if (error instanceof ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid guide data", 
+          errors: error.errors 
+        });
+      }
+      
+      // For other errors, return 500 (Internal Server Error)
+      res.status(500).json({ message: "Failed to create guide" });
     }
   });
 
@@ -149,8 +213,38 @@ async function buildDocsStructure(docsPath: string) {
   const fs = await import('fs/promises');
   const path = await import('path');
 
-  const structure = {
-    sections: [] as any[],
+  // Define proper interfaces for documentation structure
+  interface DocsFile {
+    name: string;
+    title: string;
+    description: string;
+    path: string;
+    size: number;
+  }
+
+  interface DocsSubsection {
+    id: string;
+    title: string;
+    path: string;
+    files: DocsFile[];
+  }
+
+  interface DocsSection {
+    id: string;
+    title: string;
+    path: string;
+    files: DocsFile[];
+    subsections: DocsSubsection[];
+  }
+
+  interface DocsStructure {
+    sections: DocsSection[];
+    totalFiles: number;
+    totalTutorials: number;
+  }
+
+  const structure: DocsStructure = {
+    sections: [],
     totalFiles: 0,
     totalTutorials: 0
   };
@@ -164,12 +258,12 @@ async function buildDocsStructure(docsPath: string) {
           const sectionPath = path.join(dirPath, item.name);
           const sectionRelativePath = path.join(relativePath, item.name);
           
-          const section = {
+          const section: DocsSection = {
             id: item.name,
             title: formatSectionTitle(item.name),
             path: sectionRelativePath,
-            files: [] as any[],
-            subsections: [] as any[]
+            files: [],
+            subsections: []
           };
 
           // Scan for files in this directory
@@ -205,11 +299,11 @@ async function buildDocsStructure(docsPath: string) {
               const subsectionPath = path.join(sectionPath, sectionItem.name);
               const subsectionRelativePath = path.join(sectionRelativePath, sectionItem.name);
               
-              const subsection = {
+              const subsection: DocsSubsection = {
                 id: sectionItem.name,
                 title: formatSectionTitle(sectionItem.name),
                 path: subsectionRelativePath,
-                files: [] as any[]
+                files: []
               };
 
               const subsectionItems = await fs.readdir(subsectionPath, { withFileTypes: true });

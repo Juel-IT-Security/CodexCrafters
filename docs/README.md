@@ -1,190 +1,339 @@
-# Documentation Hub
+# AGENTS.md Educational Platform Documentation
 
-Welcome to the comprehensive documentation for the AGENTS.md Educational Platform. This documentation is designed to help you learn modern web development through hands-on experience.
+A comprehensive learning platform for multi-agent development with AI-powered AGENTS.md file generation. This documentation covers the complete implementation, code quality standards, and best practices.
 
-## 📚 Learning Resources
+## Table of Contents
 
-### Platform Features
-- **[Documentation Viewer](./features/documentation-viewer.md)** - Interactive web-based documentation system with copyable code blocks
-- **[Platform Overview](./overview.md)** - Complete introduction and guided learning paths
+- [Getting Started](#getting-started)
+- [Architecture Overview](#architecture-overview)
+- [Code Quality Standards](#code-quality-standards)
+- [Security Implementation](#security-implementation)
+- [Accessibility Features](#accessibility-features)
+- [API Documentation](#api-documentation)
+- [Development Guidelines](#development-guidelines)
+- [Deployment](#deployment)
 
-### Essential Guides
-- **[Getting Started Guide](./guides/getting-started.md)** - Your first steps into modern web development
-- **[Best Practices](./guides/best-practices.md)** - Industry-standard coding patterns and conventions
-- **[Troubleshooting Guide](./guides/troubleshooting.md)** - Solutions to common development issues
-- **[Contributing Guidelines](./guides/contributing.md)** - How to contribute to the project
+## Getting Started
 
-### Technical Reference
-- **[API Documentation](./reference/api.md)** - Complete API reference with examples
-- **[Architecture Overview](./reference/architecture.md)** - Understanding how full-stack applications are built
-- **[Code Concepts](./reference/code-concepts.md)** - Fundamental programming concepts explained
-- **[AGENTS.md Specification](./reference/agents-spec.md)** - Multi-agent development workflows
+### Quick Start
 
-### Hands-On Learning
-- **[Step-by-Step Tutorials](./TUTORIALS.md)** - Practical coding exercises and projects
-- **[Best Practices](./BEST_PRACTICES.md)** - Industry-standard coding patterns and conventions
-- **[Troubleshooting Guide](./TROUBLESHOOTING.md)** - Solutions to common development issues
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables
+4. Run the development server: `npm run dev`
+5. Visit `http://localhost:5000`
 
-### Project Information
-- **[Contributing Guidelines](./CONTRIBUTING.md)** - How to contribute to the project
-- **[Changelog](../CHANGELOG.md)** - Project updates and version history
-- **[AGENTS.md Guide](../AGENTS.md)** - Multi-agent development workflows
+### Prerequisites
 
-## 🎯 Learning Paths
+- Node.js 18+ 
+- PostgreSQL database
+- TypeScript knowledge
+- Basic understanding of React and Express.js
 
-### Beginner Developer
-1. Start with **Getting Started Guide** to understand the project structure
-2. Follow **Tutorial 1** to build your first component
-3. Learn database basics with **Tutorial 2**
-4. Practice with the exercises in **Tutorials**
+## Architecture Overview
 
-### Intermediate Developer
-1. Review **Architecture Guide** for design patterns
-2. Complete **Tutorial 3** for advanced React patterns
-3. Study **Best Practices** for code quality
-4. Build custom features using the patterns
+### Technology Stack
 
-### Advanced Developer
-1. Understand the full **Architecture** including performance optimization
-2. Master **Tutorial 4** for complex database relationships
-3. Contribute improvements following **Contributing Guidelines**
-4. Help others by improving documentation
-
-## 🛠 Technology Stack
-
-### Frontend
-- **React 18** with TypeScript
-- **Tailwind CSS** for styling
-- **shadcn/ui** component library
-- **TanStack Query** for server state
-- **Wouter** for routing
-
-### Backend
-- **Node.js** with Express
-- **TypeScript** throughout
-- **Drizzle ORM** for database operations
-- **Zod** for validation
-- **PostgreSQL** database
-
-### Development Tools
-- **Vite** for fast development
-- **ESLint** and **Prettier** for code quality
-- **TypeScript** compiler for type safety
-
-## 📖 Quick References
-
-### Common Commands
-```bash
-# Start development server
-npm run dev
-
-# Type checking
-npm run check
-
-# Database operations
-npm run db:push
-```
+- **Frontend**: React 18, TypeScript, Tailwind CSS, Vite
+- **Backend**: Express.js, TypeScript, Drizzle ORM
+- **Database**: PostgreSQL
+- **Validation**: Zod schemas
+- **Security**: Helmet, rate limiting
+- **Accessibility**: WCAG 2.1 AA compliance
 
 ### Project Structure
+
 ```
-├── client/          # React frontend
-├── server/          # Express backend  
-├── shared/          # Shared types and schemas
-├── docs/            # This documentation
-└── package.json     # Dependencies and scripts
+├── client/               # React frontend
+│   ├── src/
+│   │   ├── components/   # Reusable UI components
+│   │   ├── pages/        # Route components
+│   │   ├── hooks/        # Custom React hooks
+│   │   └── lib/          # Utility functions
+├── server/               # Express backend
+│   ├── routes.ts         # API endpoints
+│   ├── storage.ts        # Data layer abstraction
+│   └── index.ts          # Server setup
+├── shared/               # Shared types and schemas
+│   └── schema.ts         # Database and validation schemas
+└── docs/                 # Documentation
+    ├── guides/           # Implementation guides
+    └── tutorials/        # Step-by-step tutorials
 ```
 
-### Key Concepts
-- **Type Safety** - TypeScript throughout the stack
-- **Schema-First** - Database schema drives frontend types
-- **Component Composition** - Reusable UI building blocks
-- **Server State** - TanStack Query for API data
-- **Validation** - Zod schemas for runtime type checking
+## Code Quality Standards
 
-## 🚀 Quick Start
+### Type Safety
 
-1. **Clone and Setup**
-   ```bash
-   git clone <repository-url>
-   cd agents-md-platform
-   npm install
-   ```
+All code uses strict TypeScript with proper type definitions:
 
-2. **Start Development**
-   ```bash
-   npm run dev
-   ```
+- **No `any` types** - All data structures use explicit interfaces
+- **Zod validation** - Runtime type checking for API boundaries
+- **Drizzle ORM** - Type-safe database operations
+- **Proper error handling** - Type-safe error boundaries
 
-3. **Explore the Code**
-   - Visit `client/src/components/` for React patterns
-   - Check `server/routes.ts` for API design
-   - Review `shared/schema.ts` for data modeling
+### API Design
 
-4. **Build Something**
-   - Follow Tutorial 1 to create your first component
-   - Try the exercises in the Tutorials section
-   - Add a new feature using the established patterns
+Complete CRUD operations with robust validation:
 
-## 🎓 Learning Objectives
+```typescript
+// All endpoints follow consistent patterns
+GET    /api/examples     - List resources
+GET    /api/examples/:id - Get single resource  
+POST   /api/examples     - Create resource
+PUT    /api/examples/:id - Update resource
+DELETE /api/examples/:id - Delete resource
+```
 
-By working through this documentation and codebase, you'll learn:
+### Validation Standards
 
-### Frontend Development
-- Modern React patterns and hooks
-- TypeScript for type-safe development
-- Component design and composition
-- State management strategies
-- Form handling and validation
-- Responsive design with Tailwind CSS
+- **Input validation** using Zod schemas
+- **Parameter validation** for all route parameters
+- **Error standardization** with consistent response format
+- **Request limits** to prevent abuse
 
-### Backend Development
-- RESTful API design
-- Database schema design
-- Type-safe database operations
-- Request validation and error handling
-- Authentication and authorization patterns
+### Documentation Requirements
 
-### Full-Stack Integration
-- Shared type definitions
-- API client implementation
-- Real-time data synchronization
-- Performance optimization
-- Testing strategies
+- **Comprehensive comments** explaining business logic
+- **Type definitions** for all data structures  
+- **API documentation** with examples
+- **Accessibility guidelines** for UI components
 
-### Development Practices
-- Git workflow and collaboration
-- Code organization and architecture
-- Documentation and commenting
-- Debugging and troubleshooting
-- Performance monitoring
+## Security Implementation
 
-## 🤝 Community and Support
+### HTTP Security Headers
+
+Helmet middleware provides essential security headers:
+
+- **Content Security Policy** - Prevents XSS attacks
+- **X-Frame-Options** - Prevents clickjacking
+- **HSTS** - Enforces HTTPS connections
+- **X-Content-Type-Options** - Prevents MIME sniffing
+
+### Rate Limiting
+
+Protection against abuse and DoS attacks:
+
+- **API rate limiting** - 100 requests per 15 minutes
+- **Configurable limits** for different endpoint types
+- **IP-based tracking** with proper headers
+
+### Input Protection
+
+- **Request size limits** - Prevents large payload attacks
+- **Path validation** - Prevents directory traversal
+- **Schema validation** - Rejects malformed data
+- **SQL injection prevention** - Parameterized queries only
+
+### Development vs Production
+
+Security configurations adapt to environment:
+
+- **Development** - Relaxed CSP for hot reload
+- **Production** - Strict security headers
+- **Environment-specific** rate limits and validation
+
+## Accessibility Features
+
+### WCAG 2.1 AA Compliance
+
+Complete accessibility implementation:
+
+- **Skip navigation** links for keyboard users
+- **ARIA labels** for all interactive elements
+- **Semantic HTML** structure throughout
+- **Focus management** with visible indicators
+- **Screen reader** optimization
+
+### Keyboard Navigation
+
+- **Tab order** follows logical flow
+- **Escape key** closes modals and menus
+- **Arrow keys** for menu navigation
+- **Enter/Space** activates buttons
+
+### Visual Accessibility
+
+- **High contrast** color schemes
+- **Sufficient color contrast** ratios (4.5:1+)
+- **Scalable text** up to 200%
+- **Color independence** - no color-only information
+
+### Interactive Elements
+
+- **Touch targets** minimum 44px × 44px
+- **External link** indicators with context
+- **Form validation** with clear error messages
+- **Loading states** with progress indication
+
+## API Documentation
+
+### Examples Endpoints
+
+```typescript
+// Get all examples
+GET /api/examples
+Response: Example[]
+
+// Get specific example
+GET /api/examples/:id
+Response: Example | 404
+
+// Create new example
+POST /api/examples
+Body: InsertExample
+Response: Example | 400 | 500
+```
+
+### Guides Endpoints
+
+```typescript
+// Get all guides  
+GET /api/guides
+Response: Guide[]
+
+// Get specific guide
+GET /api/guides/:id  
+Response: Guide | 404
+
+// Create new guide
+POST /api/guides
+Body: InsertGuide
+Response: Guide | 400 | 500
+```
+
+### Documentation Endpoints
+
+```typescript
+// Get documentation structure
+GET /api/docs
+Response: DocsStructure
+
+// Get file content
+GET /api/docs/content?path=file.md
+Response: { content: string, path: string }
+```
+
+### Error Responses
+
+Standardized error format:
+
+```typescript
+{
+  message: string,
+  code?: string,
+  errors?: ValidationError[],
+  timestamp: string
+}
+```
+
+## Development Guidelines
+
+### Code Standards
+
+- **ESLint configuration** for consistent formatting
+- **TypeScript strict mode** enabled
+- **Prettier formatting** for code consistency
+- **Git hooks** for pre-commit validation
+
+### Component Guidelines
+
+- **Single responsibility** principle
+- **Proper prop typing** with interfaces
+- **Accessibility considerations** in all components
+- **Performance optimization** with React best practices
+
+### Database Operations
+
+- **Type-safe queries** using Drizzle ORM
+- **Migration management** with `npm run db:push`
+- **Seed data** for development environment
+- **Connection pooling** for production
+
+### Testing Strategy
+
+- **Unit tests** for utility functions
+- **Integration tests** for API endpoints
+- **Accessibility testing** with automated tools
+- **Manual testing** checklist for releases
+
+## Deployment
+
+### Environment Variables
+
+Required configuration:
+
+```env
+DATABASE_URL=postgresql://...
+NODE_ENV=production
+JWT_SECRET=your-secret-key
+VITE_API_URL=https://your-domain.com
+```
+
+### Production Checklist
+
+- [ ] Environment variables configured
+- [ ] Database migrations applied
+- [ ] Security headers enabled
+- [ ] Rate limiting configured
+- [ ] HTTPS enforced
+- [ ] Error logging setup
+- [ ] Performance monitoring
+- [ ] Accessibility validation
+
+### Performance Optimization
+
+- **Code splitting** with React.lazy
+- **Image optimization** with proper formats
+- **Caching strategies** for static assets
+- **Database indexing** for query performance
+
+## Contributing
+
+### Development Setup
+
+1. Fork the repository
+2. Create feature branch
+3. Install dependencies
+4. Run development server
+5. Make changes following guidelines
+6. Submit pull request
+
+### Code Review Process
+
+- **Accessibility testing** required
+- **Security review** for backend changes
+- **Type safety** verification
+- **Documentation updates** included
+
+### Quality Gates
+
+- **All tests passing**
+- **ESLint warnings resolved**
+- **Accessibility compliance verified**
+- **Security scan completed**
+
+## Support and Resources
+
+### Learning Resources
+
+- [Code Quality Standards](./guides/code-quality-standards.md)
+- [Security Best Practices](./tutorials/backend/implementing-security-best-practices.md)
+- [Accessibility Guide](./tutorials/frontend/accessibility-implementation-guide.md)
+- [API Design Patterns](./tutorials/backend/api-design-and-validation.md)
+
+### Common Issues
+
+- **CSP violations** - Check development vs production config
+- **Database connections** - Verify environment variables
+- **TypeScript errors** - Ensure proper type definitions
+- **Accessibility warnings** - Review ARIA implementation
 
 ### Getting Help
-- **Documentation First** - Check these guides for answers
-- **Code Examples** - Look at existing components for patterns
-- **Troubleshooting** - Common issues and solutions documented
-- **Contributing** - Improve documentation for others
 
-### Ways to Learn
-- **Read the Code** - Explore existing implementations
-- **Build Features** - Create new functionality using patterns
-- **Fix Issues** - Practice debugging and problem-solving
-- **Help Others** - Contribute documentation improvements
+1. Check existing documentation
+2. Review troubleshooting guides
+3. Search closed issues
+4. Create new issue with details
 
-## 📈 Next Steps
-
-1. **Choose Your Path** - Pick beginner, intermediate, or advanced track
-2. **Follow Tutorials** - Complete hands-on exercises
-3. **Build Projects** - Apply what you've learned
-4. **Contribute Back** - Help improve the platform for others
-
-## 💡 Tips for Success
-
-- **Start Small** - Begin with simple features and build complexity
-- **Read Documentation** - Understand the why, not just the how
-- **Practice Regularly** - Consistent coding builds skills
-- **Ask Questions** - Use comments and documentation to clarify intent
-- **Share Knowledge** - Contribute improvements and examples
-
-Happy coding! 🚀
+This documentation provides comprehensive coverage of all implemented features, code quality standards, and best practices for maintaining and extending the platform.
