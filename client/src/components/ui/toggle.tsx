@@ -1,3 +1,7 @@
+// Toggle component - pressed/unpressed state button with variants
+// Demonstrates state-based styling and accessible toggle patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
+
 import * as React from "react"
 import * as TogglePrimitive from "@radix-ui/react-toggle"
 import { cva, type VariantProps } from "class-variance-authority"

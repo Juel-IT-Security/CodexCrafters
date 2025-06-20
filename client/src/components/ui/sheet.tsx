@@ -1,3 +1,7 @@
+// Sheet component system - slide-out panels from screen edges
+// Demonstrates overlay patterns and directional animations
+// 📖 Learn more: /docs/tutorials/frontend/understanding-modals.md
+
 "use client"
 
 import * as React from "react"

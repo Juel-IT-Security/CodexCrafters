@@ -1,3 +1,7 @@
+// Sidebar component system - collapsible navigation with responsive behavior
+// Demonstrates complex state management and responsive design patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-navigation-patterns.md
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"

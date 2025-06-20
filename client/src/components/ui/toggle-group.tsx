@@ -1,3 +1,7 @@
+// Toggle Group component system - grouped toggle buttons with selection modes
+// Demonstrates group state management and context patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
+
 "use client"
 
 import * as React from "react"

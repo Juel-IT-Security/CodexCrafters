@@ -1,5 +1,6 @@
 // Table component system - semantic HTML tables with responsive design
 // Demonstrates compound component patterns and responsive table handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-data-tables.md
 
 import * as React from "react"
 

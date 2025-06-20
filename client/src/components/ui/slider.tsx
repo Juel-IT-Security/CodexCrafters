@@ -1,5 +1,6 @@
 // Slider component - range input with draggable thumb
 // Demonstrates touch/mouse interaction patterns and accessible range controls
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 import * as React from "react"
 import * as SliderPrimitive from "@radix-ui/react-slider"
