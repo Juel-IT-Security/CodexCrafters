@@ -46,29 +46,37 @@ function CopyButton({ code }: { code: string }) {
   );
 }
 
-// Enhanced code block with per-line copy functionality
+// Enhanced IDE-style code block with syntax highlighting and line numbers
 function CodeBlockWithLineCopy({ children, language }: { children: any; language: string }) {
   const codeText = typeof children === 'string' ? children : String(children || '');
   const lines = codeText.split('\n');
   const isTextBlock = language === 'text' || !language;
 
   return (
-    <div className="space-y-0">
+    <div className="relative">
       {lines.map((line, index) => (
-        <div key={index} className="group relative flex items-start hover:bg-gray-700/30 transition-colors px-2 py-1">
-          <div className="flex-1 min-w-0">
-            <code 
-              className="block whitespace-pre font-mono text-sm leading-tight text-gray-100"
-              style={{ color: '#f9fafb' }}
-            >
-              {line || ' '}
-            </code>
+        <div key={index} className="group relative flex items-start hover:bg-gray-700/20 transition-colors">
+          {/* Line number */}
+          <div className="select-none text-gray-500 text-xs font-mono w-8 text-right pr-3 py-1 shrink-0">
+            {index + 1}
           </div>
+          {/* Code content */}
+          <div className="flex-1 min-w-0">
+            <pre className="text-sm leading-relaxed py-1 m-0">
+              <code 
+                className={`font-mono ${isTextBlock ? '' : `language-${language}`}`}
+                style={isTextBlock ? { color: '#f9fafb' } : {}}
+              >
+                {line || ' '}
+              </code>
+            </pre>
+          </div>
+          {/* Copy button */}
           {line.trim() && (
             <Button
               variant="ghost"
               size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-5 w-5 p-0 text-gray-400 hover:text-white shrink-0"
+              className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-6 w-6 p-0 text-gray-400 hover:text-white shrink-0 mr-2"
               onClick={async () => {
                 try {
                   await navigator.clipboard.writeText(line);
@@ -389,7 +397,7 @@ export default function DocsPage() {
                         ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
                         ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                        // Custom code block with copy functionality
+                        // Custom IDE-style code block with syntax highlighting
                         pre: ({ node, children, ...props }) => {
                           // Extract code content and language from children
                           const extractCodeInfo = (children: any) => {
@@ -411,15 +419,27 @@ export default function DocsPage() {
                           const { code, language } = extractCodeInfo(children);
                           
                           return (
-                            <div className="relative group mb-4">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm text-gray-400 font-mono">{language}</span>
+                            <div className="relative group mb-6">
+                              {/* Header with language and copy button */}
+                              <div className="flex items-center justify-between bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-700">
+                                <div className="flex items-center gap-2">
+                                  <div className="flex gap-1">
+                                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                  </div>
+                                  <span className="text-sm text-gray-400 font-mono ml-2">{language}</span>
+                                </div>
                                 <CopyButton code={code} />
                               </div>
-                              <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto">
-                                <CodeBlockWithLineCopy language={language}>
-                                  {code}
-                                </CodeBlockWithLineCopy>
+                              {/* Code content with IDE styling */}
+                              <div className="bg-gray-900 rounded-b-lg overflow-x-auto border border-gray-700 border-t-0">
+                                <div className="p-0">
+                                  {/* Pass the pre-rendered children to maintain syntax highlighting */}
+                                  <div className="hljs" style={{ background: 'transparent' }}>
+                                    {children}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           );
@@ -431,24 +451,52 @@ export default function DocsPage() {
                             return <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props}>{children}</code>;
                           }
                           
-                          // For code blocks, check if it's a text block (likely ASCII diagram)
-                          const isTextBlock = className?.includes('language-text') || !className;
+                          // For code blocks, add line numbers and copy functionality
+                          const codeText = String(children || '');
+                          const lines = codeText.split('\n');
+                          const language = className?.replace('language-', '') || 'text';
+                          const isTextBlock = language === 'text';
                           
-                          if (isTextBlock) {
-                            // Disable syntax highlighting for ASCII diagrams and preserve exact formatting
-                            return (
-                              <code 
-                                className="whitespace-pre font-mono text-sm leading-tight text-gray-100" 
-                                style={{ color: '#e5e7eb !important' }}
-                                {...props}
-                              >
-                                {children}
-                              </code>
-                            );
-                          }
-                          
-                          // For other languages, apply syntax highlighting
-                          return <code className={`${className} whitespace-pre font-mono text-sm leading-tight`} {...props}>{children}</code>;
+                          return (
+                            <div className="relative">
+                              {lines.map((line, index) => (
+                                <div key={index} className="group flex items-start hover:bg-gray-700/20 transition-colors">
+                                  {/* Line number */}
+                                  <div className="select-none text-gray-500 text-xs font-mono w-10 text-right pr-3 py-1 shrink-0 border-r border-gray-700">
+                                    {index + 1}
+                                  </div>
+                                  {/* Code content with syntax highlighting */}
+                                  <div className="flex-1 min-w-0 pl-3">
+                                    <code 
+                                      className={`block font-mono text-sm leading-relaxed py-1 ${className || ''}`}
+                                      style={isTextBlock ? { color: '#f9fafb' } : {}}
+                                      {...props}
+                                    >
+                                      {line || ' '}
+                                    </code>
+                                  </div>
+                                  {/* Copy line button */}
+                                  {line.trim() && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-6 w-6 p-0 text-gray-400 hover:text-white shrink-0 mr-2"
+                                      onClick={async () => {
+                                        try {
+                                          await navigator.clipboard.writeText(line);
+                                        } catch (err) {
+                                          console.error('Failed to copy text: ', err);
+                                        }
+                                      }}
+                                      aria-label="Copy line to clipboard"
+                                    >
+                                      <Copy className="h-3 w-3" />
+                                    </Button>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          );
                         },
                         // Ensure proper heading hierarchy
                         h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100" {...props} />,
