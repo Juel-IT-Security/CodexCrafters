@@ -1,5 +1,6 @@
 // Tabs component system - tabbed interface with keyboard navigation
 // Demonstrates content organization and accessible tab patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"

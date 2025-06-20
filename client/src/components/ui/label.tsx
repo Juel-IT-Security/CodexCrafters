@@ -1,5 +1,6 @@
 // Label component - accessible form labels with Radix UI primitives
 // Demonstrates Radix UI integration and peer-based state styling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"

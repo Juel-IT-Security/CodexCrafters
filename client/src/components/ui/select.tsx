@@ -1,5 +1,6 @@
 // Select component system - accessible dropdown selections with Radix UI
 // Demonstrates compound component patterns and keyboard navigation
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 "use client"
 

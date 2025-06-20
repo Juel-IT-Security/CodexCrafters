@@ -1,5 +1,6 @@
 // Textarea component - multi-line text input with responsive sizing
 // Demonstrates form input patterns and accessibility features
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
 
 import * as React from "react"
 
