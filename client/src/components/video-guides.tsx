@@ -42,7 +42,7 @@ export default function VideoGuides() {
               <div className={`aspect-video bg-gradient-to-br ${guide.thumbnailColor} flex items-center justify-center`}>
                 <div className="text-center text-white">
                   <Play className="w-12 h-12 mb-2 mx-auto" />
-                  <p className="text-sm">Coming Soon</p>
+                  <p className="text-sm bg-[#ffffff00] text-[#0c0a09]">Coming Soon</p>
                 </div>
               </div>
               <CardContent className="p-6">
