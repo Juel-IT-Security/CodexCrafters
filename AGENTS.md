@@ -1,259 +1,316 @@
-# CodexCrafters - AGENTS.md Educational Platform
+# AGENTS.md
 
-## Project Overview
+> **CodexCrafters – Multi‑Agent Prompting Conventions**
+> *Last updated: 2025‑06‑19*
 
-CodexCrafters is an educational web application that demonstrates AI-powered multi-agent development workflows. The platform showcases how to generate and use AGENTS.md files for organizing collaborative AI development, featuring a custom GPT integration, interactive examples, and comprehensive learning resources.
+---
 
-## Agent Definitions
+## 0. Purpose
 
-### FRONTEND
-**Role**: User interface and client-side application development
-**Responsibilities**:
-- React component development and state management
-- User interface design and responsive layouts
-- Client-side routing with Wouter
-- Interactive features and user experience optimization
-- Integration with backend APIs using React Query
-- Copy-to-clipboard functionality for code examples
-- Video guide interface and educational content display
+This document defines **how we use OpenAI Codex in an *agent‑oriented* way** across the CodexCrafters monorepo.  It explains:
 
-**Technologies**: React, TypeScript, Tailwind CSS, shadcn/ui, React Query, Wouter
-**Dependencies**: [BACKEND] for API endpoints, [SHARED] for type definitions
-**Outputs**: Web application, interactive UI components, client-side functionality
+* What each agent is responsible for.
+* The message tags and prompt templates that glue the agents together.
+* How shared memory, tools, and workflows are orchestrated.
+* How to extend or override the conventions safely.
 
-### BACKEND
-**Role**: Server-side logic and API development
-**Responsibilities**:
-- Express.js server setup and configuration
-- RESTful API endpoint development
-- Database integration with Drizzle ORM
-- Data validation using Zod schemas
-- Static file serving for production builds
-- Error handling and logging
-- Seed data management for examples and guides
+> **Scope note:** These conventions are *repo‑local*.  Down‑stream forks or micro‑services should copy the parts they need and adapt terminology as required.
 
-**Technologies**: Express.js, TypeScript, Drizzle ORM, Zod validation
-**Dependencies**: [DATABASE] for schema definitions, [SHARED] for types
-**Outputs**: REST API, server configuration, data processing logic
+---
 
-### DATABASE
-**Role**: Data persistence and schema management
-**Responsibilities**:
-- PostgreSQL database schema design
-- Drizzle ORM model definitions
-- Database migrations and schema updates
-- Data validation and type safety
-- Example and guide data structures
-- Performance optimization for queries
+## 1. Agent Roster
 
-**Technologies**: PostgreSQL, Drizzle ORM, Drizzle Kit
-**Dependencies**: None (foundational layer)
-**Outputs**: Database schema, migration files, type-safe data models
+| ID                      | Primary Responsibilities                                                               | Code / Artifact Domains                             | Typical Deliverables                                    |
+| ----------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------- |
+| **ARCHITECT**           | System design, ADRs, cross‑cutting concerns, decomposition of epics                    | `/adr/`, `/docs/architecture/`, GitHub Issues       | `ADR‑00X.md`, high‑level diagrams, refined user‑stories |
+| **BACKEND**             | Node/Express routes, Twilio integration, DB schema & migrations, service layer tests   | `server/**`, `/prisma/`, `/tests/integration/`      | TypeScript/TSX diffs, Prisma migrations, Jest suites    |
+| **FRONTEND**            | React/Vite UI, Tailwind CSS, i18n, web‑accessibility                                   | `client/**`, `/stories/`, `/cypress/`               | Components, hooks, Storybook stories, Cypress specs     |
+| **INFRA**               | Containerisation, GitHub Actions CI, Helm/K8s manifests, Terraform, security hardening | `infra/**`, `.github/workflows/`, `docker/**`       | `Dockerfile`, Helm charts, `.tf` modules, CI pipelines  |
+| **DOCS**                | Knowledge base, API reference, changelogs, onboarding guides                           | `/docs/`, `README.md`, `/CHANGELOG.md`              | Markdown docs, SVG/png diagrams, release notes          |
+| **QA**                  | E2E flows, performance/load testing, exploratory test plans                            | `/tests/e2e/`, `/load/`, `/playwright.config.ts`    | Playwright scripts, Gatling configs, test matrices      |
+| **SECURITY** *(opt‑in)* | Threat modelling, dependency audits, secret scanning                                   | `/.github/dependabot.yml`, `infra/**`, `/security/` | Risk reports, patched dependencies, SBOMs               |
 
-### DOCS
-**Role**: Documentation and educational content
-**Responsibilities**:
-- Comprehensive project documentation
-- AGENTS.md specification and examples
-- Contributing guidelines and workflows
-- API documentation and usage examples
-- Best practices guides and tutorials
-- Code comments and inline documentation
-- Learning resource organization
+> **Adding a new agent?**  Fork this table, pick a concise **upper‑snake‑case id**, document the responsibilities and deliverables, and reference the change in the **Change Log** (section 9).
 
-**Technologies**: Markdown, JSDoc comments
-**Dependencies**: All agents for accurate documentation
-**Outputs**: Documentation files, guides, specifications, comments
+---
 
-### SHARED
-**Role**: Common utilities and shared resources
-**Responsibilities**:
-- TypeScript type definitions and interfaces
-- Database schema exports for frontend/backend
-- Zod validation schemas
-- Common utility functions
-- Shared constants and configurations
-- Cross-cutting concerns and reusable logic
+## 2. Message Protocol
 
-**Technologies**: TypeScript, Zod, utility libraries
-**Dependencies**: [DATABASE] for schema definitions
-**Outputs**: Type definitions, validation schemas, utility functions
+All Codex prompts exchanged in the repo follow the generic envelope:
 
-## Workflow Patterns
+```text
+[<AGENT_ID>] (<optional context markers>) → "imperative‑style request"
 
-### Development Flow
-1. **Planning**: Review AGENTS.md for agent responsibilities and dependencies
-2. **Branch Creation**: Create feature branch with agent prefix (`feature/[AGENT]-description`)
-3. **Implementation**: Develop within agent boundaries, following single responsibility
-4. **Testing**: Validate changes meet quality standards and don't break dependencies
-5. **Documentation**: Update relevant docs and maintain agent context
-6. **Integration**: Merge through pull request with agent-specific review
-7. **Deployment**: Deploy via Replit's automatic deployment from main branch
-
-### Code Review Process
-- **Agent-Specific Review**: Code reviewed by experts in the relevant agent domain
-- **Cross-Agent Impact**: Additional review when changes affect multiple agents
-- **Documentation Review**: Ensure docs reflect code changes accurately
-- **Quality Gates**: TypeScript compilation, linting, and validation checks
-- **Approval Workflow**: Maintainer approval required for merge to main
-
-### Handoff Procedures
-- **FRONTEND → BACKEND**: API requirements and data format specifications
-- **BACKEND → DATABASE**: Schema changes and query requirements
-- **Any Agent → DOCS**: Documentation updates for new features or changes
-- **DATABASE → SHARED**: Type updates and schema exports
-- **SHARED → All Agents**: Updated utilities and type definitions
-
-## File Ownership
-
-### Agent Responsibilities
-- **FRONTEND**: `client/src/**` - All React components, pages, hooks, and client utilities
-- **BACKEND**: `server/**` - Express server, routes, storage, and server configuration
-- **DATABASE**: `shared/schema.ts`, `server/db.ts` - Schema definitions and database setup
-- **DOCS**: `docs/**`, `README.md`, `CONTRIBUTING.md` - All documentation files
-- **SHARED**: `shared/**` (excluding schema.ts) - Common types, utilities, and configurations
-
-### Shared Ownership
-- **Root Configuration**: `package.json`, `tsconfig.json`, `vite.config.ts` - Requires multi-agent coordination
-- **Environment**: `.env.example`, deployment configs - [BACKEND] + [DOCS] collaboration
-- **Build System**: Vite configuration, build scripts - [FRONTEND] + [BACKEND] coordination
-
-## Communication Protocols
-
-### Commit Message Format
-```
-[AGENT_NAME] type: description
-
-Types: feat, fix, docs, style, refactor, test, chore
-
-Examples:
-[FRONTEND] feat: add copy-to-clipboard functionality for code blocks
-[BACKEND] fix: resolve database connection pooling issue
-[DATABASE] add: video guides table schema
-[DOCS] update: contributing guidelines for multi-agent workflow
-[SHARED] refactor: improve type definitions for API responses
+# Example
+[BACKEND] (PR‑42 context) → "Add a REST endpoint that returns active call statistics as JSON. Write unit tests too."
 ```
 
-### Branch Naming Conventions
-- **Feature**: `feature/[AGENT]-brief-description`
-  - `feature/FRONTEND-copy-buttons`
-  - `feature/BACKEND-guide-api`
-  - `feature/DATABASE-schema-cleanup`
-- **Bugfix**: `bugfix/[AGENT]-issue-description`
-- **Documentation**: `docs/[AGENT]-documentation-update`
-- **Hotfix**: `hotfix/[AGENT]-critical-fix`
+* **Sender Tags** – The agent *requesting* work precedes the arrow (`→`).
+* **Recipient** – Derived from the tag; Codex is instructed to "think" as that agent.
+* **One sentence summary first**, then bullet‑point acceptance criteria.
+* **Max 120 chars** per line; hard‑wrap at 100 for body text.
+* Always reference related issues/ADRs in the footer (`Refs #42, ADR‑007`).
 
-### Issue and PR Labels
-- Agent labels: `agent-frontend`, `agent-backend`, `agent-database`, `agent-docs`, `agent-shared`
-- Type labels: `bug`, `enhancement`, `documentation`, `question`
-- Priority labels: `priority-high`, `priority-medium`, `priority-low`
-- Status labels: `needs-review`, `needs-testing`, `ready-to-merge`
+### Response Contract
 
-## Quality Standards
+Codex replies with:
 
-### Code Quality Requirements
-- **TypeScript**: Strict mode enabled, no implicit any types
-- **Linting**: ESLint rules enforced for consistency
-- **Formatting**: Prettier for consistent code style
-- **Testing**: Unit tests for complex business logic
-- **Documentation**: JSDoc comments for public APIs
+````
+[<AGENT_ID>] ← "concise commit message"
 
-### Agent-Specific Standards
+```diff
+<code or doc patch>
+````
 
-#### FRONTEND
-- Component-based architecture with clear props interfaces
-- Responsive design using Tailwind CSS breakpoints
-- Accessibility standards (WCAG 2.1 AA)
-- Performance optimization for React components
-- State management best practices
+````
 
-#### BACKEND
-- RESTful API design principles
-- Input validation using Zod schemas
-- Error handling with appropriate HTTP status codes
-- Database query optimization
-- Security best practices for web APIs
+* Use conventional‑commit prefixes (`feat:`, `fix:`, `docs:` …).
+* Responses larger than **400 tokens** should be broken into follow‑up chunks with `--chunk=N/total`.
 
-#### DATABASE
-- Normalized database design
-- Foreign key constraints and data integrity
-- Migration scripts for schema changes
-- Performance indexing for common queries
-- Data validation at the database level
+---
 
-#### DOCS
-- Clear, concise writing style
-- Code examples with proper syntax highlighting
-- Up-to-date screenshots and diagrams
-- Comprehensive API documentation
-- Beginner-friendly explanations
+## 3. Memory & Context Windows
 
-#### SHARED
-- Pure functions without side effects
-- Comprehensive type definitions
-- Reusable and modular design
-- Consistent naming conventions
-- Proper error handling
+| Memory Layer | Tech | Retention | What goes in | Retrieval Strategy |
+|--------------|------|-----------|--------------|--------------------|
+| **Short‑term** | Conversation buffer (8k tokens) | Single session | Recent prompt/response pairs | Always streamed to model |
+| **Working** | Redis vector store | 7 days | Embeddings of last 50 commits & comments | Similarity ≥ 0.76 cosine |
+| **Long‑term** | Supabase Postgres | ∞ | ADRs, design docs, release notes | Keyword search + vector rerank |
 
-### Review Requirements
-- **Self-Review**: Author reviews own changes before submission
-- **Agent Review**: Expert in relevant agent domain reviews code
-- **Documentation Review**: For user-facing changes
-- **Integration Testing**: Verify changes work across agent boundaries
-- **Performance Review**: For changes affecting application performance
+> The Memory Manager service (see `shared/memory.ts`) handles chunking, embedding, and eviction.
 
-## Integration Points
+---
 
-### API Contracts
-- **GET /api/examples**: FRONTEND consumes BACKEND example data
-- **GET /api/guides**: FRONTEND displays BACKEND guide information
-- **POST /api/examples**: Future functionality for user-submitted examples
-- **Type Safety**: SHARED schemas ensure consistent data flow
+## 4. Tools & Plug‑ins
 
-### Database Dependencies
-- **Examples Table**: Stores AGENTS.md examples with metadata
-- **Guides Table**: Video guide information without duration (removed for YouTube embeds)
-- **Schema Changes**: DATABASE agent coordinates with BACKEND for storage layer updates
+| Tool Name | Purpose | Invocation Tag | Notes |
+|-----------|---------|----------------|-------|
+| **TS‑PATCH** | Applies TypeScript diff without lint auto‑fix | `@patch` | Enforces `import/order` but skips prettier |
+| **DB‑MIGRATE** | Generates SQL from Prisma schema diff | `@migrate` | Auto‑runs on dev DB, PR comment shows plan |
+| **DIAGRAM‑GEN** | Turns `@plantuml` codeblocks into SVG | `@diagram` | Used heavily by ARCHITECT & DOCS |
+| **LOAD‑TEST** | Runs Gatling scenario against staging | `@loadtest` | Requires a `STA_TOKEN` secret |
 
-### Build Dependencies
-- **TypeScript Compilation**: SHARED types used by FRONTEND and BACKEND
-- **Vite Build**: FRONTEND build process integrated with BACKEND static serving
-- **Development**: Hot reloading and development server coordination
+Tool calls must be **each on their own line**, directly under the request header, e.g.:
 
-## Deployment Strategy
+```text
+[QA] → "Stress test the /calls endpoint"
+@loadtest scenario=CallsPeak users=500 duration=120s
+````
 
-### Environment Configuration
-- **Development**: Local development with hot reloading
-- **Production**: Replit deployment with PostgreSQL database
-- **Database**: Automatic migration on deployment
-- **Static Assets**: Served through Express in production
+---
 
-### Deployment Process
-1. **Pre-deployment Checks**: All quality gates pass
-2. **Merge to Main**: Automatic deployment trigger
-3. **Database Migration**: Schema changes applied automatically
-4. **Health Checks**: Verify application startup and database connectivity
-5. **Rollback Plan**: Git revert capability for critical issues
+## 5. Standard Workflows
 
-### Monitoring and Maintenance
-- **Error Logging**: Server-side error tracking
-- **Performance Monitoring**: Database query performance
-- **Uptime Monitoring**: Application availability checks
-- **Security Updates**: Dependency vulnerability scanning
+1. **Feature Pitch**
+   `[ARCHITECT]` opens an ADR stub → `[FRONTEND]` & `[BACKEND]` estimate tasks → `[QA]` drafts test plan.
+2. **Bug‑fix PR**
+   `[BACKEND]` tags fix request → Codex patches code, auto‑runs `TS‑PATCH` → `[QA]` verifies in CI.
+3. **Release Cut**
+   `[INFRA]` triggers `release‑prep.yml` → `[DOCS]` generates changelog → Helm chart version bumped.
 
-## Success Metrics
+Sequence diagrams for each flow live under `/docs/architecture/agents/`.
 
-### Educational Objectives
-- Clear demonstration of multi-agent workflows
-- Comprehensive learning resources for AI development
-- Interactive examples that help users understand AGENTS.md
-- Proper documentation for open-source contribution
+---
 
-### Technical Objectives
-- Type-safe full-stack application
-- Responsive and accessible user interface
-- Reliable data persistence and retrieval
-- Maintainable and well-documented codebase
-- Efficient development workflow with clear agent boundaries
+## 6. Prompt Style Guide
 
-This AGENTS.md file serves as the authoritative source for understanding how different AI agents collaborate in the CodexCrafters project, demonstrating practical implementation of multi-agent development patterns.
+* **Voice:** Imperative, present‑tense (“Add”, “Refactor”, “Document”).
+* **Granularity:** One cohesive deliverable per prompt – avoid mega‑prompts.
+* **Path Hints:** Prefix file paths when the location matters (`server/routes/calls.ts`).
+* **Safety:** Avoid leaking secrets; Codex is stateless outside allowed memory layers.
+
+---
+
+## 7. Fallback & Error Handling
+
+If a prompt **lacks an `[AGENT]` tag** Codex MUST:
+
+1. Infer the most probable agent from file path and commit context.
+2. Pre‑answer with:
+
+```text
+"⚠️ No agent tag found – defaulting to BACKEND.  Add [AGENT] if another scope is intended."
+```
+
+*The response then proceeds using the presumed agent role.*
+
+---
+
+## 8. Extensibility Checklist
+
+* [ ] Agent added to **Roster** table.
+* [ ] Responsibilities & Deliverables described.
+* [ ] Any dedicated tools registered in **Tools**.
+* [ ] Workflows updated if affected.
+* [ ] Version note added to **Change Log**.
+
+---
+
+## 9. Change Log
+
+| Date         | Author       | Summary                                                    |
+| ------------ | ------------ | ---------------------------------------------------------- |
+| 2025‑06‑19   | @gpt‑autogen | Major restructure; added Memory, Tools, Workflows sections |
+| *YYYY‑MM‑DD* | *@you*       | *Add your entry here*                                      |
+
+---
+
+Happy coding! ✨
+# AGENTS.md
+
+> **CodexCrafters – Multi‑Agent Prompting Conventions**
+> *Last updated: 2025‑06‑19*
+
+---
+
+## 0. Purpose
+
+This document defines **how we use OpenAI Codex in an *agent‑oriented* way** across the CodexCrafters monorepo.  It explains:
+
+* What each agent is responsible for.
+* The message tags and prompt templates that glue the agents together.
+* How shared memory, tools, and workflows are orchestrated.
+* How to extend or override the conventions safely.
+
+> **Scope note:** These conventions are *repo‑local*.  Down‑stream forks or micro‑services should copy the parts they need and adapt terminology as required.
+
+---
+
+## 1. Agent Roster
+
+| ID                      | Primary Responsibilities                                                               | Code / Artifact Domains                             | Typical Deliverables                                    |
+| ----------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------- |
+| **ARCHITECT**           | System design, ADRs, cross‑cutting concerns, decomposition of epics                    | `/adr/`, `/docs/architecture/`, GitHub Issues       | `ADR‑00X.md`, high‑level diagrams, refined user‑stories |
+| **BACKEND**             | Node/Express routes, Twilio integration, DB schema & migrations, service layer tests   | `server/**`, `/prisma/`, `/tests/integration/`      | TypeScript/TSX diffs, Prisma migrations, Jest suites    |
+| **FRONTEND**            | React/Vite UI, Tailwind CSS, i18n, web‑accessibility                                   | `client/**`, `/stories/`, `/cypress/`               | Components, hooks, Storybook stories, Cypress specs     |
+| **INFRA**               | Containerisation, GitHub Actions CI, Helm/K8s manifests, Terraform, security hardening | `infra/**`, `.github/workflows/`, `docker/**`       | `Dockerfile`, Helm charts, `.tf` modules, CI pipelines  |
+| **DOCS**                | Knowledge base, API reference, changelogs, onboarding guides                           | `/docs/`, `README.md`, `/CHANGELOG.md`              | Markdown docs, SVG/png diagrams, release notes          |
+| **QA**                  | E2E flows, performance/load testing, exploratory test plans                            | `/tests/e2e/`, `/load/`, `/playwright.config.ts`    | Playwright scripts, Gatling configs, test matrices      |
+| **SECURITY** *(opt‑in)* | Threat modelling, dependency audits, secret scanning                                   | `/.github/dependabot.yml`, `infra/**`, `/security/` | Risk reports, patched dependencies, SBOMs               |
+
+> **Adding a new agent?**  Fork this table, pick a concise **upper‑snake‑case id**, document the responsibilities and deliverables, and reference the change in the **Change Log** (section 9).
+
+---
+
+## 2. Message Protocol
+
+All Codex prompts exchanged in the repo follow the generic envelope:
+
+```text
+[<AGENT_ID>] (<optional context markers>) → "imperative‑style request"
+
+# Example
+[BACKEND] (PR‑42 context) → "Add a REST endpoint that returns active call statistics as JSON. Write unit tests too."
+```
+
+* **Sender Tags** – The agent *requesting* work precedes the arrow (`→`).
+* **Recipient** – Derived from the tag; Codex is instructed to "think" as that agent.
+* **One sentence summary first**, then bullet‑point acceptance criteria.
+* **Max 120 chars** per line; hard‑wrap at 100 for body text.
+* Always reference related issues/ADRs in the footer (`Refs #42, ADR‑007`).
+
+### Response Contract
+
+Codex replies with:
+
+````
+[<AGENT_ID>] ← "concise commit message"
+
+```diff
+<code or doc patch>
+````
+
+````
+
+* Use conventional‑commit prefixes (`feat:`, `fix:`, `docs:` …).
+* Responses larger than **400 tokens** should be broken into follow‑up chunks with `--chunk=N/total`.
+
+---
+
+## 3. Memory & Context Windows
+
+| Memory Layer | Tech | Retention | What goes in | Retrieval Strategy |
+|--------------|------|-----------|--------------|--------------------|
+| **Short‑term** | Conversation buffer (8k tokens) | Single session | Recent prompt/response pairs | Always streamed to model |
+| **Working** | Redis vector store | 7 days | Embeddings of last 50 commits & comments | Similarity ≥ 0.76 cosine |
+| **Long‑term** | Supabase Postgres | ∞ | ADRs, design docs, release notes | Keyword search + vector rerank |
+
+> The Memory Manager service (see `shared/memory.ts`) handles chunking, embedding, and eviction.
+
+---
+
+## 4. Tools & Plug‑ins
+
+| Tool Name | Purpose | Invocation Tag | Notes |
+|-----------|---------|----------------|-------|
+| **TS‑PATCH** | Applies TypeScript diff without lint auto‑fix | `@patch` | Enforces `import/order` but skips prettier |
+| **DB‑MIGRATE** | Generates SQL from Prisma schema diff | `@migrate` | Auto‑runs on dev DB, PR comment shows plan |
+| **DIAGRAM‑GEN** | Turns `@plantuml` codeblocks into SVG | `@diagram` | Used heavily by ARCHITECT & DOCS |
+| **LOAD‑TEST** | Runs Gatling scenario against staging | `@loadtest` | Requires a `STA_TOKEN` secret |
+
+Tool calls must be **each on their own line**, directly under the request header, e.g.:
+
+```text
+[QA] → "Stress test the /calls endpoint"
+@loadtest scenario=CallsPeak users=500 duration=120s
+````
+
+---
+
+## 5. Standard Workflows
+
+1. **Feature Pitch**
+   `[ARCHITECT]` opens an ADR stub → `[FRONTEND]` & `[BACKEND]` estimate tasks → `[QA]` drafts test plan.
+2. **Bug‑fix PR**
+   `[BACKEND]` tags fix request → Codex patches code, auto‑runs `TS‑PATCH` → `[QA]` verifies in CI.
+3. **Release Cut**
+   `[INFRA]` triggers `release‑prep.yml` → `[DOCS]` generates changelog → Helm chart version bumped.
+
+Sequence diagrams for each flow live under `/docs/architecture/agents/`.
+
+---
+
+## 6. Prompt Style Guide
+
+* **Voice:** Imperative, present‑tense (“Add”, “Refactor”, “Document”).
+* **Granularity:** One cohesive deliverable per prompt – avoid mega‑prompts.
+* **Path Hints:** Prefix file paths when the location matters (`server/routes/calls.ts`).
+* **Safety:** Avoid leaking secrets; Codex is stateless outside allowed memory layers.
+
+---
+
+## 7. Fallback & Error Handling
+
+If a prompt **lacks an `[AGENT]` tag** Codex MUST:
+
+1. Infer the most probable agent from file path and commit context.
+2. Pre‑answer with:
+
+```text
+"⚠️ No agent tag found – defaulting to BACKEND.  Add [AGENT] if another scope is intended."
+```
+
+*The response then proceeds using the presumed agent role.*
+
+---
+
+## 8. Extensibility Checklist
+
+* [ ] Agent added to **Roster** table.
+* [ ] Responsibilities & Deliverables described.
+* [ ] Any dedicated tools registered in **Tools**.
+* [ ] Workflows updated if affected.
+* [ ] Version note added to **Change Log**.
+
+---
+
+## 9. Change Log
+
+| Date         | Author       | Summary                                                    |
+| ------------ | ------------ | ---------------------------------------------------------- |
+| 2025‑06‑19   | @gpt‑autogen | Major restructure; added Memory, Tools, Workflows sections |
+| *YYYY‑MM‑DD* | *@you*       | *Add your entry here*                                      |
+
+---
+
+Happy coding! ✨
