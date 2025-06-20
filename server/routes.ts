@@ -204,6 +204,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // GET /sitemap.xml - Generate XML sitemap for SEO
+  app.get("/sitemap.xml", async (_req, res) => {
+    try {
+      const pathModule = await import('path');
+      const baseUrl = 'https://codexcrafters.juelfoundationofselflearning.org';
+      const docsPath = pathModule.join(process.cwd(), 'docs');
+      const structure = await buildDocsStructure(docsPath);
+      
+      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>${baseUrl}/docs</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>`;
+
+      // Add documentation sections to sitemap
+      structure.sections.forEach(section => {
+        section.files.forEach(file => {
+          sitemap += `
+  <url>
+    <loc>${baseUrl}/docs?file=${encodeURIComponent(file.path)}</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>`;
+        });
+        
+        section.subsections.forEach(subsection => {
+          subsection.files.forEach(file => {
+            sitemap += `
+  <url>
+    <loc>${baseUrl}/docs?file=${encodeURIComponent(file.path)}</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>`;
+          });
+        });
+      });
+
+      sitemap += `
+</urlset>`;
+
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error generating sitemap:', error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

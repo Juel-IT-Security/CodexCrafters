@@ -11,6 +11,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed";
 import { disableMutations } from "./middleware/disableMutations";
+import { errorHandler, setupUnhandledRejectionHandler } from "./middleware/errorHandler";
 
 // Create Express application instance
 const app = express();
@@ -109,6 +110,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Setup error handling for unhandled promises and exceptions
+setupUnhandledRejectionHandler();
+
 // Main application startup function using IIFE (Immediately Invoked Function Expression)
 (async () => {
   // Initialize database with sample data (only runs once, skips if already seeded)
@@ -117,15 +121,8 @@ app.use((req, res, next) => {
   // Register all API routes (/api/examples, /api/guides) and create HTTP server
   const server = await registerRoutes(app);
 
-  // Global error handler - catches any unhandled errors in route handlers
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    // Send error response to client
-    res.status(status).json({ message });
-    throw err;
-  });
+  // Enhanced global error handler with monitoring and security
+  app.use(errorHandler);
 
   // Environment-specific setup - development vs production
   // Important: Setup Vite AFTER registering API routes so the catch-all route
