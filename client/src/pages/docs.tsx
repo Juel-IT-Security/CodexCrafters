@@ -46,54 +46,7 @@ function CopyButton({ code }: { code: string }) {
   );
 }
 
-// Enhanced IDE-style code block with syntax highlighting and line numbers
-function CodeBlockWithLineCopy({ children, language }: { children: any; language: string }) {
-  const codeText = typeof children === 'string' ? children : String(children || '');
-  const lines = codeText.split('\n');
-  const isTextBlock = language === 'text' || !language;
 
-  return (
-    <div className="relative">
-      {lines.map((line, index) => (
-        <div key={index} className="group relative flex items-start hover:bg-gray-700/20 transition-colors">
-          {/* Line number */}
-          <div className="select-none text-gray-500 text-xs font-mono w-8 text-right pr-3 py-1 shrink-0">
-            {index + 1}
-          </div>
-          {/* Code content */}
-          <div className="flex-1 min-w-0">
-            <pre className="text-sm leading-relaxed py-1 m-0">
-              <code 
-                className={`font-mono ${isTextBlock ? '' : `language-${language}`}`}
-                style={isTextBlock ? { color: '#f9fafb' } : {}}
-              >
-                {line || ' '}
-              </code>
-            </pre>
-          </div>
-          {/* Copy button */}
-          {line.trim() && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 h-6 w-6 p-0 text-gray-400 hover:text-white shrink-0 mr-2"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(line);
-                } catch (err) {
-                  console.error('Failed to copy text: ', err);
-                }
-              }}
-              aria-label="Copy line to clipboard"
-            >
-              <Copy className="h-3 w-3" />
-            </Button>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // Interface for documentation structure from API
 interface DocsStructure {
@@ -433,7 +386,7 @@ export default function DocsPage() {
                                 <CopyButton code={code} />
                               </div>
                               {/* Code content with IDE styling */}
-                              <div className="bg-gray-900 rounded-b-lg overflow-x-auto border border-gray-700 border-t-0 relative">
+                              <div className="bg-gray-900 rounded-b-lg border border-gray-700 border-t-0 relative">
                                 {/* Line numbers overlay */}
                                 <div className="absolute left-0 top-0 bottom-0 bg-gray-800 border-r border-gray-700 z-10">
                                   {String(code || '').split('\n').map((_, index) => (
@@ -442,33 +395,14 @@ export default function DocsPage() {
                                     </div>
                                   ))}
                                 </div>
-                                {/* Syntax highlighted code with hover copy */}
-                                <div className="relative">
-                                  <pre 
-                                    className="m-0 p-4 pl-16 overflow-x-auto group" 
-                                    style={{ background: 'transparent' }}
-                                    {...props}
-                                    onMouseMove={(e) => {
-                                      // Add copy buttons on hover for each line
-                                      const lines = e.currentTarget.querySelectorAll('code > *');
-                                      lines.forEach((line, index) => {
-                                        if (!line.querySelector('.line-copy-btn')) {
-                                          const copyBtn = document.createElement('button');
-                                          copyBtn.className = 'line-copy-btn absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-700 hover:bg-gray-600 text-white p-1 rounded text-xs';
-                                          copyBtn.innerHTML = '📋';
-                                          copyBtn.style.top = `${(index * 1.5)}rem`;
-                                          copyBtn.onclick = async () => {
-                                            const lineText = line.textContent || '';
-                                            await navigator.clipboard.writeText(lineText);
-                                          };
-                                          e.currentTarget.appendChild(copyBtn);
-                                        }
-                                      });
-                                    }}
-                                  >
-                                    {children}
-                                  </pre>
-                                </div>
+                                {/* Syntax highlighted code */}
+                                <pre 
+                                  className="m-0 p-4 pl-16" 
+                                  style={{ background: 'transparent' }}
+                                  {...props}
+                                >
+                                  {children}
+                                </pre>
                               </div>
                             </div>
                           );
