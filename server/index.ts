@@ -3,6 +3,8 @@
 // 📖 Learn more: /docs/tutorials/backend/understanding-server-setup.md
 
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed";
@@ -10,11 +12,38 @@ import { seedDatabase } from "./seed";
 // Create Express application instance
 const app = express();
 
+// Security middleware - adds various HTTP headers for protection
+// In development, we need more permissive CSP for Vite hot reload
+app.use(helmet({
+  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      scriptSrc: ["'self'", "'unsafe-eval'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "ws:", "wss:"],
+    },
+  } : false, // Disable CSP in development for Vite compatibility
+}));
+
+// Rate limiting middleware to prevent abuse
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    error: "Too many requests from this IP, please try again later."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/', limiter);
+
 // Middleware to parse JSON request bodies (for API requests from frontend)
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Middleware to parse URL-encoded form data (for traditional form submissions)
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 // Custom logging middleware to track API performance and responses
 // This helps with debugging and monitoring in development
