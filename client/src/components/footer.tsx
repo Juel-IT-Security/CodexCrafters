@@ -1,5 +1,6 @@
 // Footer component - provides site navigation links and project information
 // Demonstrates consistent navigation patterns and external link handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-navigation-patterns.md
 
 import { Bot, Github, Twitter, Linkedin } from "lucide-react";
 

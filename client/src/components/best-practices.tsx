@@ -1,5 +1,6 @@
 // Best Practices component - provides development guidance and code examples
 // Demonstrates content organization, code highlighting, and educational layout patterns
+// 📖 Learn more: /docs/guides/best-practices.md
 
 import { Code, FolderSync, Rocket, MessageSquare, GitBranch, Users, FolderOpen, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";

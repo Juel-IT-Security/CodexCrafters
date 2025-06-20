@@ -1,5 +1,6 @@
 // Call-to-Action Section component - encourages user engagement
 // Demonstrates conversion-focused design and action-oriented UI patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-conversion-design.md
 
 import { Bot, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";

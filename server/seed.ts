@@ -1,5 +1,6 @@
 // Database seeding script - populates the database with initial sample data
 // This demonstrates data initialization patterns and prevents duplicate seeding
+// 📖 Learn more: /docs/tutorials/backend/understanding-database-seeding.md
 
 import { db } from "./db";
 import { examples, guides, type InsertExample, type InsertGuide } from "@shared/schema";

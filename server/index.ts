@@ -1,5 +1,6 @@
 // Main server entry point for the AGENTS.md Educational Platform
 // This sets up the Express server, database, and handles both development and production modes
+// 📖 Learn more: /docs/tutorials/backend/understanding-server-setup.md
 
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";

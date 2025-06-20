@@ -1,5 +1,6 @@
 // Video Guides component - displays tutorial guides with video content
 // Demonstrates data fetching patterns and loading states for educational content
+// 📖 Learn more: /docs/tutorials/frontend/understanding-examples-gallery.md
 
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
