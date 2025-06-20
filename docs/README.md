@@ -4,13 +4,21 @@ Welcome to the comprehensive documentation for the AGENTS.md Educational Platfor
 
 ## 📚 Learning Resources
 
-### Getting Started
-- **[Getting Started Guide](./GETTING_STARTED.md)** - Your first steps into modern web development
-- **[Architecture Overview](./ARCHITECTURE.md)** - Understanding how full-stack applications are built
-- **[API Documentation](./API.md)** - Complete API reference with examples
-
 ### Platform Features
 - **[Documentation Viewer](./features/documentation-viewer.md)** - Interactive web-based documentation system with copyable code blocks
+- **[Platform Overview](./overview.md)** - Complete introduction and guided learning paths
+
+### Essential Guides
+- **[Getting Started Guide](./guides/getting-started.md)** - Your first steps into modern web development
+- **[Best Practices](./guides/best-practices.md)** - Industry-standard coding patterns and conventions
+- **[Troubleshooting Guide](./guides/troubleshooting.md)** - Solutions to common development issues
+- **[Contributing Guidelines](./guides/contributing.md)** - How to contribute to the project
+
+### Technical Reference
+- **[API Documentation](./reference/api.md)** - Complete API reference with examples
+- **[Architecture Overview](./reference/architecture.md)** - Understanding how full-stack applications are built
+- **[Code Concepts](./reference/code-concepts.md)** - Fundamental programming concepts explained
+- **[AGENTS.md Specification](./reference/agents-spec.md)** - Multi-agent development workflows
 
 ### Hands-On Learning
 - **[Step-by-Step Tutorials](./TUTORIALS.md)** - Practical coding exercises and projects

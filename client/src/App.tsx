@@ -1,5 +1,6 @@
 // Main App component - the root of our AGENTS.md Educational Platform
 // This sets up routing, data fetching, and global providers for the entire application
+// 📖 Learn more: /docs/tutorials/frontend/understanding-app-structure.md
 
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";

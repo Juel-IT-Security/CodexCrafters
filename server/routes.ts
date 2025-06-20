@@ -1,5 +1,6 @@
 // This file defines all our API endpoints (routes)
 // Routes are like different "doors" into our application that handle specific requests
+// 📖 Learn more: /docs/tutorials/backend/understanding-api-routes.md
 
 import type { Express } from "express";
 import { createServer, type Server } from "http";

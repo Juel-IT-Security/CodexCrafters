@@ -1,5 +1,6 @@
 // Examples Gallery component - displays project examples with generated AGENTS.md files
 // Demonstrates data fetching, state management, and interactive UI patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-examples-gallery.md
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
