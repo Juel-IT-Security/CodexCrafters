@@ -2,12 +2,6 @@ import { Bot, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function CTASection() {
-  const stats = [
-    { value: "1,200+", label: "Repositories Analyzed" },
-    { value: "3,500+", label: "AGENTS.md Generated" },
-    { value: "800+", label: "Developers Helped" },
-    { value: "150+", label: "GitHub Stars" }
-  ];
 
   return (
     <section className="py-20 bg-gradient-to-r from-gray-800 to-gray-900">
@@ -50,16 +44,6 @@ export default function CTASection() {
               View on GitHub
             </a>
           </Button>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="text-3xl font-bold text-white">{stat.value}</div>
-              <div className="text-gray-200 font-medium">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
