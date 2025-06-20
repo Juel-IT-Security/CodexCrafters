@@ -66,15 +66,12 @@ export default function DocsPage() {
     
     if (file) {
       setSelectedFile(file);
-    } else if (docsStructure?.sections?.[0]?.files?.[0]) {
-      // Default to first available file
-      const firstFile = docsStructure.sections[0].files[0] || docsStructure.sections[0].subsections?.[0]?.files?.[0];
-      if (firstFile) {
-        setSelectedFile(firstFile.path);
-        navigate(`/docs?file=${firstFile.path}`);
-      }
+    } else if (docsStructure && !selectedFile) {
+      // Default to overview page for better first impression
+      setSelectedFile('overview.md');
+      navigate(`/docs?file=overview.md`);
     }
-  }, [location, docsStructure, navigate]);
+  }, [location, docsStructure, navigate, selectedFile]);
 
   const handleFileChange = (filePath: string) => {
     setSelectedFile(filePath);
@@ -116,63 +113,63 @@ export default function DocsPage() {
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header with Stats */}
+        {/* Header with improved organization */}
         <div className="mb-8">
-          <div className="flex items-center space-x-3 mb-4">
-            <GraduationCap className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-              Learning Resources
-            </h1>
-          </div>
-          
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mb-6">
-            Complete educational platform with {docsStructure?.totalTutorials || 0}+ tutorials and {docsStructure?.totalFiles || 0}+ comprehensive guides. 
-            Every concept explained from the ground up with real, copyable code examples.
-          </p>
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <GraduationCap className="h-10 w-10 text-blue-600" />
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100">
+                Documentation Hub
+              </h1>
+            </div>
+            
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto mb-6">
+              Master modern web development through comprehensive tutorials, interactive code examples, 
+              and production-quality patterns. Every concept explained from first principles.
+            </p>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <BookOpen className="h-8 w-8 text-green-600" />
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                      {docsStructure?.totalTutorials || 0}+
-                    </div>
-                    <div className="text-sm text-gray-500">Tutorial Guides</div>
+            {/* Enhanced Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border-green-200 dark:border-green-700">
+                <CardContent className="p-4 text-center">
+                  <BookOpen className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-green-700 dark:text-green-300">
+                    {docsStructure?.totalTutorials || 0}+
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <FileText className="h-8 w-8 text-blue-600" />
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                      {docsStructure?.totalFiles || 0}+
-                    </div>
-                    <div className="text-sm text-gray-500">Documentation Files</div>
+                  <div className="text-sm text-green-600 dark:text-green-400">Tutorial Guides</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-blue-200 dark:border-blue-700">
+                <CardContent className="p-4 text-center">
+                  <FileText className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+                    {docsStructure?.totalFiles || 0}+
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <Zap className="h-8 w-8 text-purple-600" />
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                      {docsStructure?.sections?.length || 0}
-                    </div>
-                    <div className="text-sm text-gray-500">Learning Sections</div>
+                  <div className="text-sm text-blue-600 dark:text-blue-400">Documentation Files</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 border-purple-200 dark:border-purple-700">
+                <CardContent className="p-4 text-center">
+                  <Layers className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                    {docsStructure?.sections?.length || 0}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="text-sm text-purple-600 dark:text-purple-400">Learning Sections</div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border-orange-200 dark:border-orange-700">
+                <CardContent className="p-4 text-center">
+                  <Copy className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+                    Interactive
+                  </div>
+                  <div className="text-sm text-orange-600 dark:text-orange-400">Code Examples</div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
@@ -180,64 +177,120 @@ export default function DocsPage() {
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-4">
-              {docsStructure?.sections.map((section) => (
-                <Card key={section.id}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center space-x-2">
-                      <Database className="h-5 w-5" />
-                      <span>{section.title}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="space-y-2">
-                      {section.files.map((file, index) => (
-                        <button
-                          key={file.path}
-                          onClick={() => handleFileChange(file.path)}
-                          className={`w-full text-left p-3 rounded-lg transition-colors ${
-                            selectedFile === file.path
-                              ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                              : 'hover:bg-gray-50 dark:hover:bg-gray-800'
-                          }`}
-                        >
-                          <div className="flex items-start space-x-3">
-                            <Badge variant="outline" className="mt-0.5 text-xs">
-                              {index + 1}
-                            </Badge>
-                            <div>
-                              <div className="font-medium text-sm">{file.title}</div>
-                              <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                                {file.description}
+              {/* Quick Start Overview */}
+              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center space-x-2 text-blue-800 dark:text-blue-200">
+                    <GraduationCap className="h-5 w-5" />
+                    <span>Start Here</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <button
+                    onClick={() => handleFileChange('overview.md')}
+                    className={`w-full text-left p-3 rounded-lg transition-colors ${
+                      selectedFile === 'overview.md'
+                        ? 'bg-blue-100 dark:bg-blue-800/50 text-blue-800 dark:text-blue-200 border border-blue-300 dark:border-blue-600'
+                        : 'bg-white/50 dark:bg-gray-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/30'
+                    }`}
+                  >
+                    <div className="flex items-start space-x-3">
+                      <BookOpen className="h-5 w-5 mt-0.5 text-blue-600" />
+                      <div>
+                        <div className="font-semibold text-sm">Platform Overview</div>
+                        <div className="text-xs text-blue-600 dark:text-blue-400">
+                          Complete introduction and learning paths
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                </CardContent>
+              </Card>
+
+              {/* Organized Sections */}
+              {docsStructure?.sections.map((section) => {
+                const sectionIcons = {
+                  'tutorials': BookOpen,
+                  'guides': Layers,
+                  'reference': FileText,
+                  'features': Zap,
+                  'examples': Copy
+                };
+                const IconComponent = sectionIcons[section.id as keyof typeof sectionIcons] || Database;
+                
+                return (
+                  <Card key={section.id}>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-lg flex items-center space-x-2">
+                        <IconComponent className="h-5 w-5" />
+                        <span>{section.title}</span>
+                        <Badge variant="secondary" className="ml-auto text-xs">
+                          {section.files.length + section.subsections.reduce((acc, sub) => acc + sub.files.length, 0)}
+                        </Badge>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="space-y-2">
+                        {section.files.map((file, index) => (
+                          <button
+                            key={file.path}
+                            onClick={() => handleFileChange(file.path)}
+                            className={`w-full text-left p-3 rounded-lg transition-colors ${
+                              selectedFile === file.path
+                                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
+                                : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                            }`}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <Badge variant="outline" className="mt-0.5 text-xs shrink-0">
+                                {index + 1}
+                              </Badge>
+                              <div className="min-w-0 flex-1">
+                                <div className="font-medium text-sm truncate">{file.title}</div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                                  {file.description}
+                                </div>
                               </div>
                             </div>
+                          </button>
+                        ))}
+                        
+                        {section.subsections.map((subsection) => (
+                          <div key={subsection.id} className="ml-2 border-l-2 border-gray-200 dark:border-gray-700 pl-4 mt-4">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <Layers className="h-4 w-4 text-gray-500" />
+                              <div className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                                {subsection.title}
+                              </div>
+                              <Badge variant="outline" className="text-xs">
+                                {subsection.files.length}
+                              </Badge>
+                            </div>
+                            {subsection.files.map((file, index) => (
+                              <button
+                                key={file.path}
+                                onClick={() => handleFileChange(file.path)}
+                                className={`w-full text-left p-2 rounded-lg transition-colors mb-1 ${
+                                  selectedFile === file.path
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                    : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                                }`}
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <Badge variant="secondary" className="text-xs shrink-0">
+                                    {index + 1}
+                                  </Badge>
+                                  <div className="font-medium text-xs truncate">{file.title}</div>
+                                </div>
+                              </button>
+                            ))}
                           </div>
-                        </button>
-                      ))}
-                      
-                      {section.subsections.map((subsection) => (
-                        <div key={subsection.id} className="ml-4 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
-                          <div className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2">
-                            {subsection.title}
-                          </div>
-                          {subsection.files.map((file, index) => (
-                            <button
-                              key={file.path}
-                              onClick={() => handleFileChange(file.path)}
-                              className={`w-full text-left p-2 rounded-lg transition-colors mb-1 ${
-                                selectedFile === file.path
-                                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                                  : 'hover:bg-gray-50 dark:hover:bg-gray-800'
-                              }`}
-                            >
-                              <div className="font-medium text-xs">{file.title}</div>
-                            </button>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
 
