@@ -20,7 +20,6 @@ All tutorials are now located in `/docs/tutorials/` with the following organizat
 ### Adding New Features
 - [Repository URL Input](./tutorials/frontend/01-repository-input.md)
 - [Search and Filtering](./tutorials/frontend/02-search-filtering.md)
-- [ZIP File Upload](./tutorials/file-handling/03-zip-upload.md)
 - [Admin Dashboard](./tutorials/data-management/04-admin-dashboard.md)
 
 Visit the [tutorials directory](./tutorials/) for the complete organized collection.

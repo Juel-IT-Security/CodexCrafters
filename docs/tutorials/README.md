@@ -16,7 +16,6 @@ Step-by-step tutorials to expand the AGENTS.md Educational Platform with meaning
 ### 💡 Building New Features
 - **[Add Repository Input](./frontend/01-repository-input.md)** - Expand the platform with GitHub URL analysis
 - **[Add Search Filtering](./frontend/02-search-filtering.md)** - Enhance examples with search capabilities
-- **[Add ZIP Upload](./file-handling/03-zip-upload.md)** - Implement file upload for project analysis
 - **[Add Admin Dashboard](./data-management/04-admin-dashboard.md)** - Build data management interface
 
 ## Learning Path Recommendations
