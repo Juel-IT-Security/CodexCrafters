@@ -52,6 +52,7 @@ export default function DocsPage() {
   // Fetch documentation structure from API
   const { data: docsStructure, isLoading: structureLoading } = useQuery<DocsStructure>({
     queryKey: ['/api/docs'],
+    queryFn: () => fetch('/api/docs').then(res => res.json()),
     staleTime: 300000, // Cache for 5 minutes
   });
 

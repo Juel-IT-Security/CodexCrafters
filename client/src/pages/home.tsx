@@ -15,7 +15,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <HeroSection />
+      <main id="main-content">
+        <HeroSection />
       
       {/* Powered By Section */}
       <section className="bg-white py-12 border-b border-gray-200">
@@ -45,6 +46,7 @@ export default function Home() {
       <VideoGuides />
       <BestPractices />
       <CTASection />
+      </main>
       <Footer />
     </div>
   );

@@ -61,7 +61,8 @@ export default function Footer() {
                 href="https://github.com/Juel-IT-Security/CodexCrafters" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-white transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
+                aria-label="Visit our GitHub repository (opens in new tab)"
               >
                 <Github className="w-5 h-5" />
               </a>
@@ -69,7 +70,8 @@ export default function Footer() {
                 href="https://twitter.com/your-handle" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-white transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
+                aria-label="Follow us on Twitter (opens in new tab)"
               >
                 <Twitter className="w-5 h-5" />
               </a>
@@ -77,7 +79,8 @@ export default function Footer() {
                 href="https://linkedin.com/in/your-profile" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-white transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
+                aria-label="Connect with us on LinkedIn (opens in new tab)"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
