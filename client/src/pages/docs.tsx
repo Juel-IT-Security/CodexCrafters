@@ -116,8 +116,9 @@ export default function DocsPage() {
     navigate(`/docs?file=${filePath}`);
     // Reset scroll position to very top of page when switching documents
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
   };
 
   const getCurrentFile = () => {
