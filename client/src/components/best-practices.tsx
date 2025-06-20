@@ -141,63 +141,79 @@ export default function BestPractices() {
             Clean Git Submission Workflow
           </h3>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            <div className="w-full">
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Development</h4>
-              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
-<span className="text-green-400"># 1. Create feature branch</span>
-<span className="text-blue-300">git checkout -b</span> <span className="text-yellow-300">feature/[AGENT]-description</span>
-
-<span className="text-green-400"># 2. Set up AGENTS.md in root</span>
-<span className="text-blue-300">cp</span> AGENTS.md.template AGENTS.md
-
-<span className="text-green-400"># 3. Review agent responsibilities</span>
-                </pre>
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="w-full">
+                <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Development</h4>
+                <div className="bg-gray-800 rounded-lg p-4 space-y-3">
+                  <div className="text-green-400 text-sm"># 1. Create feature branch</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git checkout -b</span> <span className="text-yellow-300">feature/[AGENT]-description</span>
+                  </div>
+                  
+                  <div className="text-green-400 text-sm"># 2. Set up AGENTS.md in root</div>
+                  <div className="text-gray-100 text-sm">
+                    <span className="text-blue-300">cp</span> AGENTS.md.template AGENTS.md
+                  </div>
+                  
+                  <div className="text-green-400 text-sm"># 3. Review agent responsibilities</div>
+                </div>
+              </div>
+              
+              <div className="w-full">
+                <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">During Development</h4>
+                <div className="bg-gray-800 rounded-lg p-4 space-y-3">
+                  <div className="text-green-400 text-sm"># 1. Commit with agent tags</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] feat: add user dashboard"</span>
+                  </div>
+                  
+                  <div className="text-green-400 text-sm"># 2. Keep commits atomic and focused</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git add</span> src/components/Dashboard.tsx
+                  </div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] add dashboard component"</span>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div className="w-full">
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">During Development</h4>
-              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
-<span className="text-green-400"># 1. Commit with agent tags</span>
-<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] feat: add user dashboard"</span>
-
-<span className="text-green-400"># 2. Keep commits atomic and focused</span>
-<span className="text-blue-300">git add</span> src/components/Dashboard.tsx
-<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] add dashboard component"</span>
-                </pre>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="w-full">
+                <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
+                <div className="bg-gray-800 rounded-lg p-4 space-y-3">
+                  <div className="text-green-400 text-sm"># 1. Run tests and linting</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">npm test</span> && <span className="text-blue-300">npm run lint</span>
+                  </div>
+                  
+                  <div className="text-green-400 text-sm"># 2. Update documentation</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git add</span> README.md CHANGELOG.md
+                  </div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[DOCS] update deployment guide"</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            <div className="w-full">
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
-<span className="text-green-400"># 1. Run tests and linting</span>
-<span className="text-blue-300">npm test</span> && <span className="text-blue-300">npm run lint</span>
-
-<span className="text-green-400"># 2. Update documentation</span>
-<span className="text-blue-300">git add</span> README.md CHANGELOG.md
-<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[DOCS] update deployment guide"</span>
-                </pre>
-              </div>
-            </div>
-            
-            <div className="w-full">
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
-<span className="text-green-400"># 1. Merge to main via PR</span>
-<span className="text-blue-300">git checkout</span> main && <span className="text-blue-300">git pull</span> origin main
-
-<span className="text-green-400"># 2. Deploy through Replit</span>
-<span className="text-gray-400"># Replit auto-deploys from main branch</span>
-
-<span className="text-green-400"># 3. Tag release</span>
-<span className="text-blue-300">git tag -a</span> v1.0.0 <span className="text-blue-300">-m</span> <span className="text-yellow-300">"Release v1.0.0"</span>
-                </pre>
+              
+              <div className="w-full">
+                <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
+                <div className="bg-gray-800 rounded-lg p-4 space-y-3">
+                  <div className="text-green-400 text-sm"># 1. Merge to main via PR</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git checkout</span> main && <span className="text-blue-300">git pull</span> origin main
+                  </div>
+                  
+                  <div className="text-green-400 text-sm"># 2. Deploy through Replit</div>
+                  <div className="text-gray-400 text-sm"># Replit auto-deploys from main branch</div>
+                  
+                  <div className="text-green-400 text-sm"># 3. Tag release</div>
+                  <div className="text-gray-100 text-sm break-all">
+                    <span className="text-blue-300">git tag -a</span> v1.0.0 <span className="text-blue-300">-m</span> <span className="text-yellow-300">"Release v1.0.0"</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
