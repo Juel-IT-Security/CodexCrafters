@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, BookOpen, FileText, Layers, Database, GraduationCap, Zap, Copy, Check } from "lucide-react";
 import { CodeBlock, CodeLine } from "@/components/ui/code-block";
 import Navigation from "@/components/navigation";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 
 // Interface for documentation structure from API
 interface DocsStructure {
@@ -305,7 +308,30 @@ export default function DocsPage() {
                   </div>
                 ) : docContent?.content ? (
                   <div className="prose prose-lg max-w-none dark:prose-invert">
-                    <TutorialRenderer content={docContent.content} />
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight]}
+                      components={{
+                        // Ensure proper semantic HTML for lists
+                        ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
+                        ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
+                        li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                        // Style code blocks properly
+                        pre: ({ node, ...props }) => <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4" {...props} />,
+                        code: ({ node, inline, ...props }) => 
+                          inline ? 
+                            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props} /> :
+                            <code {...props} />,
+                        // Ensure proper heading hierarchy
+                        h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100" {...props} />,
+                        h2: ({ node, ...props }) => <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8" {...props} />,
+                        h3: ({ node, ...props }) => <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-6" {...props} />,
+                        // Style paragraphs
+                        p: ({ node, ...props }) => <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed" {...props} />,
+                      }}
+                    >
+                      {docContent.content}
+                    </ReactMarkdown>
                   </div>
                 ) : (
                   <div className="text-center py-16">

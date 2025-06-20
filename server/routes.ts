@@ -70,7 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Return the created example with 201 (Created) status
       res.status(201).json(newExample);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error creating example:", error);
       
       // If validation fails, return 400 (Bad Request)
@@ -137,7 +137,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Return the created guide with 201 (Created) status
       res.status(201).json(newGuide);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error creating guide:", error);
       
       // If validation fails, return 400 (Bad Request)
@@ -213,8 +213,38 @@ async function buildDocsStructure(docsPath: string) {
   const fs = await import('fs/promises');
   const path = await import('path');
 
-  const structure = {
-    sections: [] as any[],
+  // Define proper interfaces for documentation structure
+  interface DocsFile {
+    name: string;
+    title: string;
+    description: string;
+    path: string;
+    size: number;
+  }
+
+  interface DocsSubsection {
+    id: string;
+    title: string;
+    path: string;
+    files: DocsFile[];
+  }
+
+  interface DocsSection {
+    id: string;
+    title: string;
+    path: string;
+    files: DocsFile[];
+    subsections: DocsSubsection[];
+  }
+
+  interface DocsStructure {
+    sections: DocsSection[];
+    totalFiles: number;
+    totalTutorials: number;
+  }
+
+  const structure: DocsStructure = {
+    sections: [],
     totalFiles: 0,
     totalTutorials: 0
   };
@@ -228,12 +258,12 @@ async function buildDocsStructure(docsPath: string) {
           const sectionPath = path.join(dirPath, item.name);
           const sectionRelativePath = path.join(relativePath, item.name);
           
-          const section = {
+          const section: DocsSection = {
             id: item.name,
             title: formatSectionTitle(item.name),
             path: sectionRelativePath,
-            files: [] as any[],
-            subsections: [] as any[]
+            files: [],
+            subsections: []
           };
 
           // Scan for files in this directory
@@ -269,11 +299,11 @@ async function buildDocsStructure(docsPath: string) {
               const subsectionPath = path.join(sectionPath, sectionItem.name);
               const subsectionRelativePath = path.join(sectionRelativePath, sectionItem.name);
               
-              const subsection = {
+              const subsection: DocsSubsection = {
                 id: sectionItem.name,
                 title: formatSectionTitle(sectionItem.name),
                 path: subsectionRelativePath,
-                files: [] as any[]
+                files: []
               };
 
               const subsectionItems = await fs.readdir(subsectionPath, { withFileTypes: true });
