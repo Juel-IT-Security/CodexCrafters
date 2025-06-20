@@ -1,5 +1,6 @@
 // API client configuration for the AGENTS.md Educational Platform
 // This handles all HTTP communication between frontend and backend with proper error handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-api-client.md
 
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 

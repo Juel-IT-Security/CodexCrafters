@@ -1,5 +1,6 @@
 // This file defines our database schema and TypeScript types
 // Think of it as the "blueprint" for what data looks like in our app
+// 📖 Learn more: /docs/tutorials/backend/understanding-database-schema.md
 
 import { pgTable, text, serial, integer, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";

@@ -1,5 +1,6 @@
 // Storage layer for the AGENTS.md Educational Platform
 // This implements the Repository pattern to separate data access from business logic
+// 📖 Learn more: /docs/tutorials/backend/understanding-storage-layer.md
 
 import { examples, guides, type Example, type Guide, type InsertExample, type InsertGuide } from "@shared/schema";
 import { db } from "./db";

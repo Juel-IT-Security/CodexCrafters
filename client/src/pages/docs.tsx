@@ -1,5 +1,6 @@
 // Documentation viewer page - displays our educational tutorials within the app
 // Demonstrates markdown rendering, navigation, and code block integration
+// 📖 Learn more: /docs/tutorials/frontend/building-documentation-viewer.md
 
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";

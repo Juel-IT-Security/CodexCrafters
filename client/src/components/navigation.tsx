@@ -1,5 +1,6 @@
 // Navigation component - provides main site navigation and mobile menu
 // Demonstrates responsive design patterns and smooth scrolling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-navigation-patterns.md
 
 import { useState } from "react";
 import { Menu, X, Github, Bot } from "lucide-react";
