@@ -1086,32 +1086,26 @@ function GuidesTable({ guides, isLoading }: { guides: Guide[]; isLoading: boolea
 
 ## Practice Exercises
 
-### Exercise 1: Add Comments System
-Create a commenting system for examples with:
-- Comments table with foreign key to examples
-- API endpoints for CRUD operations
-- Frontend components for displaying and adding comments
+### Exercise 1: Enhanced Example Display
+Improve the examples gallery by:
+- Adding a detailed view modal for each example
+- Implementing copy-to-clipboard for the generated AGENTS.md content
+- Creating a preview of the repository structure
+- Adding social sharing functionality
 
-### Exercise 2: Search and Filtering
-Implement search functionality:
-- Full-text search in database
-- Filter by tags and categories
-- Debounced search input
-- Search results highlighting
+### Exercise 2: GPT Integration Enhancement
+Expand the GPT integration by:
+- Adding a history of analyzed repositories
+- Storing analysis results in the database
+- Creating a comparison view between different AGENTS.md outputs
+- Adding feedback collection for generated content
 
-### Exercise 3: User Authentication
-Add authentication system:
-- User registration and login
-- Session management
-- Protected routes
-- Role-based access control
-
-### Exercise 4: File Upload
-Implement file upload feature:
-- Multer middleware for file handling
-- Image optimization and resizing
-- Cloud storage integration
-- Upload progress tracking
+### Exercise 3: Learning Path Creation
+Build learning features by:
+- Adding difficulty ratings to examples
+- Creating learning tracks based on project types
+- Implementing progress tracking for completed tutorials
+- Adding bookmarking functionality for favorite examples
 
 ## Next Steps
 
