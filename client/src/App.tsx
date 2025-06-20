@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
+import DocsPage from "@/pages/docs";
 
 // Router component defines all the pages/routes in our application
 // Uses wouter for lightweight client-side routing
@@ -16,6 +17,8 @@ function Router() {
     <Switch>
       {/* Root route "/" shows the home page with examples gallery */}
       <Route path="/" component={Home} />
+      {/* Documentation route "/docs" shows the learning resources */}
+      <Route path="/docs" component={DocsPage} />
       {/* Catch-all route for any unmatched URLs shows 404 page */}
       <Route component={NotFound} />
     </Switch>
