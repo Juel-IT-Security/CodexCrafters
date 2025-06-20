@@ -4,15 +4,20 @@ Step-by-step tutorials to expand the AGENTS.md Educational Platform with meaning
 
 ## Tutorial Categories
 
-### 🎯 Frontend Development
-- **[Tutorial 1: Repository URL Input](./frontend/01-repository-input.md)** - Add GitHub repository analysis functionality
-- **[Tutorial 2: Search and Filtering](./frontend/02-search-filtering.md)** - Enhance examples with filtering capabilities
+### 🎯 Understanding the Frontend
+- **[Examples Gallery Component](./frontend/understanding-examples-gallery.md)** - Learn how data fetching and rendering works in our platform
 
-### 📁 File Handling
-- **[Tutorial 3: ZIP File Upload](./file-handling/03-zip-upload.md)** - Implement drag-and-drop file upload for project analysis
+### 🗄️ Understanding the Backend
+- **[Database Schema Design](./backend/understanding-database-schema.md)** - How we designed the database for examples and guides
 
-### 📊 Data Management
-- **[Tutorial 4: Admin Dashboard](./data-management/04-admin-dashboard.md)** - Build comprehensive data management interface
+### 🏗️ Architecture Patterns
+- **[Full-Stack Data Flow](./architecture/understanding-data-flow.md)** - How data moves from database to UI
+
+### 💡 Building New Features
+- **[Add Repository Input](./frontend/01-repository-input.md)** - Expand the platform with GitHub URL analysis
+- **[Add Search Filtering](./frontend/02-search-filtering.md)** - Enhance examples with search capabilities
+- **[Add ZIP Upload](./file-handling/03-zip-upload.md)** - Implement file upload for project analysis
+- **[Add Admin Dashboard](./data-management/04-admin-dashboard.md)** - Build data management interface
 
 ## Learning Path Recommendations
 
