@@ -5,6 +5,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import compression from "compression";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed";
@@ -13,19 +15,34 @@ import { disableMutations } from "./middleware/disableMutations";
 // Create Express application instance
 const app = express();
 
-// Security middleware - adds various HTTP headers for protection
-// In development, we need more permissive CSP for Vite hot reload
+// Compression middleware for better performance
+app.use(compression());
+
+// CORS configuration for production security
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://codexcrafters.juelfoundationofselflearning.org', 'https://juelfoundationofselflearning.org']
+    : true, // Allow all origins in development
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+// Enhanced security middleware with tighter CSP for production
 app.use(helmet({
   contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      styleSrc: ["'self'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'", "'unsafe-eval'"],
+      scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "ws:", "wss:"],
+      connectSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
     },
   } : false, // Disable CSP in development for Vite compatibility
+  crossOriginEmbedderPolicy: false // Allow embedding for documentation
 }));
 
 // Rate limiting middleware to prevent abuse
