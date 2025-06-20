@@ -149,7 +149,6 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navigation />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header with improved organization */}
         <div className="mb-8">
@@ -411,7 +410,7 @@ export default function DocsPage() {
                           const isInline = !className?.includes('language-');
                           
                           if (isInline) {
-                            return <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props}>{children}</code>;
+                            return <code className="dark:bg-gray-800 px-1 py-0.5 rounded text-sm bg-[#101827]" {...props}>{children}</code>;
                           }
                           
                           // For code blocks within pre tags, just render normally with syntax highlighting
