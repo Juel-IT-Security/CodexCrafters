@@ -1,3 +1,6 @@
+// Form component system - integrates shadcn/ui with react-hook-form
+// Demonstrates complex form patterns, context usage, and type-safe form handling
+
 "use client"
 
 import * as React from "react"
@@ -15,15 +18,19 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
+// Form is just an alias for react-hook-form's FormProvider
+// This provides form state to all child components via React Context
 const Form = FormProvider
 
+// Type definition for form field context - tracks which field is being rendered
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
-  name: TName
+  name: TName // The field name/path in the form data
 }
 
+// Context to pass field information down to form components
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )

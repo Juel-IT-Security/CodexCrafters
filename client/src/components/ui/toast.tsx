@@ -1,3 +1,6 @@
+// Toast component system - notification UI with animations and variants
+// Demonstrates Radix UI toast primitives and responsive positioning
+
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -5,8 +8,10 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+// Toast provider - manages toast queue and timing
 const ToastProvider = ToastPrimitives.Provider
 
+// Toast viewport - defines where toasts appear on screen
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
@@ -14,6 +19,8 @@ const ToastViewport = React.forwardRef<
   <ToastPrimitives.Viewport
     ref={ref}
     className={cn(
+      // Responsive positioning: top on mobile, bottom-right on desktop
+      // High z-index ensures toasts appear above other content
       "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]",
       className
     )}

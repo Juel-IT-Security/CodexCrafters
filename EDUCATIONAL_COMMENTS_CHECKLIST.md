@@ -42,15 +42,15 @@ This checklist tracks the addition of comprehensive beginner-friendly comments t
 ## 🔄 IN PROGRESS
 
 ### Client Hooks
-- [ ] `client/src/hooks/use-toast.ts` - Toast notification system patterns
+- [x] `client/src/hooks/use-toast.ts` - Toast notification system patterns
 
 ### UI Components (Need Review)
-- [ ] `client/src/components/ui/badge.tsx`
-- [ ] `client/src/components/ui/button.tsx`
-- [ ] `client/src/components/ui/card.tsx`
+- [x] `client/src/components/ui/badge.tsx` - Status indicators and semantic variants
+- [x] `client/src/components/ui/button.tsx` - Variant system and accessibility patterns
+- [x] `client/src/components/ui/card.tsx` - Component composition and forwardRef patterns
 - [ ] `client/src/components/ui/form.tsx`
-- [ ] `client/src/components/ui/input.tsx`
-- [ ] `client/src/components/ui/label.tsx`
+- [x] `client/src/components/ui/input.tsx` - Form input with accessibility features
+- [x] `client/src/components/ui/label.tsx` - Radix UI integration and peer states
 - [ ] `client/src/components/ui/select.tsx`
 - [ ] `client/src/components/ui/toast.tsx`
 - [ ] `client/src/components/ui/toaster.tsx`

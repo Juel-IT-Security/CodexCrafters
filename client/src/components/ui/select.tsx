@@ -1,3 +1,6 @@
+// Select component system - accessible dropdown selections with Radix UI
+// Demonstrates compound component patterns and keyboard navigation
+
 "use client"
 
 import * as React from "react"
@@ -6,11 +9,13 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Select = SelectPrimitive.Root
+// Re-export Radix Select primitives with consistent naming
+// These provide the core functionality with built-in accessibility
+const Select = SelectPrimitive.Root // Main select container
 
-const SelectGroup = SelectPrimitive.Group
+const SelectGroup = SelectPrimitive.Group // Groups related options
 
-const SelectValue = SelectPrimitive.Value
+const SelectValue = SelectPrimitive.Value // Displays selected value
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
