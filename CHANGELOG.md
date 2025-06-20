@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Responsive design improvements for mobile devices
 - PostgreSQL database integration with Drizzle ORM
 - Video guides section structure (ready for YouTube embeds)
+- Web-based documentation viewer with dynamic content loading
+- Interactive code blocks with line-by-line copy functionality
+- Real-time documentation statistics and organized navigation
+- API endpoints for serving documentation structure and content
 
 ### Changed
 - Removed fake statistics from CTA section for authenticity

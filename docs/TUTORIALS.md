@@ -10,6 +10,19 @@ All tutorials are now located in `/docs/tutorials/` with the following organizat
 - **Understanding the Platform** - Learn how the existing code works
 - **Building New Features** - Add meaningful expansions to the platform
 
+## 🌐 Interactive Documentation System
+
+### Web-Based Documentation Viewer
+Access the complete documentation system at `/docs` in the application. This interactive viewer provides:
+
+- **Dynamic Content Discovery** - Automatically scans and organizes all documentation files
+- **Interactive Code Blocks** - Copy individual lines or entire code sections with one click
+- **Real-Time Statistics** - Shows total tutorials and documentation files available
+- **Responsive Navigation** - Browse through organized content sections with ease
+
+### Learning Benefits
+The documentation viewer transforms static markdown files into an interactive learning experience, making it easier to follow tutorials and implement code examples directly in your projects.
+
 ## Quick Links
 
 ### Understanding How It's Built

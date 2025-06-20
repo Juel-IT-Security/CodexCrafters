@@ -9,6 +9,9 @@ Welcome to the comprehensive documentation for the AGENTS.md Educational Platfor
 - **[Architecture Overview](./ARCHITECTURE.md)** - Understanding how full-stack applications are built
 - **[API Documentation](./API.md)** - Complete API reference with examples
 
+### Platform Features
+- **[Documentation Viewer](./features/documentation-viewer.md)** - Interactive web-based documentation system with copyable code blocks
+
 ### Hands-On Learning
 - **[Step-by-Step Tutorials](./TUTORIALS.md)** - Practical coding exercises and projects
 - **[Best Practices](./BEST_PRACTICES.md)** - Industry-standard coding patterns and conventions
