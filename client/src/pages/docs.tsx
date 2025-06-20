@@ -410,7 +410,7 @@ export default function DocsPage() {
                           const isInline = !className?.includes('language-');
                           
                           if (isInline) {
-                            return <code className="dark:bg-gray-800 px-1 py-0.5 rounded text-sm bg-[#101827]" {...props}>{children}</code>;
+                            return <code className="dark:bg-gray-800 px-1 py-0.5 rounded text-sm bg-[#101827] text-[#ffffff]" {...props}>{children}</code>;
                           }
                           
                           // For code blocks within pre tags, just render normally with syntax highlighting
