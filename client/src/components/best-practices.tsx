@@ -135,17 +135,17 @@ export default function BestPractices() {
         </div>
 
         {/* Git Workflow Section */}
-        <div className="mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 text-white">
-          <h3 className="text-2xl font-bold mb-6 flex items-center">
-            <GitBranch className="w-8 h-8 mr-3" />
+        <div className="mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-4 sm:p-6 lg:p-8 text-white">
+          <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center">
+            <GitBranch className="w-6 h-6 sm:w-8 sm:h-8 mr-3" />
             Clean Git Submission Workflow
           </h3>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-lg font-semibold mb-4 text-emerald-400">Before Development</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-100 leading-relaxed">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className="w-full">
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Development</h4>
+              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
 <span className="text-green-400"># 1. Create feature branch</span>
 <span className="text-blue-300">git checkout -b</span> <span className="text-yellow-300">feature/[AGENT]-description</span>
 
@@ -157,10 +157,10 @@ export default function BestPractices() {
               </div>
             </div>
             
-            <div>
-              <h4 className="text-lg font-semibold mb-4 text-emerald-400">During Development</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-100 leading-relaxed">
+            <div className="w-full">
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">During Development</h4>
+              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
 <span className="text-green-400"># 1. Commit with agent tags</span>
 <span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] feat: add user dashboard"</span>
 
@@ -173,8 +173,8 @@ export default function BestPractices() {
             
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-100 leading-relaxed">
+              <div className="bg-gray-800 rounded-lg p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-pre-wrap break-words">
 <span className="text-green-400"># 1. Run tests and linting</span>
 <span className="text-blue-300">npm test</span> && <span className="text-blue-300">npm run lint</span>
 
@@ -187,8 +187,8 @@ export default function BestPractices() {
             
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-100 leading-relaxed">
+              <div className="bg-gray-800 rounded-lg p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-pre-wrap break-words">
 <span className="text-green-400"># 1. Merge to main via PR</span>
 <span className="text-blue-300">git checkout</span> main && <span className="text-blue-300">git pull</span> origin main
 

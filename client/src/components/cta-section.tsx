@@ -38,7 +38,7 @@ export default function CTASection() {
           <Button
             asChild
             size="lg"
-            className="bg-white text-brand-600 hover:bg-gray-100 px-8 py-4 h-auto font-semibold"
+            className="justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-md border-2 border-white hover:bg-white hover:text-brand-600 px-8 py-4 h-auto font-semibold flex items-center bg-[#ffffff] text-[#0d83e9]"
           >
             <a
               href="https://github.com/Juel-IT-Security/CodexCrafters"
