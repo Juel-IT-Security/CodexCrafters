@@ -49,13 +49,23 @@ export default function Navigation() {
           
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => scrollToSection(link.href)}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                {link.label}
-              </button>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <button
+                  key={link.href}
+                  onClick={() => scrollToSection(link.href)}
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  {link.label}
+                </button>
+              )
             ))}
             <a
               href="https://github.com/Juel-IT-Security/CodexCrafters"

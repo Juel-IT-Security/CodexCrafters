@@ -54,6 +54,7 @@ export default function DocsPage() {
   // Fetch specific documentation content
   const { data: docContent, isLoading: contentLoading } = useQuery<{content: string; path: string}>({
     queryKey: ['/api/docs/content', selectedFile],
+    queryFn: () => fetch(`/api/docs/content?path=${encodeURIComponent(selectedFile)}`).then(res => res.json()),
     enabled: !!selectedFile,
     staleTime: 300000,
   });
