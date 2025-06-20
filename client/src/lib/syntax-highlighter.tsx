@@ -1,3 +1,6 @@
+// Syntax Highlighter component - provides code highlighting for different languages
+// Demonstrates useMemo optimization and string processing patterns
+
 import { useMemo } from "react";
 
 interface SyntaxHighlighterProps {
@@ -6,6 +9,8 @@ interface SyntaxHighlighterProps {
 }
 
 export default function SyntaxHighlighter({ code, language }: SyntaxHighlighterProps) {
+  // Use useMemo to avoid re-processing code on every render
+  // This optimization is important for large code blocks
   const highlightedCode = useMemo(() => {
     if (language === "markdown") {
       return code

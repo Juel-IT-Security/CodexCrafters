@@ -1,3 +1,6 @@
+// 404 Not Found page component - displays when user navigates to non-existent routes
+// Demonstrates error page design and helpful developer messaging
+
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 

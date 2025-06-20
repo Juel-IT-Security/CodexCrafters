@@ -1,8 +1,12 @@
+// Database seeding script - populates the database with initial sample data
+// This demonstrates data initialization patterns and prevents duplicate seeding
+
 import { db } from "./db";
 import { examples, guides, type InsertExample, type InsertGuide } from "@shared/schema";
 
 export async function seedDatabase() {
-  // Check if data already exists
+  // Check if data already exists to avoid duplicate seeding
+  // This is important for development where the server restarts frequently
   const existingExamples = await db.select().from(examples).limit(1);
   if (existingExamples.length > 0) {
     console.log("Database already seeded, skipping...");

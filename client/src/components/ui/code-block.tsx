@@ -1,3 +1,6 @@
+// Code Block components - display code snippets with copy functionality
+// Demonstrates clipboard API usage, React Children manipulation, and UI feedback patterns
+
 import { useState, Children, isValidElement, cloneElement } from "react";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,13 +11,18 @@ interface CodeLineProps {
   className?: string;
 }
 
+// Individual code line component with copy functionality
 export function CodeLine({ children, code, className = "" }: CodeLineProps) {
+  // State to show visual feedback when code is copied
   const [copied, setCopied] = useState(false);
 
+  // Function to copy code to clipboard with user feedback
   const handleCopy = async () => {
     try {
+      // Use modern Clipboard API to copy code
       await navigator.clipboard.writeText(code);
       setCopied(true);
+      // Reset feedback after 2 seconds
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
