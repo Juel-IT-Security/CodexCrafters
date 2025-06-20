@@ -109,14 +109,14 @@ export default function ExamplesGallery() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm text-gray-300 overflow-x-auto">
+                <div className="bg-gray-900 rounded-lg p-6 font-mono text-sm overflow-x-auto">
                   {selectedExample === example.id && activeView === "agents" ? (
                     <SyntaxHighlighter
                       language="markdown"
                       code={example.generatedAgentsMd}
                     />
                   ) : (
-                    <pre>{example.repositoryStructure}</pre>
+                    <pre className="text-gray-200 leading-relaxed">{example.repositoryStructure}</pre>
                   )}
                 </div>
               </CardContent>
@@ -140,7 +140,7 @@ export default function ExamplesGallery() {
                 <Copy className="w-4 h-4" />
               </Button>
             </div>
-            <div className="p-6 font-mono text-sm overflow-x-auto">
+            <div className="p-6 bg-gray-900 font-mono text-sm overflow-x-auto">
               <SyntaxHighlighter
                 language="markdown"
                 code={examples[0].generatedAgentsMd}

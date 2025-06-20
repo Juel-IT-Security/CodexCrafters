@@ -57,9 +57,9 @@ export default function HowItWorks() {
                   <Terminal className="w-5 h-5 mr-2 text-brand-600" />
                   Example Input:
                 </h5>
-                <div className="bg-gray-900 rounded-lg p-4 font-mono text-green-400 text-sm">
-                  Please analyze this repository:<br />
-                  https://github.com/microsoft/vscode
+                <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm">
+                  <span className="text-gray-300">Please analyze this repository:</span><br />
+                  <span className="text-blue-300">https://github.com/microsoft/vscode</span>
                 </div>
               </div>
             </CardContent>

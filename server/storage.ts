@@ -214,7 +214,11 @@ When planning, Codex must output a markdown task list grouped by agent:
 
   async createExample(insertExample: InsertExample): Promise<Example> {
     const id = this.currentExampleId++;
-    const example: Example = { ...insertExample, id };
+    const example: Example = { 
+      ...insertExample, 
+      id,
+      tags: insertExample.tags || []
+    };
     this.examples.set(id, example);
     return example;
   }

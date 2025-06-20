@@ -145,14 +145,14 @@ export default function BestPractices() {
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">Before Development</h4>
               <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-300">
-{`# 1. Create feature branch
-git checkout -b feature/[AGENT]-description
+                <pre className="text-gray-100 leading-relaxed">
+<span className="text-green-400"># 1. Create feature branch</span>
+<span className="text-blue-300">git checkout -b</span> <span className="text-yellow-300">feature/[AGENT]-description</span>
 
-# 2. Set up AGENTS.md in root
-cp AGENTS.md.template AGENTS.md
+<span className="text-green-400"># 2. Set up AGENTS.md in root</span>
+<span className="text-blue-300">cp</span> AGENTS.md.template AGENTS.md
 
-# 3. Review agent responsibilities`}
+<span className="text-green-400"># 3. Review agent responsibilities</span>
                 </pre>
               </div>
             </div>
@@ -160,13 +160,13 @@ cp AGENTS.md.template AGENTS.md
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">During Development</h4>
               <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-300">
-{`# 1. Commit with agent tags
-git commit -m "[FRONTEND] feat: add user dashboard"
+                <pre className="text-gray-100 leading-relaxed">
+<span className="text-green-400"># 1. Commit with agent tags</span>
+<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] feat: add user dashboard"</span>
 
-# 2. Keep commits atomic and focused
-git add src/components/Dashboard.tsx
-git commit -m "[FRONTEND] add dashboard component"`}
+<span className="text-green-400"># 2. Keep commits atomic and focused</span>
+<span className="text-blue-300">git add</span> src/components/Dashboard.tsx
+<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[FRONTEND] add dashboard component"</span>
                 </pre>
               </div>
             </div>
@@ -174,13 +174,13 @@ git commit -m "[FRONTEND] add dashboard component"`}
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
               <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-300">
-{`# 1. Run tests and linting
-npm test && npm run lint
+                <pre className="text-gray-100 leading-relaxed">
+<span className="text-green-400"># 1. Run tests and linting</span>
+<span className="text-blue-300">npm test</span> && <span className="text-blue-300">npm run lint</span>
 
-# 2. Update documentation
-git add README.md CHANGELOG.md
-git commit -m "[DOCS] update deployment guide"`}
+<span className="text-green-400"># 2. Update documentation</span>
+<span className="text-blue-300">git add</span> README.md CHANGELOG.md
+<span className="text-blue-300">git commit -m</span> <span className="text-yellow-300">"[DOCS] update deployment guide"</span>
                 </pre>
               </div>
             </div>
@@ -188,15 +188,15 @@ git commit -m "[DOCS] update deployment guide"`}
             <div>
               <h4 className="text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
               <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm">
-                <pre className="text-gray-300">
-{`# 1. Merge to main via PR
-git checkout main && git pull origin main
+                <pre className="text-gray-100 leading-relaxed">
+<span className="text-green-400"># 1. Merge to main via PR</span>
+<span className="text-blue-300">git checkout</span> main && <span className="text-blue-300">git pull</span> origin main
 
-# 2. Deploy through Replit
-# Replit auto-deploys from main branch
+<span className="text-green-400"># 2. Deploy through Replit</span>
+<span className="text-gray-400"># Replit auto-deploys from main branch</span>
 
-# 3. Tag release
-git tag -a v1.0.0 -m "Release v1.0.0"`}
+<span className="text-green-400"># 3. Tag release</span>
+<span className="text-blue-300">git tag -a</span> v1.0.0 <span className="text-blue-300">-m</span> <span className="text-yellow-300">"Release v1.0.0"</span>
                 </pre>
               </div>
             </div>
