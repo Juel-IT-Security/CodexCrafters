@@ -318,10 +318,12 @@ export default function DocsPage() {
                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
                         // Style code blocks properly
                         pre: ({ node, ...props }) => <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4" {...props} />,
-                        code: ({ node, inline, ...props }) => 
-                          inline ? 
+                        code: ({ node, className, ...props }) => {
+                          const isInline = !className?.includes('language-');
+                          return isInline ? 
                             <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props} /> :
-                            <code {...props} />,
+                            <code className={className} {...props} />;
+                        },
                         // Ensure proper heading hierarchy
                         h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100" {...props} />,
                         h2: ({ node, ...props }) => <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8" {...props} />,
@@ -353,52 +355,3 @@ export default function DocsPage() {
   );
 }
 
-// Component to render tutorial content with code blocks
-function TutorialRenderer({ content }: { content: string }) {
-  // Parse markdown content and render with code blocks
-  const sections = content.split('```');
-  
-  return (
-    <div className="space-y-6">
-      {sections.map((section, index) => {
-        if (index % 2 === 0) {
-          // Regular markdown content - render basic markdown
-          return (
-            <div key={index} className="prose-content">
-              {section.split('\n').map((line, lineIndex) => {
-                if (line.startsWith('# ')) {
-                  return <h1 key={lineIndex} className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{line.substring(2)}</h1>;
-                } else if (line.startsWith('## ')) {
-                  return <h2 key={lineIndex} className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8">{line.substring(3)}</h2>;
-                } else if (line.startsWith('### ')) {
-                  return <h3 key={lineIndex} className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-6">{line.substring(4)}</h3>;
-                } else if (line.trim() === '') {
-                  return <br key={lineIndex} />;
-                } else if (line.startsWith('- ')) {
-                  return <li key={lineIndex} className="ml-4 text-gray-700 dark:text-gray-300">{line.substring(2)}</li>;
-                } else {
-                  return <p key={lineIndex} className="text-gray-700 dark:text-gray-300 mb-4">{line}</p>;
-                }
-              })}
-            </div>
-          );
-        } else {
-          // Code block
-          const lines = section.split('\n');
-          const language = lines[0] || 'javascript';
-          const code = lines.slice(1).join('\n');
-          
-          return (
-            <CodeBlock key={index} title={`${language} example`}>
-              {code.split('\n').map((line, lineIndex) => (
-                <CodeLine key={lineIndex} code={line}>
-                  <span className="text-gray-100">{line}</span>
-                </CodeLine>
-              ))}
-            </CodeBlock>
-          );
-        }
-      })}
-    </div>
-  );
-}
