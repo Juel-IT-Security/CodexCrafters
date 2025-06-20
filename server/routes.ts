@@ -204,14 +204,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // GET /sitemap.xml - Generate XML sitemap for SEO
+  // GET /sitemap.xml - Dynamic XML sitemap generation for SEO optimization
+  // Automatically generates search engine sitemap from documentation structure
+  // 📖 Learn more: /docs/tutorials/backend/seo-optimization-techniques.md
   app.get("/sitemap.xml", async (_req, res) => {
     try {
       const pathModule = await import('path');
+      
+      // Base URL for all sitemap entries - configured for production domain
       const baseUrl = 'https://codexcrafters.juelfoundationofselflearning.org';
       const docsPath = pathModule.join(process.cwd(), 'docs');
+      
+      // Generate documentation structure to include all available content
       const structure = await buildDocsStructure(docsPath);
       
+      // XML sitemap header with proper namespace declaration
       let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -225,8 +232,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     <changefreq>weekly</changefreq>
   </url>`;
 
-      // Add documentation sections to sitemap
+      // Add all documentation files to sitemap for search engine indexing
+      // Higher priority for main section files, lower for subsection files
       structure.sections.forEach(section => {
+        // Main section files (tutorials, guides, etc.)
         section.files.forEach(file => {
           sitemap += `
   <url>
@@ -236,6 +245,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   </url>`;
         });
         
+        // Subsection files (detailed tutorials, specific guides)
         section.subsections.forEach(subsection => {
           subsection.files.forEach(file => {
             sitemap += `
@@ -248,9 +258,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       });
 
+      // Close XML sitemap structure
       sitemap += `
 </urlset>`;
 
+      // Set proper content type for XML and send response
       res.set('Content-Type', 'application/xml');
       res.send(sitemap);
     } catch (error) {

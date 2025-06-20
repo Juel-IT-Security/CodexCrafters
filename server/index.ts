@@ -16,34 +16,43 @@ import { errorHandler, setupUnhandledRejectionHandler } from "./middleware/error
 // Create Express application instance
 const app = express();
 
-// Compression middleware for better performance
+// Performance optimization middleware - reduces response size and improves load times
+// Compresses all HTTP responses using gzip, significantly reducing bandwidth usage
+// 📖 Learn more: /docs/tutorials/backend/performance-optimization.md
 app.use(compression());
 
-// CORS configuration for production security
+// Cross-Origin Resource Sharing (CORS) configuration for production security
+// Controls which domains can make requests to our API endpoints
+// 📖 Learn more: /docs/tutorials/backend/cors-security-configuration.md
 const corsOptions = {
+  // Production: Only allow requests from our approved domains
+  // Development: Allow all origins for easier testing
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://codexcrafters.juelfoundationofselflearning.org', 'https://juelfoundationofselflearning.org']
     : true, // Allow all origins in development
-  credentials: true,
-  optionsSuccessStatus: 200
+  credentials: true, // Allow cookies and authentication headers
+  optionsSuccessStatus: 200 // Legacy browser support
 };
 app.use(cors(corsOptions));
 
-// Enhanced security middleware with tighter CSP for production
+// Enhanced security headers using Helmet middleware
+// Adds multiple security-focused HTTP headers to protect against common attacks
+// 📖 Learn more: /docs/tutorials/backend/security-headers-implementation.md
 app.use(helmet({
+  // Content Security Policy (CSP) - prevents XSS and code injection attacks
   contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
     directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: [],
+      defaultSrc: ["'self'"], // Only allow resources from same origin
+      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allow Google Fonts CSS
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow Google Fonts files
+      scriptSrc: ["'self'"], // Only allow scripts from same origin (no inline scripts)
+      imgSrc: ["'self'", "data:", "https:"], // Allow images from same origin, data URLs, and HTTPS
+      connectSrc: ["'self'"], // Only allow fetch/XHR requests to same origin
+      objectSrc: ["'none'"], // Disable plugins like Flash
+      upgradeInsecureRequests: [], // Force HTTPS for all requests
     },
-  } : false, // Disable CSP in development for Vite compatibility
-  crossOriginEmbedderPolicy: false // Allow embedding for documentation
+  } : false, // Disable CSP in development for Vite hot reload compatibility
+  crossOriginEmbedderPolicy: false // Allow embedding for documentation and iframe content
 }));
 
 // Rate limiting middleware to prevent abuse
@@ -58,8 +67,9 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Production safety: disable write operations until admin portal is ready
-// Set MUTATIONS_ENABLED=true in environment to re-enable POST/PUT/DELETE endpoints
+// Production safety middleware - prevents data modifications until admin portal is ready
+// Demonstrates environment-based feature toggling and safe deployment patterns
+// 📖 Learn more: /docs/tutorials/backend/production-safety-patterns.md
 app.use(disableMutations);
 
 // Middleware to parse JSON request bodies (for API requests from frontend)
@@ -110,7 +120,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Setup error handling for unhandled promises and exceptions
+// Global error handling setup - catches unhandled promises and exceptions
+// Demonstrates Node.js error handling best practices and crash prevention
+// 📖 Learn more: /docs/tutorials/backend/error-handling-and-monitoring.md
 setupUnhandledRejectionHandler();
 
 // Main application startup function using IIFE (Immediately Invoked Function Expression)
@@ -121,7 +133,9 @@ setupUnhandledRejectionHandler();
   // Register all API routes (/api/examples, /api/guides) and create HTTP server
   const server = await registerRoutes(app);
 
-  // Enhanced global error handler with monitoring and security
+  // Enhanced global error handler - comprehensive error monitoring with security
+  // Provides production-ready error tracking, logging, and user-friendly responses
+  // 📖 Learn more: /docs/tutorials/backend/error-handling-and-monitoring.md
   app.use(errorHandler);
 
   // Environment-specific setup - development vs production
