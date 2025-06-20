@@ -1,5 +1,6 @@
 // Badge component - small status indicators and labels
 // Demonstrates semantic color variants and compact design patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"

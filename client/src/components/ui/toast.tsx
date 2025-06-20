@@ -1,5 +1,6 @@
 // Toast component system - notification UI with animations and variants
 // Demonstrates Radix UI toast primitives and responsive positioning
+// 📖 Learn more: /docs/tutorials/frontend/understanding-notifications.md
 
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"

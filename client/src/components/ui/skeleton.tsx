@@ -1,5 +1,6 @@
 // Skeleton component - loading placeholder with pulse animation
 // Demonstrates loading state patterns and CSS animations
+// 📖 Learn more: /docs/tutorials/frontend/understanding-loading-states.md
 
 import { cn } from "@/lib/utils"
 

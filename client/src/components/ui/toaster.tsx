@@ -1,5 +1,6 @@
 // Toaster component - renders the toast notification system
 // Demonstrates integration between custom hooks and UI components
+// 📖 Learn more: /docs/tutorials/frontend/understanding-notifications.md
 
 import { useToast } from "@/hooks/use-toast"
 import {
