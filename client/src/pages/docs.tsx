@@ -215,7 +215,7 @@ export default function DocsPage() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8 mb-16">
+        <div className="grid lg:grid-cols-4 gap-8 mb-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
@@ -339,7 +339,7 @@ export default function DocsPage() {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <Card className="min-h-[600px]">
-              <CardContent className="p-8 pb-20">
+              <CardContent className="p-8 pb-8">
                 {contentLoading ? (
                   <div className="flex items-center justify-center h-64">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
