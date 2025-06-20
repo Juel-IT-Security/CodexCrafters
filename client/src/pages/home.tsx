@@ -1,5 +1,6 @@
 // Home page component - the main landing page that combines all sections
 // Demonstrates page composition patterns and responsive layout design
+// 📖 Learn more: /docs/tutorials/frontend/understanding-page-composition.md
 
 import Navigation from "@/components/navigation";
 import HeroSection from "@/components/hero-section";

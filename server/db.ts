@@ -1,5 +1,6 @@
 // Database connection setup for the AGENTS.md Educational Platform
 // This configures PostgreSQL connection using Neon (serverless Postgres) with Drizzle ORM
+// 📖 Learn more: /docs/tutorials/backend/understanding-database-connection.md
 
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';

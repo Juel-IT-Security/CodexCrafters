@@ -1,5 +1,6 @@
 // Hero Section component - the main landing area that introduces the platform
 // Demonstrates design patterns for compelling landing pages and call-to-action sections
+// 📖 Learn more: /docs/tutorials/frontend/understanding-landing-page-design.md
 
 import { Bot, Github, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";

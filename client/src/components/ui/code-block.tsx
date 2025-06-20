@@ -1,5 +1,6 @@
 // Code Block components - display code snippets with copy functionality
 // Demonstrates clipboard API usage, React Children manipulation, and UI feedback patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-interactive-code-blocks.md
 
 import { useState, Children, isValidElement, cloneElement } from "react";
 import { Copy, Check } from "lucide-react";

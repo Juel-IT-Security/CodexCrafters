@@ -1,5 +1,6 @@
 // Toast notification system - provides user feedback and alerts
 // Demonstrates advanced React patterns: reducers, custom hooks, global state management
+// 📖 Learn more: /docs/tutorials/frontend/understanding-toast-notifications.md
 
 import * as React from "react"
 

@@ -1,5 +1,6 @@
 // How It Works component - explains the two methods for generating AGENTS.md files
 // Demonstrates step-by-step process presentation and instructional UI design
+// 📖 Learn more: /docs/tutorials/frontend/understanding-process-flows.md
 
 import { Github, Upload, Bot, CheckCircle, Terminal, Info } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";

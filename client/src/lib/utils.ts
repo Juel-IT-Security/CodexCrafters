@@ -1,5 +1,6 @@
 // Utility functions for the application
 // This file demonstrates common utility patterns and class name management
+// 📖 Learn more: /docs/tutorials/frontend/understanding-utility-patterns.md
 
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
