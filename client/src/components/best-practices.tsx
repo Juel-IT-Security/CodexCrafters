@@ -171,10 +171,10 @@ export default function BestPractices() {
               </div>
             </div>
             
-            <div>
-              <h4 className="text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-pre-wrap break-words">
+            <div className="w-full">
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Before Deployment</h4>
+              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
 <span className="text-green-400"># 1. Run tests and linting</span>
 <span className="text-blue-300">npm test</span> && <span className="text-blue-300">npm run lint</span>
 
@@ -185,10 +185,10 @@ export default function BestPractices() {
               </div>
             </div>
             
-            <div>
-              <h4 className="text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
-              <div className="bg-gray-800 rounded-lg p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                <pre className="text-gray-100 leading-relaxed whitespace-pre-wrap break-words">
+            <div className="w-full">
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-emerald-400">Deployment</h4>
+              <div className="bg-gray-800 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                <pre className="text-gray-100 leading-relaxed whitespace-nowrap">
 <span className="text-green-400"># 1. Merge to main via PR</span>
 <span className="text-blue-300">git checkout</span> main && <span className="text-blue-300">git pull</span> origin main
 
