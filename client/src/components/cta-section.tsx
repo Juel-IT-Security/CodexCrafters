@@ -42,7 +42,7 @@ export default function CTASection() {
             className="border-2 border-white text-white hover:bg-white hover:text-brand-600 px-8 py-4 h-auto font-semibold"
           >
             <a
-              href="https://github.com/your-repo"
+              href="https://github.com/Juel-IT-Security/CodexCrafters"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"

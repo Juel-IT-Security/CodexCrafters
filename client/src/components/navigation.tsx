@@ -45,7 +45,7 @@ export default function Navigation() {
               </button>
             ))}
             <a
-              href="https://github.com/your-repo"
+              href="https://github.com/Juel-IT-Security/CodexCrafters"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
@@ -81,7 +81,7 @@ export default function Navigation() {
                 </button>
               ))}
               <a
-                href="https://github.com/your-repo"
+                href="https://github.com/Juel-IT-Security/CodexCrafters"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-gray-600 hover:text-gray-900 transition-colors px-2 py-1"

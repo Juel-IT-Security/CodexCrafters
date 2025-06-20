@@ -67,7 +67,7 @@ export default function VideoGuides() {
               </p>
               <Button asChild className="bg-brand-600 hover:bg-brand-700">
                 <a
-                  href="https://github.com/your-repo/issues/new"
+                  href="https://github.com/Juel-IT-Security/CodexCrafters/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center"

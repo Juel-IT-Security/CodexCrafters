@@ -15,7 +15,7 @@ export default function Footer() {
       external: true 
     },
     { 
-      href: "https://github.com/your-repo", 
+      href: "https://github.com/Juel-IT-Security/CodexCrafters", 
       label: "GitHub Repository",
       external: true 
     },
@@ -54,7 +54,7 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="https://github.com/your-repo" 
+                href="https://github.com/Juel-IT-Security/CodexCrafters" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -119,17 +119,17 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-200 text-sm">
             © 2024 AGENTS.md Generator. Built with ❤️ on Replit. Open source and free to use.
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="#" className="text-gray-200 hover:text-white text-sm transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="#" className="text-gray-200 hover:text-white text-sm transition-colors">
               Terms of Service
             </a>
-            <a href="mailto:support@agents-md.dev" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="mailto:support@agents-md.dev" className="text-gray-200 hover:text-white text-sm transition-colors">
               Contact
             </a>
           </div>
