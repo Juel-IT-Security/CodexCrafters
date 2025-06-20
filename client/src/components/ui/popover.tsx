@@ -1,5 +1,6 @@
 // Popover component system - floating content with positioning
 // Demonstrates portal rendering and dynamic positioning patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-floating-ui.md
 
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"

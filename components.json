@@ -1,6 +1,7 @@
 {
   // Shadcn/ui configuration - component library setup and path aliases
   // Demonstrates design system configuration and import path management
+  // 📖 Learn more: /docs/tutorials/configuration/understanding-shadcn-config.md
 
   "$schema": "https://ui.shadcn.com/schema.json",
   

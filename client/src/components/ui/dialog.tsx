@@ -1,5 +1,6 @@
 // Dialog component system - modal dialogs with accessibility and animations
 // Demonstrates portal rendering, focus management, and compound component patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-modals.md
 
 "use client"
 

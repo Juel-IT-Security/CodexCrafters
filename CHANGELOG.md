@@ -1,3 +1,9 @@
+<!--
+Changelog - Version history and change documentation
+Demonstrates semantic versioning and change management patterns
+📖 Learn more: /docs/guides/changelog-management.md
+-->
+
 # Changelog
 
 All notable changes to CodexCrafters will be documented in this file.

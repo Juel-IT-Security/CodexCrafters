@@ -1,5 +1,6 @@
 // Dropdown Menu component system - contextual menus with keyboard navigation
 // Demonstrates complex menu patterns, submenus, and accessibility features
+// 📖 Learn more: /docs/tutorials/frontend/understanding-menus.md
 
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"

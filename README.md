@@ -1,3 +1,9 @@
+<!--
+Project README - Main project documentation and setup instructions
+Demonstrates comprehensive project documentation patterns and onboarding flows
+📖 Learn more: /docs/guides/project-documentation.md
+-->
+
 # AGENTS.md Educational Platform
 
 An educational open-source web application that showcases a custom GPT bot for generating AGENTS.md files used in multi-agent development workflows. The GPT can either scan public repositories with deep research or accept zip file uploads. This platform serves as a living example project to help people learn development and AI tool integration.

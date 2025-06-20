@@ -1,5 +1,6 @@
 // Tooltip component system - contextual help text with hover/focus triggers
 // Demonstrates accessible help text and positioning patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-tooltips.md
 
 "use client"
 
