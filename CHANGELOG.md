@@ -40,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript compilation errors
 - Mobile responsiveness in best practices section
 - Code block overflow and text display issues
+- Navigation link routing from documentation back to home page sections
+- GitHub link in navigation now points to correct repository
+- Line number alignment in code examples with proper spacing
+- Code block line numbering consistency across all examples
 
 ## [1.0.0] - 2024-12-20
 
