@@ -127,7 +127,14 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-200 text-sm">
-            © 2024 Juel Foundation of Self Learning, Inc. Built with ❤️ for educational purposes. Open source and free to use.
+            © 2024 <a 
+              href="https://juelfoundationofselflearning.org/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-300 hover:text-blue-200 transition-colors underline"
+            >
+              Juel Foundation of Self Learning, Inc.
+            </a> Built with ❤️ for educational purposes. Open source and free to use.
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-200 hover:text-white text-sm transition-colors">
@@ -136,7 +143,7 @@ export default function Footer() {
             <a href="#" className="text-gray-200 hover:text-white text-sm transition-colors">
               Terms of Service
             </a>
-            <a href="mailto:support@agents-md.dev" className="text-gray-200 hover:text-white text-sm transition-colors">
+            <a href="mailto:support@juelfoundationofselflearning.org" className="text-gray-200 hover:text-white text-sm transition-colors">
               Contact
             </a>
           </div>
