@@ -218,7 +218,7 @@ export default function DocsPage() {
         <div className="grid lg:grid-cols-4 gap-8 mb-16">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
-            <div className="sticky top-20 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+            <div className="sticky top-20 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
               {/* Quick Start Overview */}
               <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700">
                 <CardHeader className="pb-3">
