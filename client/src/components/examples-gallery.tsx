@@ -1,3 +1,6 @@
+// Examples Gallery component - displays project examples with generated AGENTS.md files
+// Demonstrates data fetching, state management, and interactive UI patterns
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -9,22 +12,35 @@ import SyntaxHighlighter from "@/lib/syntax-highlighter";
 import type { Example } from "@shared/schema";
 
 export default function ExamplesGallery() {
+  // Hook for showing toast notifications to users
   const { toast } = useToast();
+  
+  // State to track which example is currently selected for detailed view
   const [selectedExample, setSelectedExample] = useState<number | null>(null);
+  
+  // State to toggle between viewing repository structure or AGENTS.md content
   const [activeView, setActiveView] = useState<"structure" | "agents">("structure");
 
+  // Fetch examples data from our API using TanStack Query
+  // This automatically handles loading states, caching, and error handling
   const { data: examples, isLoading } = useQuery<Example[]>({
-    queryKey: ["/api/examples"],
+    queryKey: ["/api/examples"], // Unique cache key for this query
   });
 
+  // Function to copy text content to user's clipboard
+  // Provides user feedback through toast notifications
   const copyToClipboard = async (text: string) => {
     try {
+      // Use modern Clipboard API to copy text
       await navigator.clipboard.writeText(text);
+      
+      // Show success notification
       toast({
         title: "Copied to clipboard",
         description: "The AGENTS.md content has been copied to your clipboard.",
       });
     } catch (error) {
+      // Show error notification if copy fails
       toast({
         title: "Failed to copy",
         description: "Unable to copy to clipboard. Please try again.",

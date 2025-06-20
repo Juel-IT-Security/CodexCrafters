@@ -57,37 +57,43 @@ app.use((req, res, next) => {
   next();
 });
 
+// Main application startup function using IIFE (Immediately Invoked Function Expression)
 (async () => {
-  // Seed the database on startup
+  // Initialize database with sample data (only runs once, skips if already seeded)
   await seedDatabase();
   
+  // Register all API routes (/api/examples, /api/guides) and create HTTP server
   const server = await registerRoutes(app);
 
+  // Global error handler - catches any unhandled errors in route handlers
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
+    // Send error response to client
     res.status(status).json({ message });
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Environment-specific setup - development vs production
+  // Important: Setup Vite AFTER registering API routes so the catch-all route
+  // for frontend files doesn't interfere with our API endpoints
   if (app.get("env") === "development") {
+    // Development: Setup Vite for hot module replacement and frontend serving
     await setupVite(app, server);
   } else {
+    // Production: Serve pre-built static files from dist folder
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
+  // Start the server on port 5000
+  // This serves both the API (/api/*) and the frontend (React app)
+  // Port 5000 is the only port accessible in the Replit environment
   const port = 5000;
   server.listen({
     port,
-    host: "0.0.0.0",
-    reusePort: true,
+    host: "0.0.0.0", // Listen on all network interfaces
+    reusePort: true, // Allow port reuse for faster restarts
   }, () => {
     log(`serving on port ${port}`);
   });
