@@ -1,6 +1,6 @@
-# CodexCrafters - AGENTS.md Generator Platform
+# AGENTS.md Educational Platform
 
-An educational open-source web application showcasing AI-powered multi-agent development workflows. Built with React, Express, and PostgreSQL, this platform demonstrates how to integrate OpenAI's custom GPT for generating AGENTS.md files used in collaborative AI development.
+An educational open-source web application that showcases a custom GPT bot for generating AGENTS.md files used in multi-agent development workflows. The GPT can either scan public repositories with deep research or accept zip file uploads. This platform serves as a living example project to help people learn development and AI tool integration.
 
 ## 🚀 Live Demo
 
@@ -16,20 +16,39 @@ AGENTS.md is a specification file that defines roles, responsibilities, and work
 - **Project Structure**: Organize multi-agent development processes
 - **Documentation**: Maintain clear records of agent responsibilities
 
+## 📚 Comprehensive Learning Resources
+
+Our `/docs` directory provides a complete learning experience for modern web development:
+
+### For Beginners
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Setup, project structure, and first steps
+- **[Step-by-Step Tutorials](docs/TUTORIALS.md)** - Build components, APIs, and full features
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Solutions to common development issues
+
+### For Intermediate Developers
+- **[Architecture Guide](docs/ARCHITECTURE.md)** - Full-stack application design patterns
+- **[Best Practices](docs/BEST_PRACTICES.md)** - Industry-standard coding conventions
+- **[API Documentation](docs/API.md)** - Complete endpoint reference with examples
+
+### For Advanced Developers
+- **[Contributing Guidelines](docs/CONTRIBUTING.md)** - Open source contribution workflow
+- **[Documentation Hub](docs/README.md)** - Complete learning path recommendations
+
 ## 🎯 Features
 
-### Core Functionality
-- **GPT Integration**: Direct access to our custom AGENTS.md generator
+### Educational Platform
+- **Custom GPT Integration**: Direct access to our specialized AGENTS.md generator
 - **Repository Analysis**: Analyze public GitHub repositories or upload ZIP files
-- **Interactive Examples**: Browse real-world AGENTS.md implementations
-- **Educational Content**: Learn best practices for AI-powered development
+- **Interactive Examples**: Browse real-world AGENTS.md implementations with copy functionality
+- **Hands-On Tutorials**: Step-by-step coding exercises with practical examples
+- **Complete Documentation**: Comprehensive guides for all skill levels
 
-### Technical Features
+### Technical Implementation
 - **Full-Stack TypeScript**: Type-safe development with shared schemas
 - **PostgreSQL Database**: Persistent storage for examples and guides
-- **Responsive Design**: Mobile-first UI with Tailwind CSS
-- **Copy-to-Clipboard**: Interactive code examples with one-click copying
-- **Real-time Data**: React Query for efficient data fetching
+- **Responsive Design**: Mobile-first UI with Tailwind CSS and shadcn/ui
+- **Copy-to-Clipboard**: Interactive code examples with ChatGPT-style copy buttons
+- **Real-time Data**: TanStack Query for efficient data fetching and caching
 
 ## 🛠 Tech Stack
 
