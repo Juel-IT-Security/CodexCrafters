@@ -1,6 +1,6 @@
 # AGENTS.md Educational Platform Documentation
 
-A comprehensive learning platform for multi-agent development with AI-powered AGENTS.md file generation. This documentation covers the complete implementation, code quality standards, and best practices.
+A comprehensive learning platform for multi-agent development with AI-powered AGENTS.md file generation, developed by the **Juel Foundation of Self Learning, Inc.** This documentation covers the complete implementation, code quality standards, and best practices.
 
 ## Table of Contents
 
