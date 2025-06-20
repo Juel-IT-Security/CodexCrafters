@@ -1,20 +1,31 @@
 {
-    "$schema": "https://ui.shadcn.com/schema.json",
-    "style": "new-york",
-    "rsc": false,
-    "tsx": true,
-    "tailwind": {
-      "config": "tailwind.config.ts",
-      "css": "client/src/index.css",
-      "baseColor": "neutral",
-      "cssVariables": true,
-      "prefix": ""
-    },
-    "aliases": {
-      "components": "@/components",
-      "utils": "@/lib/utils",
-      "ui": "@/components/ui",
-      "lib": "@/lib",
-      "hooks": "@/hooks"
-    }
+  // Shadcn/ui configuration - component library setup and path aliases
+  // Demonstrates design system configuration and import path management
+
+  "$schema": "https://ui.shadcn.com/schema.json",
+  
+  // Component style variant - New York style for modern, clean components
+  "style": "new-york",
+  
+  // Framework configuration
+  "rsc": false, // Not using React Server Components
+  "tsx": true,  // Using TypeScript with JSX
+  
+  // Tailwind CSS integration settings
+  "tailwind": {
+    "config": "tailwind.config.ts",        // Tailwind config file location
+    "css": "client/src/index.css",         // Global CSS file location
+    "baseColor": "neutral",                // Base color palette
+    "cssVariables": true,                  // Use CSS variables for theming
+    "prefix": ""                           // No prefix for Tailwind classes
+  },
+  
+  // Import path aliases for clean, organized imports
+  "aliases": {
+    "components": "@/components",          // Main components directory
+    "utils": "@/lib/utils",               // Utility functions
+    "ui": "@/components/ui",              // UI component library
+    "lib": "@/lib",                       // Library code
+    "hooks": "@/hooks"                    // Custom React hooks
+  }
 }

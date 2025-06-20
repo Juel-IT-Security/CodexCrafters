@@ -1,23 +1,47 @@
 {
+  // TypeScript configuration for full-stack development
+  // Demonstrates monorepo TypeScript setup with path mapping and modern ESM
+
+  // Include all TypeScript files from client, shared, and server directories
   "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
+  
+  // Exclude build artifacts and dependencies from compilation
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  
   "compilerOptions": {
-    "incremental": true,
+    // Build performance optimizations
+    "incremental": true, // Enable incremental compilation for faster builds
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
+    
+    // Output configuration - no emit since Vite/tsx handles compilation
     "noEmit": true,
+    
+    // Module system - modern ESM for all environments
     "module": "ESNext",
+    "moduleResolution": "bundler", // Vite-compatible module resolution
+    
+    // Type checking - strict mode for better code quality
     "strict": true,
+    
+    // Runtime libraries - browser DOM and modern JavaScript features
     "lib": ["esnext", "dom", "dom.iterable"],
+    
+    // JSX configuration - preserve for Vite to handle
     "jsx": "preserve",
+    
+    // Module interoperability and compatibility
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
+    "skipLibCheck": true, // Skip type checking of declaration files for faster builds
+    "allowImportingTsExtensions": true, // Allow .ts imports in modern bundlers
+    
+    // Path mapping for clean imports
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
-    }
+      "@/*": ["./client/src/*"], // Client-side absolute imports
+      "@shared/*": ["./shared/*"] // Shared code between client and server
+    },
+    
+    // Type definitions for Node.js and Vite environment
+    "types": ["node", "vite/client"]
   }
 }
