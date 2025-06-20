@@ -217,7 +217,7 @@ When planning, Codex must output a markdown task list grouped by agent:
     const example: Example = { 
       ...insertExample, 
       id,
-      tags: insertExample.tags || []
+      tags: (insertExample.tags && Array.isArray(insertExample.tags)) ? insertExample.tags : []
     };
     this.examples.set(id, example);
     return example;
@@ -234,7 +234,11 @@ When planning, Codex must output a markdown task list grouped by agent:
 
   async createGuide(insertGuide: InsertGuide): Promise<Guide> {
     const id = this.currentGuideId++;
-    const guide: Guide = { ...insertGuide, id };
+    const guide: Guide = { 
+      ...insertGuide, 
+      id,
+      videoUrl: insertGuide.videoUrl || null
+    };
     this.guides.set(id, guide);
     return guide;
   }
