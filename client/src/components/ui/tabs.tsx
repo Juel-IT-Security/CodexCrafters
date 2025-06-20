@@ -1,8 +1,12 @@
+// Tabs component system - tabbed interface with keyboard navigation
+// Demonstrates content organization and accessible tab patterns
+
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+// Main tabs container - manages tab state and keyboard navigation
 const Tabs = TabsPrimitive.Root
 
 const TabsList = React.forwardRef<

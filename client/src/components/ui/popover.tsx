@@ -1,10 +1,15 @@
+// Popover component system - floating content with positioning
+// Demonstrates portal rendering and dynamic positioning patterns
+
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
 
+// Main popover container - manages open/close state
 const Popover = PopoverPrimitive.Root
 
+// Trigger button that opens the popover
 const PopoverTrigger = PopoverPrimitive.Trigger
 
 const PopoverContent = React.forwardRef<

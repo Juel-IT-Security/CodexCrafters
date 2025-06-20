@@ -1,9 +1,13 @@
+// Accordion component system - collapsible content sections with animations
+// Demonstrates progressive disclosure patterns and accessible expand/collapse functionality
+
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+// Main accordion container - supports single or multiple open items
 const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef<

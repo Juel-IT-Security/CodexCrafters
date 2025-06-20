@@ -1,3 +1,6 @@
+// Tooltip component system - contextual help text with hover/focus triggers
+// Demonstrates accessible help text and positioning patterns
+
 "use client"
 
 import * as React from "react"
@@ -5,10 +8,13 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
+// Provider that enables tooltips for child components
 const TooltipProvider = TooltipPrimitive.Provider
 
+// Main tooltip container
 const Tooltip = TooltipPrimitive.Root
 
+// Element that triggers tooltip on hover/focus
 const TooltipTrigger = TooltipPrimitive.Trigger
 
 const TooltipContent = React.forwardRef<
