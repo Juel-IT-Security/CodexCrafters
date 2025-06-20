@@ -5,11 +5,12 @@
 import { useState } from "react";
 import { Menu, X, Github, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export default function Navigation() {
   // State to control mobile menu visibility
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
 
   // Array of navigation links with section IDs and display labels
   // This makes it easy to add or remove navigation items
@@ -21,13 +22,18 @@ export default function Navigation() {
     { href: "/docs", label: "Documentation", isRoute: true },
   ];
 
-  // Function to smoothly scroll to a section when navigation link is clicked
+  // Function to handle navigation - either scroll to section or navigate to home page
   // Also closes mobile menu after navigation
-  const scrollToSection = (href: string) => {
-    // Find the target element using the href as a CSS selector
+  const handleNavigation = (href: string) => {
+    // If we're not on the home page, navigate to home page with section hash
+    if (location !== '/') {
+      window.location.href = `/${href}`;
+      return;
+    }
+    
+    // If we're on home page, scroll to the section
     const element = document.querySelector(href);
     if (element) {
-      // Smooth scroll to the element
       element.scrollIntoView({ behavior: "smooth" });
     }
     // Close mobile menu after navigation
@@ -47,10 +53,10 @@ export default function Navigation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <div className="flex items-center">
+              <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
                 <Bot className="h-8 w-8 text-brand-600 mr-2" />
                 <span className="text-xl font-bold text-gray-900">AGENTS.md</span>
-              </div>
+              </Link>
               <span className="text-sm bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full">
                 Open Source
               </span>
@@ -69,7 +75,7 @@ export default function Navigation() {
                 ) : (
                   <button
                     key={link.href}
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={() => handleNavigation(link.href)}
                     className="text-gray-600 hover:text-gray-900 transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none rounded px-2 py-1"
                   >
                     {link.label}
@@ -120,7 +126,7 @@ export default function Navigation() {
                   ) : (
                     <button
                       key={link.href}
-                      onClick={() => scrollToSection(link.href)}
+                      onClick={() => handleNavigation(link.href)}
                       className="text-gray-600 hover:text-gray-900 transition-colors text-left px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded"
                     >
                       {link.label}
