@@ -390,23 +390,29 @@ export default function DocsPage() {
                                 <CopyButton code={code} />
                               </div>
                               {/* Code content with IDE styling */}
-                              <div className="bg-gray-900 rounded-b-lg border border-gray-700 border-t-0 relative">
-                                {/* Line numbers overlay */}
-                                <div className="absolute left-0 top-0 bottom-0 bg-gray-800 border-r border-gray-700 z-10">
-                                  {String(code || '').split('\n').map((_, index) => (
-                                    <div key={index} className="text-gray-500 text-xs font-mono px-3 py-1 text-right w-12 leading-relaxed">
-                                      {index + 1}
+                              <div className="bg-gray-900 rounded-b-lg border border-gray-700 border-t-0 overflow-hidden">
+                                <div className="flex">
+                                  {/* Line numbers */}
+                                  <div className="bg-gray-800 border-r border-gray-700 flex-shrink-0">
+                                    <div className="text-gray-500 text-sm font-mono p-4 text-right leading-[1.5] min-w-[3rem]">
+                                      {String(code || '').split('\n').map((_, index) => (
+                                        <div key={index}>
+                                          {index + 1}
+                                        </div>
+                                      ))}
                                     </div>
-                                  ))}
+                                  </div>
+                                  {/* Syntax highlighted code */}
+                                  <div className="flex-1 overflow-x-auto">
+                                    <pre 
+                                      className="m-0 p-4 text-sm leading-[1.5]" 
+                                      style={{ background: 'transparent' }}
+                                      {...props}
+                                    >
+                                      {children}
+                                    </pre>
+                                  </div>
                                 </div>
-                                {/* Syntax highlighted code */}
-                                <pre 
-                                  className="m-0 p-4 pl-16" 
-                                  style={{ background: 'transparent' }}
-                                  {...props}
-                                >
-                                  {children}
-                                </pre>
                               </div>
                             </div>
                           );
