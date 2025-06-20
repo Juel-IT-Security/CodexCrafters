@@ -1,7 +1,11 @@
+// Table component system - semantic HTML tables with responsive design
+// Demonstrates compound component patterns and responsive table handling
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+// Main table container with overflow handling for responsive design
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -16,6 +20,7 @@ const Table = React.forwardRef<
 ))
 Table.displayName = "Table"
 
+// Table header with border styling for visual separation
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>

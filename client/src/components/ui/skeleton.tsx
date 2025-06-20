@@ -1,3 +1,6 @@
+// Skeleton component - loading placeholder with pulse animation
+// Demonstrates loading state patterns and CSS animations
+
 import { cn } from "@/lib/utils"
 
 function Skeleton({

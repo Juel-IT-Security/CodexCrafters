@@ -1,3 +1,6 @@
+// Dialog component system - modal dialogs with accessibility and animations
+// Demonstrates portal rendering, focus management, and compound component patterns
+
 "use client"
 
 import * as React from "react"
@@ -6,13 +9,14 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+// Re-export Radix Dialog primitives for consistent API
+const Dialog = DialogPrimitive.Root // Main dialog container
 
-const DialogTrigger = DialogPrimitive.Trigger
+const DialogTrigger = DialogPrimitive.Trigger // Button that opens dialog
 
-const DialogPortal = DialogPrimitive.Portal
+const DialogPortal = DialogPrimitive.Portal // Renders dialog in document.body
 
-const DialogClose = DialogPrimitive.Close
+const DialogClose = DialogPrimitive.Close // Button that closes dialog
 
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
