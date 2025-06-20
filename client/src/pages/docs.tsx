@@ -15,6 +15,37 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 
+// Copy button component for code blocks
+function CopyButton({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+      onClick={handleCopy}
+      aria-label="Copy code to clipboard"
+    >
+      {copied ? (
+        <Check className="h-3 w-3" />
+      ) : (
+        <Copy className="h-3 w-3" />
+      )}
+    </Button>
+  );
+}
+
 // Interface for documentation structure from API
 interface DocsStructure {
   sections: Array<{
@@ -317,13 +348,48 @@ export default function DocsPage() {
                         ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
                         ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                        // Style code blocks properly
-                        pre: ({ node, ...props }) => <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4" {...props} />,
-                        code: ({ node, className, ...props }) => {
+                        // Custom code block with copy functionality
+                        pre: ({ node, children, ...props }) => {
+                          // Extract code content and language from children
+                          const extractCodeInfo = (children: any) => {
+                            let code = '';
+                            let language = 'text';
+                            
+                            const firstChild = Array.isArray(children) ? children[0] : children;
+                            if (firstChild && typeof firstChild === 'object' && firstChild.props) {
+                              code = firstChild.props.children || '';
+                              const className = firstChild.props.className || '';
+                              language = className.replace('language-', '') || 'text';
+                            } else if (typeof firstChild === 'string') {
+                              code = firstChild;
+                            }
+                            
+                            return { code, language };
+                          };
+                          
+                          const { code, language } = extractCodeInfo(children);
+                          
+                          return (
+                            <div className="relative group mb-4">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-sm text-gray-400 font-mono">{language}</span>
+                                <CopyButton code={code} />
+                              </div>
+                              <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm leading-tight whitespace-pre" {...props}>
+                                {children}
+                              </pre>
+                            </div>
+                          );
+                        },
+                        code: ({ node, className, children, ...props }) => {
                           const isInline = !className?.includes('language-');
-                          return isInline ? 
-                            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props} /> :
-                            <code className={className} {...props} />;
+                          
+                          if (isInline) {
+                            return <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm" {...props}>{children}</code>;
+                          }
+                          
+                          // For code blocks, preserve formatting for ASCII diagrams
+                          return <code className={`${className} whitespace-pre font-mono text-sm leading-tight`} {...props}>{children}</code>;
                         },
                         // Ensure proper heading hierarchy
                         h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100" {...props} />,
