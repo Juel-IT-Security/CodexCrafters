@@ -4,6 +4,17 @@ Step-by-step tutorials to expand the AGENTS.md Educational Platform with meaning
 
 ## Tutorial Categories
 
+### 🚀 Complete Beginner Guide (Start Here)
+Perfect for those with zero programming knowledge. Explains every concept from scratch using real-world analogies.
+
+- **[Beginner Tutorial Series](beginner/README.md)** - Six comprehensive tutorials covering all fundamentals
+- **[Understanding Code Basics](beginner/01-understanding-code-basics.md)** - Variables, functions, objects, and code flow
+- **[Understanding React Basics](beginner/02-understanding-react-basics.md)** - Building interactive user interfaces
+- **[Understanding Our App Structure](beginner/03-understanding-our-app-structure.md)** - How all pieces fit together
+- **[Understanding Databases and Data](beginner/04-understanding-databases-and-data.md)** - Where information lives
+- **[Understanding APIs and Communication](beginner/05-understanding-apis-and-communication.md)** - Client-server communication
+- **[Understanding Styling and Design](beginner/06-understanding-styling-and-design.md)** - Making things look good
+
 ### 🎯 Understanding the Frontend
 - **[Examples Gallery Component](./frontend/understanding-examples-gallery.md)** - Learn how data fetching and rendering works in our platform
 
