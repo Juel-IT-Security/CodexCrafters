@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Play, Github } from "lucide-react";
+import { Play, Github } from "lucide-react";
 import type { Guide } from "@shared/schema";
 
 export default function VideoGuides() {
@@ -48,10 +48,7 @@ export default function VideoGuides() {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-2">{guide.title}</h3>
                 <p className="text-gray-600 text-sm mb-4">{guide.description}</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <Clock className="w-4 h-4 mr-1" />
-                  <span>{guide.duration}</span>
-                </div>
+
               </CardContent>
             </Card>
           ))}

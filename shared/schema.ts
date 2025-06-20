@@ -16,7 +16,6 @@ export const guides = pgTable("guides", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  duration: text("duration").notNull(),
   videoUrl: text("video_url"),
   thumbnailColor: text("thumbnail_color").notNull(),
   category: text("category").notNull(),
