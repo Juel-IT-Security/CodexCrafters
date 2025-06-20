@@ -1,5 +1,6 @@
 // Command component system - keyboard-driven command palette
 // Demonstrates third-party library integration and complex search patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-command-palette.md
 
 import * as React from "react"
 import { type DialogProps } from "@radix-ui/react-dialog"

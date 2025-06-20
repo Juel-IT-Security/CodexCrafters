@@ -1,3 +1,7 @@
+// Carousel component system - horizontal content scrolling with navigation controls
+// Demonstrates third-party library integration and complex state management patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-carousel-components.md
+
 import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,

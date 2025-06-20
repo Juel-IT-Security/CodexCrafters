@@ -1,3 +1,7 @@
+// Drawer component system - slide-out panels for mobile interfaces
+// Demonstrates mobile-first design patterns and gesture handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-mobile-components.md
+
 "use client"
 
 import * as React from "react"

@@ -1,3 +1,7 @@
+// Hover Card component system - rich content previews on hover
+// Demonstrates floating UI patterns and delayed interactions
+// 📖 Learn more: /docs/tutorials/frontend/understanding-floating-ui.md
+
 "use client"
 
 import * as React from "react"

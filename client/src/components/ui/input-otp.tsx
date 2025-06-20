@@ -1,3 +1,7 @@
+// Input OTP component system - one-time password input with auto-focus
+// Demonstrates specialized form patterns and accessibility features
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
+
 import * as React from "react"
 import { OTPInput, OTPInputContext } from "input-otp"
 import { Dot } from "lucide-react"

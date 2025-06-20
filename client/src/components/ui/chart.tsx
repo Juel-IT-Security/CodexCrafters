@@ -1,3 +1,7 @@
+// Chart component system - data visualization with theming support
+// Demonstrates Recharts integration and advanced TypeScript patterns for configuration
+// 📖 Learn more: /docs/tutorials/frontend/understanding-data-visualization.md
+
 "use client"
 
 import * as React from "react"
