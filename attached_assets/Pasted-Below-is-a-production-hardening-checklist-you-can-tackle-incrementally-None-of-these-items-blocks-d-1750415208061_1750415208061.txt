@@ -1,0 +1,17 @@
+Below is a production-hardening checklist you can tackle incrementally. None of these items blocks deployment, but each will tighten security, boost reliability, or polish the learner experience once the public site starts seeing real traffic.
+
+Area	What to change / add	Why it matters	Typical effort
+Security headers	Already using Helmet—nice. Consider adding a tighter Content-Security-Policy that disallows inline styles/scripts in production and whitelists only your storage bucket (if any) for images/fonts.	Reduces XSS risk and prevents third-party script injection.	15 min
+OAuth / Admin auth	Even with mutations disabled, decide now which provider you’ll use for the future admin portal (Clerk, Auth0, custom JWT via NextAuth). Sketch a route guard helper so you don’t retrofit later.	Avoids re-architecting once CRUD turns back on.	1–2 hrs for a minimal stub
+CORS settings	Explicitly allow only your production origin(s) in a cors() middleware configuration—even if FE & BE are same-origin today. Leave localhost:* open in dev via NODE_ENV.	Prevents drive-by POSTs from malicious sites that guess your API.	10 min
+Dependency hygiene	Add Dependabot + npm-audit in CI. Schedule monthly npm audit fix --force runs (with human review).	Keeps vulnerabilities from creeping in.	20 min
+Error monitoring	Plug in Sentry (or Replit’s built-in logs) and surface unhandled promise rejections + Express errors. Mask request bodies in logs.	Fast triage when learners hit a bug.	30 min
+Performance	1. Turn on compression (compression middleware).
+2. Use static({ maxAge: '7d', immutable: true }) for JS/CSS assets produced by Vite.
+3. Enable Tailwind’s purge/content config (already partly on) to keep CSS ≤ 10 KB.	Faster first load; lower Replit CPU.	10 min each
+SEO & sharing	Add basic metadata to index.html: og:title, og:description, twitter:card, canonical link, and a robots.txt.	Lets search engines index tutorials and learners share links with previews.	20 min
+Sitemap & 404	Generate a simple /sitemap.xml from the docs structure at build time; serve a friendly “Docs page not found” component for wrong URLs.	Helps Google crawl; guides lost users.	30 min
+Accessibility regression guard	Put axe-linter into CI or run npm run a11y locally to scan pages. Fail the build if new color-contrast or alt-text issues slip in.	Keeps the app WCAG-AA compliant as content grows.	≤ 1 hr
+Database backups	If you’re using SQLite or Postgres on Replit: automate nightly dumps to an off-site bucket (e.g., Backblaze or S3).	Protects learner contributions once mutations reopen.	30 min
+Analytics opt-in	If you plan to add Plausible / GA, show a small cookie-consent banner and respect Do-Not-Track.	Privacy compliance (GDPR/CPRA) and transparency for learners.	1 hr
+Terms & Privacy	Ship /legal/terms.md and /legal/privacy.md in the docs; link in footer.	Covers liability and data-use disclosures.

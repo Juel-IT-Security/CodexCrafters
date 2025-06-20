@@ -204,6 +204,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // GET /sitemap.xml - Dynamic XML sitemap generation for SEO optimization
+  // Automatically generates search engine sitemap from documentation structure
+  // 📖 Learn more: /docs/tutorials/backend/seo-optimization-techniques.md
+  app.get("/sitemap.xml", async (_req, res) => {
+    try {
+      const pathModule = await import('path');
+      
+      // Base URL for all sitemap entries - configured for production domain
+      const baseUrl = 'https://codexcrafters.juelfoundationofselflearning.org';
+      const docsPath = pathModule.join(process.cwd(), 'docs');
+      
+      // Generate documentation structure to include all available content
+      const structure = await buildDocsStructure(docsPath);
+      
+      // XML sitemap header with proper namespace declaration
+      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>${baseUrl}/docs</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>`;
+
+      // Add all documentation files to sitemap for search engine indexing
+      // Higher priority for main section files, lower for subsection files
+      structure.sections.forEach(section => {
+        // Main section files (tutorials, guides, etc.)
+        section.files.forEach(file => {
+          sitemap += `
+  <url>
+    <loc>${baseUrl}/docs?file=${encodeURIComponent(file.path)}</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>`;
+        });
+        
+        // Subsection files (detailed tutorials, specific guides)
+        section.subsections.forEach(subsection => {
+          subsection.files.forEach(file => {
+            sitemap += `
+  <url>
+    <loc>${baseUrl}/docs?file=${encodeURIComponent(file.path)}</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>`;
+          });
+        });
+      });
+
+      // Close XML sitemap structure
+      sitemap += `
+</urlset>`;
+
+      // Set proper content type for XML and send response
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error generating sitemap:', error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

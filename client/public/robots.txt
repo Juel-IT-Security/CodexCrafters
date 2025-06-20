@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Allow indexing of documentation
+Allow: /docs
+
+# Allow indexing of main sections
+Allow: /#how-it-works
+Allow: /#examples
+Allow: /#best-practices
+
+# Sitemap location
+Sitemap: https://codexcrafters.juelfoundationofselflearning.org/sitemap.xml
