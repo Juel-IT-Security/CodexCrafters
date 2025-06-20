@@ -1,3 +1,7 @@
+// Resizable component system - draggable panel layouts
+// Demonstrates advanced layout patterns and drag interaction handling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-layout-components.md
+
 "use client"
 
 import { GripVertical } from "lucide-react"

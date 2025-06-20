@@ -1,5 +1,6 @@
 // Separator component - accessible visual divider with orientation support
 // Demonstrates conditional styling and accessibility considerations
+// 📖 Learn more: /docs/tutorials/frontend/understanding-ui-components.md
 
 import * as React from "react"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"

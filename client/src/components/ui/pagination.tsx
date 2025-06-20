@@ -1,3 +1,7 @@
+// Pagination component system - data navigation with page controls
+// Demonstrates accessibility patterns and responsive pagination design
+// 📖 Learn more: /docs/tutorials/frontend/understanding-pagination.md
+
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 

@@ -1,3 +1,7 @@
+// Radio Group component system - mutually exclusive selection controls
+// Demonstrates form group patterns and accessibility features
+// 📖 Learn more: /docs/tutorials/frontend/understanding-forms.md
+
 import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { Circle } from "lucide-react"

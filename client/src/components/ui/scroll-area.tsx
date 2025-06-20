@@ -1,3 +1,7 @@
+// Scroll Area component system - custom scrollbars with cross-browser support
+// Demonstrates overflow handling and custom scrollbar styling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-scroll-components.md
+
 import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 

@@ -1,3 +1,7 @@
+// Menubar component system - horizontal application menus
+// Demonstrates complex menu hierarchies and keyboard navigation patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-menus.md
+
 "use client"
 
 import * as React from "react"

@@ -1,3 +1,7 @@
+// Navigation Menu component system - site navigation with dropdowns
+// Demonstrates hierarchical navigation and responsive design patterns
+// 📖 Learn more: /docs/tutorials/frontend/understanding-navigation-patterns.md
+
 import * as React from "react"
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 import { cva } from "class-variance-authority"

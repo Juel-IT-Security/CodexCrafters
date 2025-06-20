@@ -1,5 +1,6 @@
 // Progress component - visual progress indicator with smooth animations
 // Demonstrates transform-based animations and value-based styling
+// 📖 Learn more: /docs/tutorials/frontend/understanding-progress-indicators.md
 
 "use client"
 
