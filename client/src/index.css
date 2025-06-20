@@ -119,21 +119,35 @@ html {
   @apply text-green-400;
 }
 
+/* Ensure all code blocks have proper white/light text color */
+pre code,
+.hljs,
+.hljs * {
+  color: #e5e7eb !important;
+}
+
 /* Override syntax highlighting for ASCII diagrams and text blocks */
 .hljs.language-text,
 .hljs.language-text *,
 pre code.language-text,
 pre code.language-text * {
-  color: #e5e7eb !important;
+  color: #f9fafb !important;
   background: transparent !important;
 }
 
 /* Ensure ASCII diagrams maintain proper formatting and visibility */
 pre code[class*="language-text"] {
-  color: #e5e7eb !important;
+  color: #f9fafb !important;
   font-family: 'JetBrains Mono', monospace !important;
   white-space: pre !important;
   line-height: 1.2 !important;
+}
+
+/* Force white text for all code content */
+pre code *,
+.hljs *,
+code * {
+  color: inherit !important;
 }
 
 /* Disable all syntax highlighting styles for text blocks */
@@ -145,7 +159,7 @@ pre code[class*="language-text"] {
 .hljs.language-text .hljs-title,
 .hljs.language-text .hljs-variable,
 .hljs.language-text .hljs-built_in {
-  color: #e5e7eb !important;
+  color: #f9fafb !important;
   background: transparent !important;
   font-weight: normal !important;
 }

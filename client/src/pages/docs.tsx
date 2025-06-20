@@ -58,12 +58,8 @@ function CodeBlockWithLineCopy({ children, language }: { children: any; language
         <div key={index} className="group relative flex items-start hover:bg-gray-700/30 transition-colors px-2 py-1">
           <div className="flex-1 min-w-0">
             <code 
-              className={`block whitespace-pre font-mono text-sm leading-tight ${
-                isTextBlock 
-                  ? 'text-gray-100' 
-                  : ''
-              }`}
-              style={isTextBlock ? { color: '#e5e7eb !important' } : {}}
+              className="block whitespace-pre font-mono text-sm leading-tight text-gray-100"
+              style={{ color: '#f9fafb' }}
             >
               {line || ' '}
             </code>
