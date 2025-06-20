@@ -43,141 +43,200 @@ interface DocsStructure {
 
 export default function DocsPage() {
   const [location, navigate] = useLocation();
-  const [selectedSection, setSelectedSection] = useState("beginner");
-  const [selectedTutorial, setSelectedTutorial] = useState("01-understanding-code-basics");
-  const [tutorialContent, setTutorialContent] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<string>("");
+  
+  // Fetch documentation structure from API
+  const { data: docsStructure, isLoading: structureLoading } = useQuery<DocsStructure>({
+    queryKey: ['/api/docs'],
+    staleTime: 300000, // Cache for 5 minutes
+  });
 
-  // Parse URL to determine which tutorial to show
+  // Fetch specific documentation content
+  const { data: docContent, isLoading: contentLoading } = useQuery<{content: string; path: string}>({
+    queryKey: ['/api/docs/content', selectedFile],
+    enabled: !!selectedFile,
+    staleTime: 300000,
+  });
+
+  // Parse URL to determine which file to show
   useEffect(() => {
     const params = new URLSearchParams(location.split('?')[1] || '');
-    const section = params.get('section') || 'beginner';
-    const tutorial = params.get('tutorial') || '01-understanding-code-basics';
+    const file = params.get('file');
     
-    setSelectedSection(section);
-    setSelectedTutorial(tutorial);
-  }, [location]);
-
-  // Load tutorial content
-  useEffect(() => {
-    const loadTutorial = async () => {
-      setIsLoading(true);
-      try {
-        // In a real implementation, you'd fetch from an API or import the markdown files
-        // For now, we'll show a placeholder that demonstrates the structure
-        const mockContent = generateMockTutorialContent(selectedSection, selectedTutorial);
-        setTutorialContent(mockContent);
-      } catch (error) {
-        console.error("Failed to load tutorial:", error);
-        setTutorialContent("# Error\n\nFailed to load tutorial content.");
-      } finally {
-        setIsLoading(false);
+    if (file) {
+      setSelectedFile(file);
+    } else if (docsStructure?.sections?.[0]?.files?.[0]) {
+      // Default to first available file
+      const firstFile = docsStructure.sections[0].files[0] || docsStructure.sections[0].subsections?.[0]?.files?.[0];
+      if (firstFile) {
+        setSelectedFile(firstFile.path);
+        navigate(`/docs?file=${firstFile.path}`);
       }
-    };
-
-    loadTutorial();
-  }, [selectedSection, selectedTutorial]);
-
-  const handleSectionChange = (sectionId: string) => {
-    const section = tutorialSections.find(s => s.id === sectionId);
-    if (section && section.tutorials.length > 0) {
-      const firstTutorial = section.tutorials[0].id;
-      setSelectedSection(sectionId);
-      setSelectedTutorial(firstTutorial);
-      navigate(`/docs?section=${sectionId}&tutorial=${firstTutorial}`);
     }
+  }, [location, docsStructure, navigate]);
+
+  const handleFileChange = (filePath: string) => {
+    setSelectedFile(filePath);
+    navigate(`/docs?file=${filePath}`);
   };
 
-  const handleTutorialChange = (tutorialId: string) => {
-    setSelectedTutorial(tutorialId);
-    navigate(`/docs?section=${selectedSection}&tutorial=${tutorialId}`);
+  const getCurrentFile = () => {
+    if (!docsStructure || !selectedFile) return null;
+    
+    for (const section of docsStructure.sections) {
+      const file = section.files.find(f => f.path === selectedFile);
+      if (file) return file;
+      
+      for (const subsection of section.subsections) {
+        const subFile = subsection.files.find(f => f.path === selectedFile);
+        if (subFile) return subFile;
+      }
+    }
+    return null;
   };
 
-  const currentSection = tutorialSections.find(s => s.id === selectedSection);
-  const currentTutorial = currentSection?.tutorials.find(t => t.id === selectedTutorial);
+  const currentFile = getCurrentFile();
+
+  if (structureLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {/* Header with Stats */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Documentation & Tutorials
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl">
-            Complete learning resources for building modern web applications. 
-            Every concept explained from the ground up with real code examples.
+          <div className="flex items-center space-x-3 mb-4">
+            <GraduationCap className="h-8 w-8 text-blue-600" />
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+              Learning Resources
+            </h1>
+          </div>
+          
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mb-6">
+            Complete educational platform with {docsStructure?.totalTutorials || 0}+ tutorials and {docsStructure?.totalFiles || 0}+ comprehensive guides. 
+            Every concept explained from the ground up with real, copyable code examples.
           </p>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  <BookOpen className="h-8 w-8 text-green-600" />
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {docsStructure?.totalTutorials || 0}+
+                    </div>
+                    <div className="text-sm text-gray-500">Tutorial Guides</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  <FileText className="h-8 w-8 text-blue-600" />
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {docsStructure?.totalFiles || 0}+
+                    </div>
+                    <div className="text-sm text-gray-500">Documentation Files</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  <Zap className="h-8 w-8 text-purple-600" />
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {docsStructure?.sections?.length || 0}
+                    </div>
+                    <div className="text-sm text-gray-500">Learning Sections</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-4">
-              {/* Section Selector */}
-              <Card>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-3">Tutorial Sections</h3>
-                  <div className="space-y-2">
-                    {tutorialSections.map((section) => {
-                      const IconComponent = section.icon;
-                      return (
-                        <button
-                          key={section.id}
-                          onClick={() => handleSectionChange(section.id)}
-                          className={`w-full text-left p-3 rounded-lg transition-colors ${
-                            selectedSection === section.id
-                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                              : 'hover:bg-gray-50'
-                          }`}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <IconComponent className="h-5 w-5" />
-                            <div>
-                              <div className="font-medium">{section.title}</div>
-                              <div className="text-sm text-gray-500">{section.description}</div>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Tutorial List */}
-              {currentSection && (
-                <Card>
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-3">{currentSection.title}</h3>
+              {docsStructure?.sections.map((section) => (
+                <Card key={section.id}>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg flex items-center space-x-2">
+                      <Database className="h-5 w-5" />
+                      <span>{section.title}</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
                     <div className="space-y-2">
-                      {currentSection.tutorials.map((tutorial, index) => (
+                      {section.files.map((file, index) => (
                         <button
-                          key={tutorial.id}
-                          onClick={() => handleTutorialChange(tutorial.id)}
+                          key={file.path}
+                          onClick={() => handleFileChange(file.path)}
                           className={`w-full text-left p-3 rounded-lg transition-colors ${
-                            selectedTutorial === tutorial.id
-                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                              : 'hover:bg-gray-50'
+                            selectedFile === file.path
+                              ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
+                              : 'hover:bg-gray-50 dark:hover:bg-gray-800'
                           }`}
                         >
                           <div className="flex items-start space-x-3">
-                            <Badge variant="outline" className="mt-0.5">
+                            <Badge variant="outline" className="mt-0.5 text-xs">
                               {index + 1}
                             </Badge>
                             <div>
-                              <div className="font-medium text-sm">{tutorial.title}</div>
-                              <div className="text-xs text-gray-500">{tutorial.description}</div>
+                              <div className="font-medium text-sm">{file.title}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                                {file.description}
+                              </div>
                             </div>
                           </div>
                         </button>
                       ))}
+                      
+                      {section.subsections.map((subsection) => (
+                        <div key={subsection.id} className="ml-4 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+                          <div className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2">
+                            {subsection.title}
+                          </div>
+                          {subsection.files.map((file, index) => (
+                            <button
+                              key={file.path}
+                              onClick={() => handleFileChange(file.path)}
+                              className={`w-full text-left p-2 rounded-lg transition-colors mb-1 ${
+                                selectedFile === file.path
+                                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                  : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                              }`}
+                            >
+                              <div className="font-medium text-xs">{file.title}</div>
+                            </button>
+                          ))}
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
-              )}
+              ))}
             </div>
           </div>
 
@@ -185,36 +244,27 @@ export default function DocsPage() {
           <div className="lg:col-span-3">
             <Card className="min-h-[600px]">
               <CardContent className="p-8">
-                {isLoading ? (
+                {contentLoading ? (
                   <div className="flex items-center justify-center h-64">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                   </div>
+                ) : docContent?.content ? (
+                  <div className="prose prose-lg max-w-none dark:prose-invert">
+                    <TutorialRenderer content={docContent.content} />
+                  </div>
                 ) : (
-                  <div className="prose prose-lg max-w-none">
-                    <TutorialRenderer content={tutorialContent} />
+                  <div className="text-center py-16">
+                    <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                      Select a Tutorial
+                    </h3>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Choose a tutorial from the sidebar to start learning
+                    </p>
                   </div>
                 )}
               </CardContent>
             </Card>
-
-            {/* Navigation Footer */}
-            {currentSection && (
-              <div className="flex justify-between items-center mt-6">
-                <Button variant="outline" className="flex items-center space-x-2">
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>Previous</span>
-                </Button>
-                
-                <div className="text-sm text-gray-500">
-                  {currentSection.tutorials.findIndex(t => t.id === selectedTutorial) + 1} of {currentSection.tutorials.length}
-                </div>
-                
-                <Button variant="outline" className="flex items-center space-x-2">
-                  <span>Next</span>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -231,10 +281,24 @@ function TutorialRenderer({ content }: { content: string }) {
     <div className="space-y-6">
       {sections.map((section, index) => {
         if (index % 2 === 0) {
-          // Regular markdown content
+          // Regular markdown content - render basic markdown
           return (
-            <div key={index} className="whitespace-pre-wrap">
-              {section}
+            <div key={index} className="prose-content">
+              {section.split('\n').map((line, lineIndex) => {
+                if (line.startsWith('# ')) {
+                  return <h1 key={lineIndex} className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{line.substring(2)}</h1>;
+                } else if (line.startsWith('## ')) {
+                  return <h2 key={lineIndex} className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100 mt-8">{line.substring(3)}</h2>;
+                } else if (line.startsWith('### ')) {
+                  return <h3 key={lineIndex} className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-6">{line.substring(4)}</h3>;
+                } else if (line.trim() === '') {
+                  return <br key={lineIndex} />;
+                } else if (line.startsWith('- ')) {
+                  return <li key={lineIndex} className="ml-4 text-gray-700 dark:text-gray-300">{line.substring(2)}</li>;
+                } else {
+                  return <p key={lineIndex} className="text-gray-700 dark:text-gray-300 mb-4">{line}</p>;
+                }
+              })}
             </div>
           );
         } else {
@@ -256,67 +320,4 @@ function TutorialRenderer({ content }: { content: string }) {
       })}
     </div>
   );
-}
-
-// Generate mock content to demonstrate the structure
-function generateMockTutorialContent(section: string, tutorial: string): string {
-  return `# ${tutorial.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-
-Welcome to this comprehensive tutorial! This demonstrates how our documentation system works with copyable code examples.
-
-## Code Example
-
-Here's a React component example with our copy functionality:
-
-\`\`\`javascript
-// Example React component
-function ExampleComponent() {
-  const [count, setCount] = useState(0);
-  
-  const handleClick = () => {
-    setCount(count + 1);
-  };
-  
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={handleClick}>Click me!</button>
-    </div>
-  );
-}
-\`\`\`
-
-## Another Example
-
-Here's how we handle API calls:
-
-\`\`\`typescript
-// API call example
-const { data, isLoading, error } = useQuery({
-  queryKey: ['/api/examples'],
-  queryFn: async () => {
-    const response = await fetch('/api/examples');
-    return response.json();
-  }
-});
-
-if (isLoading) return <div>Loading...</div>;
-if (error) return <div>Error occurred</div>;
-
-return <div>{data.map(item => <div key={item.id}>{item.title}</div>)}</div>;
-\`\`\`
-
-## Key Concepts
-
-This tutorial section demonstrates:
-- Interactive code examples with copy functionality
-- Proper syntax highlighting
-- Step-by-step explanations
-- Real-world implementation patterns
-
-Each code block can be copied individually or in full, making it easy to follow along and implement the examples in your own projects.
-
-## Next Steps
-
-Continue to the next tutorial to build on these concepts and learn more advanced patterns.`;
 }

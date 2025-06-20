@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Menu, X, Github, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function Navigation() {
   // State to control mobile menu visibility
@@ -16,6 +17,7 @@ export default function Navigation() {
     { href: "#examples", label: "Examples" },
     { href: "#guides", label: "Video Guides" },
     { href: "#best-practices", label: "Best Practices" },
+    { href: "/docs", label: "Documentation", isRoute: true },
   ];
 
   // Function to smoothly scroll to a section when navigation link is clicked
